@@ -37,20 +37,14 @@ section{
   color: #383838;
 }
 
-section.full-height{
-  width: 100%;
-  padding: 0;
-}
-
 .container {
     max-width: 1000px;
+    display: block;
 }
 
 .container.centered {
     margin: 0 auto;
 }
-
-
 
 article{
   background-color: white;
@@ -101,6 +95,12 @@ article .labels span.orange{
   height: 100vh;
 }
 
+.full-width{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 .center{
   position: absolute;
   top: 0;
@@ -113,7 +113,7 @@ article .labels span.orange{
 }
 
 .background{
-  background-position: center;
+  background-position: top;
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -121,12 +121,11 @@ article .labels span.orange{
 .button{
   padding: 15px 25px;
   display: inline-block;
-  /* border: 2px solid #13102F; */
-  border: 3px solid #ebb627;
+  border: 3px solid #90d43d;
   font-weight: 700;
   text-decoration: none;
   font-size: 1rem;
-  color: #ebb627;
+  color: #90d43d;
   cursor: pointer;
 }
 
@@ -135,7 +134,7 @@ article .labels span.orange{
 .button.primary{
   border: none;
   /* background-color: #13102F; */
-  background-color: #ebb627;
+  background-color: #90d43d;
   /* color: white; */
   color: black;
   font-weight: 500;
@@ -175,37 +174,6 @@ p.alert, span.alert {
   margin-bottom: 20px;
 }
 
-/* KONTROLNÍ PANEL/LIŠTA */
-
-.controll{
-  background-color: #383838;
-  font-family: 'Quicksand', sans-serif !important;
-  color: white;
-  padding: 10px 20px;
-  font-size: 1rem;
-  text-align: left;
-  margin: 20px 0;
-}
-
-.controll span{
-  padding-right: 10px;
-  border-right: 1px solid white;
-  margin-right: 10px;
-  transition: color .1s;
-}
-
-.controll span.pointer{
-    cursor: pointer;
-}
-
-.controll span.pointer:hover{
-    color: #ffc936;
-}
-
-.controll span i{
-  margin-left: 10px;
-}
-
 a {
   color: inherit;
   text-decoration: inherit;
@@ -215,7 +183,7 @@ form input {
     padding: 5px;
 }
 
-.table-all{
+.table {
     border-collapse:collapse;
     border-spacing:0;
     width:100%;
@@ -223,10 +191,10 @@ form input {
     color: #383838;
     border:1px solid #ccc;
 }
-.table-all tr{border-bottom:1px solid #ddd}.w3-striped tbody tr:nth-child(even){background-color:#f1f1f1}
-.table-all tr:nth-child(odd){background-color:#fff}.table-all tr:nth-child(even){background-color:#f1f1f1}
-.table-all td,.table-all th{padding:10px 10px;display:table-cell;text-align:left;vertical-align:top}
-.table-all th:first-child,.table-all td:first-child{padding-left:16px}
+.table tr{border-bottom:1px solid #ddd}.w3-striped tbody tr:nth-child(even){background-color:#f1f1f1}
+.table tr:nth-child(odd){background-color:#fff}.table-all tr:nth-child(even){background-color:#f1f1f1}
+.table td,.table-all th{padding:10px 10px;display:table-cell;text-align:left;vertical-align:top}
+.table th:first-child,.table-all td:first-child{padding-left:16px}
 
 /* =========== MESSAGES ========= */
 
@@ -263,8 +231,6 @@ nav {
     top: 0;
     width: 92%;
     padding: 40px 4% 20px 4%;
-
-
 }
 
 
@@ -326,74 +292,6 @@ nav .logo{
   margin-right: 10px;
 }
 
-img.silhouette{
-  position: absolute;
-  height: 300px;
-  top: -300px;
-  left: 100px;
-}
-
-/* =========== COUNTDOWN =========== */
-
-.countdown{
-  margin: 50px 4%;
-  display: inline-block;
-  font-size: 0;
-}
-
-.countdown h1, .countdown .divider, .countdown .clock{
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.countdown h1{
-  font-size: 3rem;
-  font-weight: 500px;
-  text-align: right;
-  margin-right: 20px;
-}
-
-.countdown .divider{
-  height: 120px;
-  width: 5px;
-  background-color: #ebb627;
-  margin: 0 20px;
-}
-
-.countdown .clock{
-  vertical-align: middle;
-  font-size: 0;
-}
-
-.countdown .clock span{
-  display: inline-block;
-  text-align: center;
-  vertical-align: top;
-  font-size: 60px;
-  font-weight: 600;
-}
-
-.countdown .clock span.counter{
-  font-size: 0;
-  width: 100px;
-  text-align: center;
-}
-
-.countdown .clock span div{
-  font-size: 60px;
-}
-
-.countdown .clock label{
-  font-size: 14px;
-  font-weight: 600;
-  width: 100px;
-  text-align: center;
-  margin: 0;
-  display: inline-block;
-  text-transform: uppercase;
-  vertical-align: top;
-}
-
 .about{
   width: 46%;
   padding: 50px 2%;
@@ -401,41 +299,6 @@ img.silhouette{
   display: inline-block;
   vertical-align: middle;
   color: #383838;
-}
-
-.brkosak{
-  width: 10%;
-  display: inline-block;
-  margin: 50px 5%;
-  vertical-align: middle;
-}
-
-/* TASKS */
-
-.tasks{
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.tasks p{
-  margin: 40px auto;
-  padding-left: 20px;
-  border-left: 4px solid #383838;
-}
-
-.tasks .task{
-  background-color: #383838;
-  color: white;
-  font-family: "Old Standard TT";
-  padding: 40px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-.tasks .task p{
-  font-size: 1.1rem;
-  border: none;
-  line-height: 1.6;
 }
 
 /* MODAL FORM */
@@ -458,12 +321,7 @@ form.modal.login p {
   max-width: 400px;
 }
 
-.register form.center {
-    height: 600px;
-    max-width: 400px;
-}
-
-section.register, section.login {
+section.login {
     width: 100%;
     padding: 0;
     height: 100vh;
