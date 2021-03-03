@@ -1,0 +1,22 @@
+import os
+from pastvina.settings.base import *
+
+SECRET_KEY = 'anything'
+DEBUG = True
+ALLOWED_HOSTS = [
+    'localhost', '127.0.0.1',
+]
+
+# Warning: production database used!
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': 'xxx',
+        'PORT': 3306,
+        'NAME': 'xxx',
+        'USER': 'xxx',
+        'PASSWORD': 'xxx',
+    }
+}
+
+EMAIL_HOST_PASSWORD = 'xxx'
