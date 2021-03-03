@@ -1,0 +1,49 @@
+
+<canvas id="prod-{{ id }}"></canvas>
+
+<script>
+var wheatProduction = new Chart(
+    document.getElementById('prod-{{id}}').getContext('2d'),
+    {
+        type: 'bar',
+        data: {
+            labels: [
+                {% for i in "x"|ljust:weeks %}
+                    {{ forloop.counter }},
+                {% endfor %}
+            ],
+            datasets: [{
+                label: 'produkce {{name_genitive}} dle stáří',
+                backgroundColor: '{{ color }}',
+                data: [
+                {% for i in "x"|ljust:weeks %}
+                    1,
+                {% endfor %}
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                yAxes: [
+                    {
+                        scaleLabel: {
+                            display: true,
+                            labelString: "tuny",
+                        },
+                    }
+                ],
+
+                xAxes: [
+                    {
+                        scaleLabel: {
+                            display: true,
+                            labelString: "stáří",
+                        },
+                    }
+                ],
+            },
+        }
+    }
+);
+</script>

@@ -10,7 +10,7 @@ from pastvina.templatetags.extras import gen_file_refs, markdown_to_html
 
 def page_index(request):
     """
-    Renders the index page from template. If CONTEST_REDIRECT is set, the main page of that contast is rendered instead.
+    Renders the index page from template.
 
     template: pastvina/index.html
 
@@ -55,6 +55,23 @@ def page_login(request):
                 return render(request, "pastvina/login.html", {'navbar_absolute_pos': True})
     else:
         return render(request, "pastvina/login.html", {'navbar_absolute_pos': True})
+
+@login_required
+def page_game(request):
+    """
+    Renders the game page from template.
+
+    template: pastvina/game.html
+
+    Privacy policy: PUBLIC
+
+    :param request: HTTP request
+    :return: HTTP response
+    """
+
+    return render(request, 'pastvina/game.html', {
+        'navbar_absolute_pos': False,
+    })
 
 
 @login_required()

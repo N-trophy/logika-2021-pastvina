@@ -9,7 +9,7 @@
 {% endif %}
     <div class="left">
     <a href="/" class="logo">PASTVA</a>
-    <a href="">Úlohy</a>
+    <a href="{% url 'game' %}">Hra</a>
     
     {% for page in static_pages %}
         <a href="">{{ page.name }}</a>

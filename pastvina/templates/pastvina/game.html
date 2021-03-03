@@ -1,0 +1,29 @@
+{% extends "pastvina/base.html" %}
+{% load extras %}
+
+{% block title %} Hra {% endblock%}
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+<section class="padding-small light">
+    <h1>Vítejte na pastvině</h1>
+</section>
+<section class="padding-small dark">
+    <h2>Pravidla</h2>
+    <p>
+        <ul>
+            <li>Nejezte vzácné druhy květin.</li>
+            <li>Netrkejte ostatní kozy.</li>
+        </ul>
+    </p>
+</section>
+<section class="padding-small light">
+    <div class="container centered">
+        {% include "pastvina/parts/production_chart.html" with weeks=7 color="rgb(255, 241, 89)" name="pšenice" name_genitive="pšenice" id=1 %}
+        {% include "pastvina/parts/production_chart.html" with weeks=8 color="rgb(163, 155, 67)" name="brambory" name_genitive="brambor" id=2%}
+    </div>
+</section>
+{% endblock %}
