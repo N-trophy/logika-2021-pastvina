@@ -1,0 +1,27 @@
+{% extends "pastvina/base.html" %}
+
+{% block title %} N-Trophy {% endblock %}
+
+{% block content %}
+    <section class="padding dark overlay login">
+        <form method="POST" action="" class="login center">
+	    {% csrf_token %}
+            <h3 class="dark-text">Přihlášení</h3>
+
+            <p><input type="text" name="username" placeholder="Login..."></p>
+
+            <p><input type="password" name="password" placeholder="Heslo..."></p>
+
+            <p><button type="submit" class="button primary">Přihlaš se!</button></p>
+
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="message {{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+        </form>
+    </section>
+{% endblock %}

@@ -1,0 +1,48 @@
+<p>
+<textarea name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
+{% if widget.value %}{{ widget.value }}{% endif %}</textarea>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+
+<script>
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+var simplemde = new SimpleMDE({
+        element: document.getElementById("{{ widget.attrs.id }}"),
+        forceSync: true,
+        spellChecker: false,
+        previewRender: function(plainText, preview) {
+            $.ajax({
+                type: "POST",
+                url: "{% url 'md_to_html' %}",
+                data: plainText,
+                contentType: false,
+                processData: false,
+                headers: { "X-CSRFToken": getCookie('csrftoken') },
+                success: function(response){
+                    preview.innerHTML = response;
+                },
+                dataType: "text"
+            });
+
+		    return "Loading...";
+	    },
+    });
+</script>
+</p>

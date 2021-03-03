@@ -1,0 +1,43 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="cs">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="{% static "pastvina/css/main.css" %}">
+
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Old+Standard+TT">
+<link href="{% static "pastvina/fonts/font-awesome/css/all.css" %}" rel="stylesheet">
+<link href="{% static "pastvina/css/jquery-modal.css" %}" rel="stylesheet">
+<script src="{% static "pastvina/js/jquery.js" %}"></script>
+<script src="{% static "pastvina/js/jquery-modal.js" %}"></script>
+
+<script>
+  $(function() {
+    $('a[data-modal]').on('click', function() {
+      $($(this).data('modal')).modal();
+      return false;
+    });
+  });
+</script>
+
+
+<title>{% block title %} N-Trophy {% endblock %}</title>
+
+{% block head %}{% endblock%}
+<body>
+
+{% block navbar %}
+{% include "pastvina/parts/menu.html" %}
+{% endblock %}
+
+
+<!-- Page content -->
+{% block content %} {% endblock %}
+<!-- End Page Content -->
+
+{% include "pastvina/parts/footer.html" %}
+
+</body>
+</html>

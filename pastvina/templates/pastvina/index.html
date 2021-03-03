@@ -1,0 +1,31 @@
+{% extends "pastvina/base.html" %}
+{% load extras %}
+{% load static %}
+
+{% block title %} N-Trophy úvod {% endblock%}
+
+{% block content %}
+
+<!-- Úvod -->
+<section class="full-height landing background">
+    <div class="overlay"></div>
+    <div class="center">
+    <h1>A s kým paseš kozy ty?</h1>
+    </div>
+</section>
+
+<section>
+    <div class="about">
+    <h1>Zajímavá informace.</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+</section>
+
+<section class="dark">
+    {% for contrib in contribs %}
+        {% include "pastvina/parts/contrib.html" %}
+    {% endfor %}
+</section>
+
+
+{% endblock %}

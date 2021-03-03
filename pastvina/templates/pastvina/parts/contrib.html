@@ -1,0 +1,15 @@
+{% load extras %}
+
+<article class="margin">
+<div class="labels">
+    {% for tag, color in contrib.tag_list %}
+    <span class="{{color}}">{{ tag }}</span>
+    {% endfor %}
+</div>
+<h1>{{ contrib.name }}</h1>
+<h2>
+    {% if contrib.author %}
+        @{{ contrib.author.username }}
+    {% endif %} {{ contrib.updated }}</h2>
+<p>{{ contrib.text | gen_file_refs | markdown_to_html | safe }}</p>
+</article>

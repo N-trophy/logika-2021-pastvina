@@ -1,0 +1,33 @@
+<!-- Navbar -->
+
+{% include "pastvina/parts/login-modal.html" %}
+
+{% if navbar_absolute_pos %}
+<nav class="absolute">
+{% else %}
+<nav>
+{% endif %}
+    <div class="left">
+    <a href="/" class="logo">PASTVA</a>
+    <a href="">Úlohy</a>
+    
+    {% for page in static_pages %}
+        <a href="">{{ page.name }}</a>
+    {% endfor %}
+    
+    </div>
+    <div class="right">
+    {% if user.is_superuser %}
+        <a href="{% url 'admin:index' %}">Admin</a>
+    {% endif %}
+        {% if user.is_authenticated %}
+        {% comment %}
+        <a class="button" href="{% url 'account' %}">{{ request.user.contestant }}</a>
+        {% endcomment %}
+        <a href="{% url 'logout' %}">Odhlásit se</a>
+    {% else %}
+        <a class="button" href="{% url 'login' %}" data-modal="#login-form">Přihlaš se</a>
+    {% endif %}
+
+    </div>
+</nav>

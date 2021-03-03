@@ -1,0 +1,505 @@
+/* =========== SETUP =========== */
+
+body{
+  margin: 0;
+  font-family: 'Quicksand', sans-serif;
+  background-color: #90d43d;
+  color: white;
+}
+
+/* =========== CONSTANTS =========== */
+
+h1{
+  font-size: 3rem;
+  margin: 0;
+  text-align: left;
+}
+h2{
+  font-size: 1.1rem;
+  font-weight: 500;span
+  text-align: left;
+}
+p{
+  font-size: 1rem;
+  line-height: 1.4;
+  font-weight: 600;
+  margin: 0 auto;
+  max-width: 600px;
+  text-align: left;
+}
+
+section{
+  position: relative;
+  padding: 0 40px;
+  font-size: 1rem;
+  text-align: center;
+  overflow: hidden;
+  color: #383838;
+}
+
+section.full-height{
+  width: 100%;
+  padding: 0;
+}
+
+.container {
+    max-width: 1000px;
+}
+
+.container.centered {
+    margin: 0 auto;
+}
+
+
+
+article{
+  background-color: white;
+  color: #383838;
+  padding: 40px;
+  margin: 0 auto 40px auto;
+  display: inline-block;
+}
+
+article h1{
+  font-size: 2rem;
+}
+
+article .labels{
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+article .labels span{
+  font-size: 0.6rem;
+  font-weight: 600;
+  padding: 5px 10px;
+  margin-right: 10px;
+  color: white;
+  background-color: #383838;
+  border-radius: 7px;
+}
+
+article .labels span.red{
+  background-color: #cb2222;
+}
+article .labels span.blue{
+  background-color: #21b6cb;
+}
+article .labels span.orange{
+  background-color: #eb990d;
+}
+
+.left{
+  float: left;
+}
+.right{
+  float: right;
+}
+
+.full-height{
+  height: 720px;
+  height: 100vh;
+}
+
+.center{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  display: block;
+  text-align: center;
+}
+
+.background{
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.button{
+  padding: 15px 25px;
+  display: inline-block;
+  /* border: 2px solid #13102F; */
+  border: 3px solid #ebb627;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 1rem;
+  color: #ebb627;
+  cursor: pointer;
+}
+
+.button:focus {outline:0;}
+
+.button.primary{
+  border: none;
+  /* background-color: #13102F; */
+  background-color: #ebb627;
+  /* color: white; */
+  color: black;
+  font-weight: 500;
+}
+
+.light {
+    background-color: white;
+    color: #383838;
+}
+
+.dark {
+  background-color: #383838;
+  color: white;
+}
+
+p.alert, span.alert {
+    color: red;
+}
+
+.padding{
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.padding-small{
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.margin{
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.margin-small{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* KONTROLNÍ PANEL/LIŠTA */
+
+.controll{
+  background-color: #383838;
+  font-family: 'Quicksand', sans-serif !important;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1rem;
+  text-align: left;
+  margin: 20px 0;
+}
+
+.controll span{
+  padding-right: 10px;
+  border-right: 1px solid white;
+  margin-right: 10px;
+  transition: color .1s;
+}
+
+.controll span.pointer{
+    cursor: pointer;
+}
+
+.controll span.pointer:hover{
+    color: #ffc936;
+}
+
+.controll span i{
+  margin-left: 10px;
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+form input {
+    padding: 5px;
+}
+
+.table-all{
+    border-collapse:collapse;
+    border-spacing:0;
+    width:100%;
+    display:table;
+    color: #383838;
+    border:1px solid #ccc;
+}
+.table-all tr{border-bottom:1px solid #ddd}.w3-striped tbody tr:nth-child(even){background-color:#f1f1f1}
+.table-all tr:nth-child(odd){background-color:#fff}.table-all tr:nth-child(even){background-color:#f1f1f1}
+.table-all td,.table-all th{padding:10px 10px;display:table-cell;text-align:left;vertical-align:top}
+.table-all th:first-child,.table-all td:first-child{padding-left:16px}
+
+/* =========== MESSAGES ========= */
+
+.message.debug {
+    color: #b800cc;
+}
+
+.message.warning {
+    color: yellow;
+}
+
+.message.error {
+    color: red;
+}
+
+.message.success {
+    color: green;
+}
+
+/* =========== NAVIGATION =========== */
+
+nav.absolute{
+    position: absolute;
+    background: none;
+}
+
+nav {
+    background: rgb(60,60,60);
+    background: linear-gradient(150deg, rgba(60,60,60,1) 0%, rgba(0,0,0,1) 100%);
+    opacity: 85%;
+    display: block;
+    z-index: 2;
+    height: 60px;
+    top: 0;
+    width: 92%;
+    padding: 40px 4% 20px 4%;
+
+
+}
+
+
+nav a{
+  text-decoration: none;
+  margin-right: 40px;
+  vertical-align: middle;
+  line-height: 1;
+  color: inherit;
+}
+
+nav .logo{
+  font-size: 40px;
+  margin-right: 100px;
+  line-height: 1;
+}
+
+/* =========== LANDING =========== */
+
+.landing{
+  position: relative;
+  background-image: url('../img/goat.jpg');
+}
+
+.landing .overlay{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  /* background: rgb(147,0,193);
+  background: linear-gradient(150deg, rgba(147,0,193,1) 0%, rgba(0,230,255,1) 100%); */
+}
+
+.overlay {
+    background: rgb(60,60,60);
+    background: linear-gradient(150deg, rgba(60,60,60,1) 0%, rgba(0,0,0,1) 100%);
+    opacity: 85%;
+}
+
+.landing .center{
+  height: 200px;
+  max-width: 800px;
+}
+
+.landing .center h2{
+  max-width: 550px;
+  margin: auto;
+  text-align: center;
+  color: white;
+}
+
+.landing .center h1{
+  text-align: center;
+  color: white;
+}
+
+.landing .center .button{
+  margin-top: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+img.silhouette{
+  position: absolute;
+  height: 300px;
+  top: -300px;
+  left: 100px;
+}
+
+/* =========== COUNTDOWN =========== */
+
+.countdown{
+  margin: 50px 4%;
+  display: inline-block;
+  font-size: 0;
+}
+
+.countdown h1, .countdown .divider, .countdown .clock{
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.countdown h1{
+  font-size: 3rem;
+  font-weight: 500px;
+  text-align: right;
+  margin-right: 20px;
+}
+
+.countdown .divider{
+  height: 120px;
+  width: 5px;
+  background-color: #ebb627;
+  margin: 0 20px;
+}
+
+.countdown .clock{
+  vertical-align: middle;
+  font-size: 0;
+}
+
+.countdown .clock span{
+  display: inline-block;
+  text-align: center;
+  vertical-align: top;
+  font-size: 60px;
+  font-weight: 600;
+}
+
+.countdown .clock span.counter{
+  font-size: 0;
+  width: 100px;
+  text-align: center;
+}
+
+.countdown .clock span div{
+  font-size: 60px;
+}
+
+.countdown .clock label{
+  font-size: 14px;
+  font-weight: 600;
+  width: 100px;
+  text-align: center;
+  margin: 0;
+  display: inline-block;
+  text-transform: uppercase;
+  vertical-align: top;
+}
+
+.about{
+  width: 46%;
+  padding: 50px 2%;
+  text-align: left;
+  display: inline-block;
+  vertical-align: middle;
+  color: #383838;
+}
+
+.brkosak{
+  width: 10%;
+  display: inline-block;
+  margin: 50px 5%;
+  vertical-align: middle;
+}
+
+/* TASKS */
+
+.tasks{
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.tasks p{
+  margin: 40px auto;
+  padding-left: 20px;
+  border-left: 4px solid #383838;
+}
+
+.tasks .task{
+  background-color: #383838;
+  color: white;
+  font-family: "Old Standard TT";
+  padding: 40px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.tasks .task p{
+  font-size: 1.1rem;
+  border: none;
+  line-height: 1.6;
+}
+
+/* MODAL FORM */
+from.modal {
+    z-index: 10;
+}
+
+form.modal.login {
+    text-align: center;
+    max-width: 450px;
+}
+
+form.modal.login p {
+    text-align: center;
+    margin: 5px;
+}
+
+.login form.center {
+  height: 250px;
+  max-width: 400px;
+}
+
+.register form.center {
+    height: 600px;
+    max-width: 400px;
+}
+
+section.register, section.login {
+    width: 100%;
+    padding: 0;
+    height: 100vh;
+    min-height: 800px;
+}
+
+form.center h3{
+  max-width: auto;
+  text-align: center;
+}
+
+form.center p{
+  max-width: auto;
+  text-align: center;
+  margin: 20px;
+}
+
+form.center .button{
+  margin-top: 40px;
+}
+
+/* FOOTER */
+footer{
+  position: relative;
+  padding: 0 40px;
+  text-align: center;
+  overflow: hidden;
+  color: #383838;
+}
+
+
+footer span {
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+footer span a i {
+    margin-right: 5px
+}

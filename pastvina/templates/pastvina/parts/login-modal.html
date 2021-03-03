@@ -1,0 +1,38 @@
+
+
+<form id="login-form" class="light modal login" action="#" onsubmit="login();return false;">
+
+{% for error in form.errors %}
+    {{ error }}
+{% endfor %}
+    <h3 class="dark-text">Přihlášení</h3>
+    <p><input id="username-field" type="text" name="username" placeholder="Login..."></p>
+    <p><input id="password-field" type="password" name="password" placeholder="Heslo..."></p>
+    <p id="message" class="alert"></p>
+    <p><button id="login-button" class="button primary">Přihlaš se!</button></p>
+    <script type="text/javascript">
+        function login(){
+            var username = $("#username-field").val().trim();
+            var password = $("#password-field").val().trim();
+
+            if( username != "" && password != "" ){
+                $.ajax({
+                    url:'{% url "login" %}',
+                    type:'post',
+                    headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                    data:{username:username,password:password},
+                }).done(function(response) {
+                    window.location = "";
+                }).fail(function (error) {
+                console.log(error)
+                    var msg = error.responseText;
+                    $("#message").html(msg);
+                });
+            } else {
+                var msg = "Vyplňte prosím uživatelské jméno i heslo.";
+                $("#message").html(msg);
+            }
+        }
+    </script>
+
+</form>
