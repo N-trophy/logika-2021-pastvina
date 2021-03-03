@@ -1,3 +1,4 @@
+from colorfield.fields import ColorField
 from django.db import models
 from django.utils import timezone
 from django.db.models import Q
@@ -139,3 +140,42 @@ class Menu(models.Model):
     name = models.CharField('jméno', max_length=30)
     pages = models.ManyToManyField(StaticPage)
     locations = models.TextField('lokace')
+
+
+class Crop(models.Model):
+    class Meta:
+        verbose_name = 'plodina'
+        verbose_name_plural = 'plodiny'
+
+    name = models.CharField('jméno', max_length=30)
+    name_genitive = models.CharField('jméno (druhý pád)', max_length=30)
+
+    base_price_buy = models.FloatField('základní nákupní cena')
+    base_price_sell = models.FloatField('základní prodejní cena')
+
+    growth_time = models.IntegerField('čas růstu')
+    rotting_time = models.IntegerField('čas kažení')
+
+    feed_value = models.FloatField("výživová hodnota")
+
+    color = ColorField(verbose_name='barva', default='#aaaaaa', format='hexa')
+
+
+class Livestock(models.Model):
+    class Meta:
+        verbose_name = 'dobytek'
+        verbose_name_plural = 'dobytek'
+
+    name = models.CharField('jméno', max_length=30)
+    name_genitive = models.CharField('jméno (druhý pád)', max_length=30)
+
+    base_price_buy = models.FloatField('základní nákupní cena')
+    base_price_sell = models.FloatField('základní prodejní cena')
+
+    growth_time = models.IntegerField('čas růstu')
+
+    consumption = models.FloatField("spotřeba")
+
+    color = ColorField(verbose_name='barva', default='#aaaaaa', format='hexa')
+
+

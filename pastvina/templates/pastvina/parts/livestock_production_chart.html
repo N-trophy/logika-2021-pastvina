@@ -1,28 +1,33 @@
+<div class="chart">
+    <canvas id="prod-ls-{{ id }}"></canvas>
+</div>
 
-<canvas id="prod-{{ id }}"></canvas>
 
 <script>
-var wheatProduction = new Chart(
-    document.getElementById('prod-{{id}}').getContext('2d'),
+var productionChartLivestock{{ id }} = new Chart(
+    document.getElementById('prod-ls-{{id}}').getContext('2d'),
     {
         type: 'bar',
         data: {
             labels: [
+                "týden 0",
                 {% for i in "x"|ljust:weeks %}
-                    {{ forloop.counter }},
+                    "týden {{ forloop.counter }}",
                 {% endfor %}
             ],
             datasets: [{
                 label: 'produkce {{name_genitive}} dle stáří',
                 backgroundColor: '{{ color }}',
                 data: [
+                0,
                 {% for i in "x"|ljust:weeks %}
-                    1,
+                    {{ forloop.counter }},
                 {% endfor %}
                 ]
             }]
         },
         options: {
+            aspectRatio: 2,
             responsive: true,
             scales: {
                 yAxes: [

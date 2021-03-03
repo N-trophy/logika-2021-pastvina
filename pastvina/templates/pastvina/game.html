@@ -20,10 +20,71 @@
         </ul>
     </p>
 </section>
+
 <section class="padding-small light">
+    <h2>Přehled plodin</h2>
     <div class="container centered">
-        {% include "pastvina/parts/production_chart.html" with weeks=7 color="rgb(255, 241, 89)" name="pšenice" name_genitive="pšenice" id=1 %}
-        {% include "pastvina/parts/production_chart.html" with weeks=8 color="rgb(163, 155, 67)" name="brambory" name_genitive="brambor" id=2%}
+        <table class="table-all">
+            <tr>
+                <th>Název</th>
+                <th>Doba růstu</th>
+                <th>Doba kažení</th>
+                <th>Cena nákup</th>
+                <th>Cena prodej</th>
+                <th>Výživová hodnota</th>
+            </tr>
+            {% for crop in crops %}
+            <tr>
+                <td>{{ crop.name }}</td>
+                <td>{{ crop.growth_time }}</td>
+                <td>{{ crop.rotting_time }}</td>
+                <td>{{ crop.base_price_buy }}</td>
+                <td>{{ crop.base_price_sell }}</td>
+                <td>{{ crop.feed_value }}</td>
+            </tr>
+            {% endfor %}
+        </table>
     </div>
 </section>
+
+<section class="padding-small light">
+    <div class="container centered">
+        {% for crop in crops %}
+            {% include "pastvina/parts/crop_production_chart.html" with weeks=crop.growth_time color=crop.color name=crop.name name_genitive=crop.name_genitive id=crop.id %}
+        {% endfor %}
+    </div>
+</section>
+
+<section class="padding-small light">
+    <h2>Přehled dobytka</h2>
+    <div class="container centered">
+        <table class="table-all">
+            <tr>
+                <th>Název</th>
+                <th>Doba růstu</th>
+                <th>Cena nákup</th>
+                <th>Cena prodej</th>
+                <th>Spotřeba</th>
+            </tr>
+            {% for ls in livestock %}
+            <tr>
+                <td>{{ ls.name }}</td>
+                <td>{{ ls.growth_time }}</td>
+                <td>{{ ls.base_price_buy }}</td>
+                <td>{{ ls.base_price_sell }}</td>
+                <td>{{ ls.consumption }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</section>
+
+<section class="padding-small light">
+    <div class="container centered">
+        {% for ls in livestock %}
+            {% include "pastvina/parts/livestock_production_chart.html" with weeks=ls.growth_time color=ls.color name=ls.name name_genitive=ls.name_genitive id=ls.id %}
+        {% endfor %}
+    </div>
+</section>
+
 {% endblock %}

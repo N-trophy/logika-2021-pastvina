@@ -1,7 +1,7 @@
 from django.db import models
 
 from . import widgets
-from .models import User, Contribution, StaticPage, MediaFile, Menu
+from .models import User, Contribution, StaticPage, MediaFile, Menu, Crop, Livestock
 from django.contrib import admin
 
 
@@ -35,3 +35,13 @@ class MenuAdmin(admin.ModelAdmin):
 @admin.register(MediaFile)
 class MediaFileAdmin(admin.ModelAdmin):
     list_display = ['name', 'created', 'owner']
+
+
+@admin.register(Crop)
+class CropAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name', 'base_price_buy', 'base_price_sell', 'growth_time', 'rotting_time', 'color']
+
+
+@admin.register(Livestock)
+class CropAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name', 'base_price_buy', 'base_price_sell', 'growth_time', 'color']

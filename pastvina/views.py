@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.static import serve
-from pastvina.models import MediaFile, StaticPage, Contribution
+from pastvina.models import MediaFile, StaticPage, Contribution, Crop, Livestock
 from pastvina.templatetags.extras import gen_file_refs, markdown_to_html
 
 
@@ -56,6 +56,7 @@ def page_login(request):
     else:
         return render(request, "pastvina/login.html", {'navbar_absolute_pos': True})
 
+
 @login_required
 def page_game(request):
     """
@@ -69,9 +70,10 @@ def page_game(request):
     :return: HTTP response
     """
 
-    return render(request, 'pastvina/game.html', {
-        'navbar_absolute_pos': False,
-    })
+    crops = Crop.objects.all()
+    livestock = Livestock.objects.all()
+
+    return render(request, 'pastvina/game.html', {'crops': crops, 'livestock': livestock})
 
 
 @login_required()

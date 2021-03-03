@@ -1,0 +1,54 @@
+<div class="chart">
+    <canvas id="prod-crop-{{ id }}"></canvas>
+</div>
+
+
+<script>
+var productionChartCrop{{ id }} = new Chart(
+    document.getElementById('prod-crop-{{id}}').getContext('2d'),
+    {
+        type: 'bar',
+        data: {
+            labels: [
+                "týden 0",
+                {% for i in "x"|ljust:weeks %}
+                    "týden {{ forloop.counter }}",
+                {% endfor %}
+            ],
+            datasets: [{
+                label: 'produkce {{name_genitive}} dle stáří',
+                backgroundColor: '{{ color }}',
+                data: [
+                0,
+                {% for i in "x"|ljust:weeks %}
+                    {{ forloop.counter }},
+                {% endfor %}
+                ]
+            }]
+        },
+        options: {
+            aspectRatio: 2,
+            responsive: true,
+            scales: {
+                yAxes: [
+                    {
+                        scaleLabel: {
+                            display: true,
+                            labelString: "tuny",
+                        },
+                    }
+                ],
+
+                xAxes: [
+                    {
+                        scaleLabel: {
+                            display: true,
+                            labelString: "stáří",
+                        },
+                    }
+                ],
+            },
+        }
+    }
+);
+</script>
