@@ -31,7 +31,7 @@ function update_charts(updateChartsJson) {
         storageChart.update();
     }
 
-    for (ls of update_info.livestock) {
+    for (ls of updateInfo.livestock) {
         document.getElementById("ls-buy-price-" + ls.id).innerHTML = ls.buy;
         document.getElementById("ls-sell-price-" + ls.id).innerHTML = ls.sell;
 
