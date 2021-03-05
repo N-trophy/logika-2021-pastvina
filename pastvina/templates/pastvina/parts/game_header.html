@@ -1,0 +1,29 @@
+<!-- Game Header -->
+<div class="game-header" id="game-header">
+    <!-- Header should not have margin in his childs -->
+    <div style="float: left;">Peníze: <span id="game-money"></span></div>
+    <div style="float: right;">Další iterace za <span id="tick-countdown">-</span> s</div>
+</div>
+<div style="display: none;" id="game-header-placeholder"></div>
+
+<script>
+    var gameHeader = document.getElementById("game-header");
+    var gameHeaderPlaceholder = document.getElementById("game-header-placeholder");
+
+    gameHeaderPlaceholder.style.height = $('#game-header').height() + "px";
+    var gameHeaderOffset = gameHeader.offsetTop;
+
+    function checkGameHeaderPos() {
+        if (window.pageYOffset > gameHeaderOffset) {
+            gameHeader.classList.add("sticky");
+            gameHeaderPlaceholder.style.display = "";
+        } else {
+            gameHeader.classList.remove("sticky");
+            gameHeaderPlaceholder.style.display = "none";
+        }
+    }
+
+    window.onscroll = function() {
+        checkGameHeaderPos();
+    };
+</script>

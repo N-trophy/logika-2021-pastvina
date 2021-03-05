@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.static import serve
 from pastvina.models import MediaFile, StaticPage, Contribution, Crop, Livestock
 from pastvina.templatetags.extras import gen_file_refs, markdown_to_html
+import time
 
 
 @login_required
@@ -83,6 +84,7 @@ def game_update(request):
     """
     data = {
         "money": 100,
+        "time": int(time.time() * 1000) + 30000,
         "livestock": [
             {
                 "name": "Tučňáci",

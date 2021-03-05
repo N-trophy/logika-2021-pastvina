@@ -1,9 +1,33 @@
+var timeOfNextTick = Date.now();
+
+function updateTimeToNextTick()
+{
+    let millisToNextTick = timeOfNextTick - Date.now();
+    if (millisToNextTick > 0)
+    {
+        document.getElementById("tick-countdown").innerHTML = Math.round(millisToNextTick/1000);
+    }
+    else
+    {
+        $.getJSON("update", function(update_data) {
+            update_charts(update_data);
+        })
+        .fail(function(){
+            console.log("Could not update chart data");
+        });
+    }
+}
+
+
 var cropProductionCharts = new Map();
 var cropStorageCharts = new Map();
 var livestockProductionCharts = new Map();
 
 function update_charts(updateData) {
     console.log(updateData);
+
+    document.getElementById("game-money").innerHTML = updateData.money;
+    timeOfNextTick = updateData.time;
 
     for (crop of updateData.crops) {
         document.getElementById("crop-buy-price-" + crop.id).innerHTML = crop.buy;

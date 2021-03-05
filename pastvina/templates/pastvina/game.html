@@ -21,6 +21,9 @@
     </p>
 </section>
 
+
+{% include "pastvina/parts/game_header.html" %}
+
 <section class="padding-small light">
     <h2>Přehled plodin</h2>
     <div class="container centered">
@@ -107,12 +110,7 @@
 </section>
 
 <script>
-    $.getJSON("update", function(update_data) {
-        update_charts(update_data);
-    })
-    .fail(function(){
-        console.log("Could not update chart data");
-    });
+    setInterval(updateTimeToNextTick, 500);
 </script>
 
 {% endblock %}
