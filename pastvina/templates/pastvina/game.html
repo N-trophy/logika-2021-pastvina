@@ -38,8 +38,8 @@
                 <td>{{ crop.name }}</td>
                 <td>{{ crop.growth_time }}</td>
                 <td>{{ crop.rotting_time }}</td>
-                <td>{{ crop.base_price_buy }}</td>
-                <td>{{ crop.base_price_sell }}</td>
+                <td><span id="crop-buy-price-{{ crop.id }}"></span></td>
+                <td><span id="crop-sell-price-{{ crop.id }}"></span></td>
                 <td>{{ crop.feed_value }}</td>
             </tr>
             {% endfor %}
@@ -81,8 +81,8 @@
             <tr>
                 <td>{{ ls.name }}</td>
                 <td>{{ ls.growth_time }}</td>
-                <td>{{ ls.base_price_buy }}</td>
-                <td>{{ ls.base_price_sell }}</td>
+                <td><span id="ls-buy-price-{{ ls.id }}"></span></td>
+                <td><span id="ls-sell-price-{{ ls.id }}"></span></td>
                 <td>{{ ls.consumption }}</td>
             </tr>
             {% endfor %}
@@ -105,5 +105,46 @@
         </div>
         {% endfor %}
 </section>
+
+<script>
+    let update_charts_text = `{
+    "money": 100,
+    "livestock": [
+        {
+            "name": "Tučňáci",
+            "id": 1,
+            "buy": 100,
+            "sell": 100,
+            "production": [0, 1]
+        },
+        {
+            "name": "Kozy",
+            "id": 2,
+            "buy": 50,
+            "sell": 70,
+            "production": [0, 1, 2]
+        }
+    ],
+    "crops": [
+        {
+            "name": "Melouny",
+            "id": 1,
+            "buy": 10,
+            "sell": 10,
+            "production": [0, 1, 2, 3, 4, 5],
+            "storage": [2,5,4]
+        },
+        {
+            "name": "Oves",
+            "id": 2,
+            "buy": 5,
+            "sell": 4,
+            "production": [0, 1, 2, 3, 4, 8, 9, 10],
+            "storage": [4,5,6]
+        }
+    ]
+}`;
+    update_charts(update_charts_text);
+</script>
 
 {% endblock %}
