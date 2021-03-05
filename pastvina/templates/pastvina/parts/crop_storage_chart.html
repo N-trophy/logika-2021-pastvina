@@ -1,11 +1,7 @@
-<div class="brick quarter">
-    <canvas id="prod-crop-{{ id }}"></canvas>
-</div>
-
-
+<div class="brick quarter"><canvas id="storage-crop-{{ id }}"></canvas></div>
 <script>
 var productionChartCrop{{ id }} = new Chart(
-    document.getElementById('prod-crop-{{id}}').getContext('2d'),
+    document.getElementById('storage-crop-{{id}}').getContext('2d'),
     {
         type: 'bar',
         data: {
@@ -16,7 +12,7 @@ var productionChartCrop{{ id }} = new Chart(
                 {% endfor %}
             ],
             datasets: [{
-                label: 'produkce {{name_genitive}} dle stáří',
+                label: 'zásoby {{name_genitive}} dle stáří',
                 backgroundColor: '{{ color }}',
                 data: [
                 0,

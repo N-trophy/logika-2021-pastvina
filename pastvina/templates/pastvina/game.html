@@ -48,11 +48,22 @@
 </section>
 
 <section class="padding-small light">
-    <div class="container centered">
         {% for crop in crops %}
+        <div class="container centered control-box">
+            <div class="quarter brick">
+                <input class="full-width input" type="number">
+                <button class="full-width input">Koupit</button>
+            </div>
             {% include "pastvina/parts/crop_production_chart.html" with weeks=crop.growth_time color=crop.color name=crop.name name_genitive=crop.name_genitive id=crop.id %}
+            {% include "pastvina/parts/crop_storage_chart.html" with weeks=crop.growth_time color=crop.color name=crop.name name_genitive=crop.name_genitive id=crop.id %}
+            <div class="quarter brick">
+                <input class="full-width input" type="number">
+                <button class="full-width input">Prodat</button>
+                <input class="full-width input" type="number">
+                <button class="full-width input">Krmit</button>
+            </div>
+        </div>
         {% endfor %}
-    </div>
 </section>
 
 <section class="padding-small light">
@@ -80,11 +91,19 @@
 </section>
 
 <section class="padding-small light">
-    <div class="container centered">
         {% for ls in livestock %}
+        <div class="container centered control-box">
+            <div class="quarter brick">
+                <input class="full-width input" type="number">
+                <button class="full-width input">Koupit</button>
+            </div>
             {% include "pastvina/parts/livestock_production_chart.html" with weeks=ls.growth_time color=ls.color name=ls.name name_genitive=ls.name_genitive id=ls.id %}
+            <div class="quarter brick">
+                <input class="full-width input" type="number">
+                <button class="full-width input">Prodat</button>
+            </div>
+        </div>
         {% endfor %}
-    </div>
 </section>
 
 {% endblock %}
