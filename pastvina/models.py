@@ -163,8 +163,8 @@ class Livestock(models.Model):
     name = models.CharField('jméno', max_length=30)
     name_genitive = models.CharField('jméno (druhý pád)', max_length=30)
 
-    base_price_buy = models.FloatField('základní nákupní cena')
-    base_price_sell = models.FloatField('základní prodejní cena')
+    base_price_buy = models.IntegerField('základní nákupní cena')
+    base_price_sell = models.IntegerField('základní prodejní cena')
 
     growth_time = models.IntegerField('čas růstu')
 
@@ -173,3 +173,70 @@ class Livestock(models.Model):
     color = ColorField(verbose_name='barva', default='#aaaaaa', format='hexa')
 
 
+class Grassland(models.Model):
+    class Meta:
+        verbose_name = 'pastvina'
+        verbose_name_plural = 'pastviny'
+
+    id = models.AutoField(primary_key=True)
+    name = models.CharField('jméno', max_length=30)
+
+
+class Round(models.Model):
+    class Meta:
+        verbose_name = 'kolo'
+        verbose_name_plural = 'kola'
+
+    id = models.AutoField(primary_key=True)
+    start = models.DateTimeField('start', default=timezone.now, editable=False)
+
+
+class RoundGrassland(models.Model):
+    class Meta:
+        verbose_name = 'kolo:pastvina'
+        verbose_name_plural = 'kola:pastviny'
+        unique_together = (('user', 'round', 'grassland'),)
+
+    user = models.ForeignKey(User, on_delete=models.RESTRICT, null=False, verbose_name='tým')
+    round = models.ForeignKey(Round, on_delete=models.RESTRICT, null=False, verbose_name='kolo')
+    grassland = models.ForeignKey(Grassland, on_delete=models.RESTRICT, null=False, verbose_name='pastvina')
+
+    # TODO: add specification of parameters of grassland per round
+
+
+class RoundCrop(models.Model):
+    class Meta:
+        verbose_name = 'kolo:plodina'
+        verbose_name_plural = 'kola:plodiny'
+        unique_together = (('user', 'round', 'crop'),)
+
+    user = models.ForeignKey(User, on_delete=models.RESTRICT, null=False, verbose_name='tým')
+    round = models.ForeignKey(Round, on_delete=models.RESTRICT, null=False, verbose_name='kolo')
+    crop = models.ForeignKey(Crop, on_delete=models.RESTRICT, null=False, verbose_name='plodina')
+
+    price_buy = models.IntegerField('nákupní cena')
+    price_sell = models.IntegerField('prodejní cena')
+
+
+class RoundLivestock(models.Model):
+    class Meta:
+        verbose_name = 'kolo:dobytek'
+        verbose_name_plural = 'kola:dobytek'
+        unique_together = (('user', 'round', 'livestock'),)
+
+    user = models.ForeignKey(User, on_delete=models.RESTRICT, null=False, verbose_name='tým')
+    round = models.ForeignKey(Round, on_delete=models.RESTRICT, null=False, verbose_name='kolo')
+    livestock = models.ForeignKey(Livestock, on_delete=models.RESTRICT, null=False, verbose_name='dobytek')
+
+    price_buy = models.IntegerField('nákupní cena')
+    price_sell = models.IntegerField('prodejní cena')
+
+
+class GameTeam(models.Model):
+    class Meta:
+        verbose_name = 'herní parametry týmu'
+        verbose_name_plural = 'herní parametry týmu'
+
+    user = models.ForeignKey(User, on_delete=models.RESTRICT, null=False, verbose_name='tým', primary_key=True)
+
+    money = models.IntegerField('peníze')
