@@ -110,7 +110,6 @@ PRIVATE_ROOT = os.path.join(STORAGE_ROOT, PRIVATE_DIR_NAME)
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-AUTH_USER_MODEL = 'pastvina.User'
 LOGIN_URL = '/login/'
 
 

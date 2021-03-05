@@ -1,13 +1,8 @@
 from django.db import models
 
 from . import widgets
-from .models import User, Contribution, StaticPage, MediaFile, Menu, Crop, Livestock
+from .models import Contribution, StaticPage, MediaFile, Menu, Crop, Livestock
 from django.contrib import admin
-
-
-@admin.register(User)
-class UserAdmin(admin.ModelAdmin):
-    list_display = ['id', 'username', 'is_superuser', 'is_staff']
 
 
 @admin.register(Contribution)

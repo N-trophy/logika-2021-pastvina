@@ -1,17 +1,11 @@
 from colorfield.fields import ColorField
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 from django.db.models import Q
-from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from os import path, rename
-
-
-class User(AbstractUser):
-    first_name = None
-    last_name = None
-    team_name = models.CharField(max_length=255)
 
 
 class BaseModel(models.Model):
