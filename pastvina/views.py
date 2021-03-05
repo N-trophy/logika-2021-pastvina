@@ -8,6 +8,7 @@ from pastvina.models import MediaFile, StaticPage, Contribution, Crop, Livestock
 from pastvina.templatetags.extras import gen_file_refs, markdown_to_html
 
 
+@login_required
 def page_index(request):
     """
     Renders the index page from template.
