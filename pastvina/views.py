@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden, HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponseForbidden, HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.static import serve
 from pastvina.models import MediaFile, StaticPage, Contribution, Crop, Livestock
@@ -76,8 +76,52 @@ def page_game(request):
 
     return render(request, 'pastvina/game.html', {'crops': crops, 'livestock': livestock})
 
+@login_required
+def game_update(request):
+    """
+    Returns a json to update the game state
+    """
+    data = {
+        "money": 100,
+        "livestock": [
+            {
+                "name": "Tučňáci",
+                "id": 1,
+                "buy": 100,
+                "sell": 100,
+                "production": [4, 2]
+            },
+            {
+                "name": "Kozy",
+                "id": 2,
+                "buy": 50,
+                "sell": 70,
+                "production": [0, 2, 4]
+            }
+        ],
+        "crops": [
+            {
+                "name": "Melouny",
+                "id": 1,
+                "buy": 10,
+                "sell": 10,
+                "production": [0, 4, 3, 5],
+                "storage": [2, 5, 4, 0]
+            },
+            {
+                "name": "Oves",
+                "id": 2,
+                "buy": 5,
+                "sell": 4,
+                "production": [0, 1, 2, 3, 4, 8],
+                "storage": [4, 5, 6]
+            }
+        ]
+    }
 
-@login_required()
+    return JsonResponse(data)
+
+@login_required
 def handler_logout(request):
     """
     Logs a user out and redirects to 'index'.

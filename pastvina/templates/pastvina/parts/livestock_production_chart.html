@@ -20,9 +20,6 @@ livestockProductionCharts["{{id}}"] = new Chart(
                 backgroundColor: '{{ color }}',
                 data: [
                 0,
-                {% for i in "x"|ljust:weeks %}
-                    {{ forloop.counter }},
-                {% endfor %}
                 ]
             }]
         },

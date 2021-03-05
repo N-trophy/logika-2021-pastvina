@@ -13,6 +13,7 @@ urlpatterns = [
     path('api/md_to_html', views.handler_markdown_to_html, name='md_to_html'),
 
     path('game/', views.page_game, name='game'),
+    path('game/update', views.game_update, name='game_update'),
     path('', views.page_index, name='index'),
     path('<path:path>', views.page_static, name='static_page'),
 ]

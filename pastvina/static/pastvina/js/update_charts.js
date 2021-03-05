@@ -2,11 +2,10 @@ var cropProductionCharts = new Map();
 var cropStorageCharts = new Map();
 var livestockProductionCharts = new Map();
 
-function update_charts(updateChartsJson) {
-    let updateInfo = JSON.parse(updateChartsJson);
-    console.log(updateInfo);
+function update_charts(updateData) {
+    console.log(updateData);
 
-    for (crop of updateInfo.crops) {
+    for (crop of updateData.crops) {
         document.getElementById("crop-buy-price-" + crop.id).innerHTML = crop.buy;
         document.getElementById("crop-sell-price-" + crop.id).innerHTML = crop.sell;
 
@@ -31,7 +30,7 @@ function update_charts(updateChartsJson) {
         storageChart.update();
     }
 
-    for (ls of updateInfo.livestock) {
+    for (ls of updateData.livestock) {
         document.getElementById("ls-buy-price-" + ls.id).innerHTML = ls.buy;
         document.getElementById("ls-sell-price-" + ls.id).innerHTML = ls.sell;
 
