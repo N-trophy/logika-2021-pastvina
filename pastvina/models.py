@@ -45,9 +45,9 @@ class Round(models.Model):
 
     __str__ = __repr__
 
-    # def last_tick_time(self) -> datetime:
-    #     """Time of last tick which should happen"""
-    #     return self.start + timedelta(seconds=self.ticks*self.period.second)
+    def last_tick_time(self) -> datetime:
+        """Time of last tick which should happen"""
+        return self.start + timedelta(seconds=self.ticks * self.period * 10)
 
     def is_running(self) -> bool:
         return self.start <= timezone.now() <= self.last_tick_time()

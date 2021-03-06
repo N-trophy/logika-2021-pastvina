@@ -4,13 +4,13 @@ from pastvina.models import Round, Tick, Livestock, Crop, TeamHistory, \
 
 
 def new(round: Round, init_tick: Tick) -> None:
-    team_ids = User.objects.values_list('id', flat=True).all()
+    teams = User.objects.all()
     livestock = Livestock.objects.all()
     crops = Crop.objects.all()
 
     team_history_set = [
         TeamHistory(user=team_id, tick=init_tick, money=round.start_money)
-        for team_id in team_ids
+        for team in teams
     ]
 
     crop_market_history = [
