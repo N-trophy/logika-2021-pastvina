@@ -129,7 +129,7 @@ class TeamLivestockHistory(models.Model):
     round = models.ForeignKey(Round, on_delete=models.RESTRICT, null=False, verbose_name='kolo')
     user = models.ForeignKey(User, on_delete=models.RESTRICT, null=False, verbose_name='tým')
     tick = models.PositiveIntegerField('číslo minikola')
-    livestock = models.ForeignKey(Crop, on_delete=models.RESTRICT, null=False, verbose_name='dobytek')
+    livestock = models.ForeignKey(Livestock, on_delete=models.RESTRICT, null=False, verbose_name='dobytek')
     age = models.IntegerField('stáří dobytka')
 
     amount = models.IntegerField('množství')

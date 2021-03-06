@@ -1,4 +1,6 @@
 var timeOfNextTick = Date.now();
+var tick = 0
+var round = 1
 
 function updateTimeToNextTick()
 {
@@ -9,7 +11,8 @@ function updateTimeToNextTick()
     }
     else
     {
-        $.getJSON("update", function(update_data) {
+        $.getJSON("/game/update?tick="+tick+"&round="+round, function(update_data) {
+//            tick++;
             update_charts(update_data);
         })
         .fail(function(){
@@ -57,14 +60,10 @@ function update_charts(updateData) {
     for (ls of updateData.livestock) {
         document.getElementById("ls-buy-price-" + ls.id).innerHTML = ls.buy;
         document.getElementById("ls-sell-price-" + ls.id).innerHTML = ls.sell;
+        document.getElementById("product-price-" + ls.id).innerHTML = ls.product_price;
 
         let productionChart = livestockProductionCharts[ls.id];
-        for (let i = 0; i < ls.production.length; i++) {
-            productionChart.data.datasets[0].data[i] = ls.production[i];
-        }
-        for (let i = ls.production.length; i < productionChart.data.datasets[0].data.length; i++) {
-            productionChart.data.datasets[0].data[i] = 0;
-        }
+        productionChart.data.datasets[0].data = ls.by_age;
         productionChart.update();
     }
 }

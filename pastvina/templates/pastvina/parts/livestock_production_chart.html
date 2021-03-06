@@ -11,12 +11,12 @@ livestockProductionCharts["{{id}}"] = new Chart(
         data: {
             labels: [
                 "týden 0",
-                {% for i in "x"|ljust:weeks %}
+                {% for i in "x"|ljust:max_age %}
                     "týden {{ forloop.counter }}",
                 {% endfor %}
             ],
             datasets: [{
-                label: 'produkce {{name_genitive}} dle stáří',
+                label: 'chov {{name_genitive}} dle stáří',
                 backgroundColor: '{{ color }}',
                 data: [
                 0,
@@ -31,7 +31,7 @@ livestockProductionCharts["{{id}}"] = new Chart(
                     {
                         scaleLabel: {
                             display: true,
-                            labelString: "tuny",
+                            labelString: "kusy",
                         },
                     }
                 ],

@@ -74,17 +74,25 @@
             <tr>
                 <th>Název</th>
                 <th>Doba růstu</th>
-                <th>Cena nákup</th>
-                <th>Cena prodej</th>
+                <th>Délka života</th>
+                <th>Cena mláděte</th>
+                <th>Cena dospělého kusu</th>
+                <th>Druh potravy</th>
                 <th>Spotřeba</th>
+                <th>Produkt</th>
+                <th>Cena produkce jedince</th>
             </tr>
             {% for ls in livestock %}
             <tr>
                 <td>{{ ls.name }}</td>
                 <td>{{ ls.growth_time }}</td>
+                <td>{{ ls.life_time }}</td>
                 <td><span id="ls-buy-price-{{ ls.id }}"></span></td>
                 <td><span id="ls-sell-price-{{ ls.id }}"></span></td>
+                <td>{{ ls.consumption_type.name }}</td>
                 <td>{{ ls.consumption }}</td>
+                <td>{{ ls.product_name }}</td>
+                <td><span id="product-price-{{ ls.id }}"></span></td>
             </tr>
             {% endfor %}
         </table>
@@ -98,7 +106,7 @@
                 <input class="full-width input" type="number">
                 <button class="full-width input">Koupit</button>
             </div>
-            {% include "pastvina/parts/livestock_production_chart.html" with weeks=ls.growth_time color=ls.color name=ls.name name_genitive=ls.name_genitive id=ls.id %}
+            {% include "pastvina/parts/livestock_production_chart.html" with max_age=ls.life_time color=ls.color name=ls.name name_genitive=ls.name_genitive id=ls.id %}
             <div class="quarter brick">
                 <input class="full-width input" type="number">
                 <button class="full-width input">Porazit a prodat (max 100 ks)</button>

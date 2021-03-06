@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden, HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.static import serve
-from pastvina.models import Contribution, Crop, Livestock
+from pastvina.models import Contribution, Crop, Livestock, TeamHistory, LivestockMarketHistory, \
+    TeamLivestockHistory
 from pastvina.templatetags.extras import markdown_to_html
 import time
 
@@ -77,30 +78,39 @@ def page_game(request):
 
     return render(request, 'pastvina/game.html', {'crops': crops, 'livestock': livestock})
 
+
 @login_required
 def game_update(request):
+    tick = request.GET['tick']
+    round_id = request.GET['round']
+
     """
     Returns a json to update the game state
     """
+    money = TeamHistory.objects.filter(round=round_id, tick=tick, user=request.user).last()
+    livestock = LivestockMarketHistory.objects.filter(round=round_id, tick=tick).select_related('livestock').all()
+    team_livestock = TeamLivestockHistory.objects.filter(round=round_id, tick=tick, user=request.user).values(
+        'livestock',
+        'age',
+        'amount',
+    )
+    livestock_data = {}
+    for ls in livestock:
+        livestock_data[ls.livestock.id] = {
+            'id': ls.livestock.id,
+            'buy': ls.current_price_buy,
+            'sell': ls.current_price_sell,
+            'product_price': ls.product_current_price,
+            'by_age': [0 for _ in range(ls.livestock.life_time + ls.livestock.growth_time + 1)],
+        }
+
+    for tls in team_livestock:
+        livestock_data[tls['livestock']]['by_age'][tls['age']] = tls['amount']
+
     data = {
-        "money": 100,
-        "time": int(time.time() * 1000) + 30000,
-        "livestock": [
-            {
-                "name": "Tučňáci",
-                "id": 1,
-                "buy": 100,
-                "sell": 100,
-                "production": [4, 2]
-            },
-            {
-                "name": "Kozy",
-                "id": 2,
-                "buy": 50,
-                "sell": 70,
-                "production": [0, 2, 4]
-            }
-        ],
+        "money": money,
+        "time": int(time.time() * 1000) + 15000,
+        "livestock": list(livestock_data.values()),
         "crops": [
             {
                 "name": "Melouny",
@@ -122,6 +132,7 @@ def game_update(request):
     }
 
     return JsonResponse(data)
+
 
 @login_required
 def handler_logout(request):
