@@ -42,7 +42,7 @@ function updateCharts(updateData) {
         for (var i = 0; i < crop.by_age.length; i++) {
             ageChart.data.labels[i] = "týden "+i
         }
-        ageChart.data.datasets[0].data = crop.by_age;
+        ageChart.data.datasets[0].data = crop.by_age.reverse();
         ageChart.update();
     }
 
@@ -56,7 +56,7 @@ function updateCharts(updateData) {
         for (var i = 0; i < ls.by_age.length; i++) {
             ageChart.data.labels[i] = "týden "+i
         }
-        ageChart.data.datasets[0].data = ls.by_age;
+        ageChart.data.datasets[0].data = ls.by_age.reverse();
         ageChart.update();
     }
 }

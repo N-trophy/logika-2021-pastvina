@@ -194,7 +194,7 @@ def game_trade(request):
             return HttpResponse("Obchod uskutečněn.")
         elif trade_type == 'sell':
             total_price = crop.current_price_sell * count
-            by_age = TeamCropHistory.objects.filter(tick=last_tick, crop=crop.crop, user=request.user, age__lte=crop.crop.rotting_time).order_by('-age')
+            by_age = TeamCropHistory.objects.filter(tick=last_tick, crop=crop.crop, user=request.user, age__lte=crop.crop.life_time).order_by('-age')
             rest = count
             pos = 0
             while rest > 0:
@@ -234,7 +234,7 @@ def game_trade(request):
         elif trade_type == 'sell':
             total_price = ls.current_price_sell * count
             by_age = TeamLivestockHistory.objects.filter(tick=last_tick, livestock=ls.livestock, user=request.user,
-                                                    age__lte=ls.livestock.rotting_time).order_by('-age')
+                                                    age__lte=ls.livestock.life_time).order_by('-age')
             rest = count
             pos = 0
             while rest > 0:
