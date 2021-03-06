@@ -122,7 +122,7 @@ class Round(models.Model):
         verbose_name = 'hra'
         verbose_name_plural = 'hry'
 
-    start = models.DateTimeField('start', default=timezone.now, editable=False)
+    start = models.DateTimeField('start')
     ticks = models.IntegerField('počet minikol')
     period = models.TimeField('délka minikola')
 
