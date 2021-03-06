@@ -9,7 +9,7 @@ def new(round: Round, init_tick: Tick) -> None:
     crops = Crop.objects.all()
 
     team_history_set = [
-        TeamHistory(user=team_id, tick=init_tick, money=round.start_money)
+        TeamHistory(user=team.id, tick=init_tick, money=round.start_money)
         for team in teams
     ]
 

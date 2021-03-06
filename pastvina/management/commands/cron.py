@@ -28,8 +28,9 @@ def ticks_update() -> None:
         if round_.is_running():
             last_tick = Tick.objects.filter(round=round_).last()
             now = timezone.now()
-            if (now - Tick.objects.filter(round=round_).last().start).total_seconds() + 1 >= 10 * round_.period:
-                next_tick = Tick(round=round_, index=last_tick, start=now)
+            delta = (now - last_tick.start).total_seconds()
+            if delta >= 10 * round_.period:
+                next_tick = Tick(round=round_, index=last_tick.index + 1, start=now)
                 next_tick.save()
                 new_tick(last_tick, next_tick)
 
