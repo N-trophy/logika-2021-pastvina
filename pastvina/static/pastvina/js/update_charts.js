@@ -22,9 +22,8 @@ function updateTimeToNextTick()
 }
 
 
-var cropProductionCharts = new Map();
-var cropStorageCharts = new Map();
-var livestockProductionCharts = new Map();
+var cropAgeCharts = new Map();
+var livestockAgeCharts = new Map();
 
 function update_charts(updateData) {
     console.log(updateData);
@@ -33,37 +32,29 @@ function update_charts(updateData) {
     timeOfNextTick = updateData.time;
 
     for (crop of updateData.crops) {
-        document.getElementById("crop-buy-price-" + crop.id).innerHTML = crop.buy;
-        document.getElementById("crop-sell-price-" + crop.id).innerHTML = crop.sell;
+        $(".crop-buy-price-" + crop.id).text(crop.buy);
+        $(".crop-sell-price-" + crop.id).text(crop.sell);
 
         // Production
-        let productionChart = cropProductionCharts[crop.id];
-        for (let i = 0; i < crop.production.length; i++) {
-            productionChart.data.datasets[0].data[i] = crop.production[i];
+        let ageChart = cropAgeCharts[crop.id];
+        for (var i = 0; i < crop.by_age.length; i++) {
+            ageChart.data.labels[i] = "týden "+i
         }
-        for (let i = crop.production.length; i < productionChart.data.datasets[0].data.length; i++) {
-            productionChart.data.datasets[0].data[i] = 0;
-        }
-        productionChart.update();
-
-        // Storage
-        let storageChart = cropStorageCharts[crop.id];
-        for (let i = 0; i < crop.storage.length; i++) {
-            storageChart.data.datasets[0].data[i] = crop.storage[i];
-        }
-        for (let i = crop.storage.length; i < storageChart.data.datasets[0].data.length; i++) {
-            storageChart.data.datasets[0].data[i] = 0;
-        }
-        storageChart.update();
+        ageChart.data.datasets[0].data = crop.production;
+        ageChart.update();
     }
 
     for (ls of updateData.livestock) {
-        document.getElementById("ls-buy-price-" + ls.id).innerHTML = ls.buy;
-        document.getElementById("ls-sell-price-" + ls.id).innerHTML = ls.sell;
-        document.getElementById("product-price-" + ls.id).innerHTML = ls.product_price;
+        $(".ls-buy-price-" + ls.id).text(ls.buy);
+        $(".ls-sell-price-" + ls.id).text(ls.sell);
+        $(".product-price-" + ls.id).text(ls.product_price);
 
-        let productionChart = livestockProductionCharts[ls.id];
-        productionChart.data.datasets[0].data = ls.by_age;
-        productionChart.update();
+        let ageChart = livestockAgeCharts[ls.id];
+        ageChart.data.labels = new Array()
+        for (var i = 0; i < ls.by_age.length; i++) {
+            ageChart.data.labels[i] = "týden "+i
+        }
+        ageChart.data.datasets[0].data = ls.by_age;
+        ageChart.update();
     }
 }

@@ -1,22 +1,23 @@
 <div class="brick half">
-    <canvas id="prod-ls-{{ id }}"></canvas>
+    <canvas id="{{chart_type}}-{{ id }}"></canvas>
 </div>
 
 
 <script>
-livestockProductionCharts["{{id}}"] = new Chart(
-    document.getElementById('prod-ls-{{id}}').getContext('2d'),
+{{chart_type}}AgeCharts["{{id}}"] = new Chart(
+    document.getElementById('{{chart_type}}-{{id}}').getContext('2d'),
     {
         type: 'bar',
         data: {
             labels: [
                 "týden 0",
-                {% for i in "x"|ljust:max_age %}
-                    "týden {{ forloop.counter }}",
-                {% endfor %}
             ],
             datasets: [{
+                {% if chart_type == 'livestock' %}
                 label: 'chov {{name_genitive}} dle stáří',
+                {% else %}
+                label: 'produkce {{name_genitive}} dle stáří',
+                {% endif %}
                 backgroundColor: '{{ color }}',
                 data: [
                 0,
@@ -31,7 +32,11 @@ livestockProductionCharts["{{id}}"] = new Chart(
                     {
                         scaleLabel: {
                             display: true,
+                            {% if chart_type == 'livestock' %}
                             labelString: "kusy",
+                            {% else %}
+                            labelString: "tuny",
+                            {% endif %}
                         },
                     }
                 ],

@@ -34,16 +34,14 @@
                 <th>Doba kažení</th>
                 <th>Cena nákup</th>
                 <th>Cena prodej</th>
-                <th>Výživová hodnota</th>
             </tr>
             {% for crop in crops %}
             <tr>
                 <td>{{ crop.name }}</td>
                 <td>{{ crop.growth_time }}</td>
                 <td>{{ crop.rotting_time }}</td>
-                <td><span id="crop-buy-price-{{ crop.id }}"></span></td>
-                <td><span id="crop-sell-price-{{ crop.id }}"></span></td>
-                <td>{{ crop.feed_value }}</td>
+                <td><span class="crop-buy-price-{{ crop.id }}">-</span></td>
+                <td><span class="crop-sell-price-{{ crop.id }}">-</span></td>
             </tr>
             {% endfor %}
         </table>
@@ -57,8 +55,7 @@
                 <input class="full-width input" type="number">
                 <button class="full-width input">Koupit</button>
             </div>
-            {% include "pastvina/parts/crop_production_chart.html" with weeks=crop.growth_time color=crop.color name=crop.name name_genitive=crop.name_genitive id=crop.id %}
-            {% include "pastvina/parts/crop_storage_chart.html" with weeks=crop.growth_time color=crop.color name=crop.name name_genitive=crop.name_genitive id=crop.id %}
+            {% include "pastvina/parts/age_chart.html" with chart_type="crop" color=crop.color name=crop.name name_genitive=crop.name_genitive id=crop.id %}
             <div class="quarter brick">
                 <input class="full-width input" type="number">
                 <button class="full-width input">Prodat</button>
@@ -87,12 +84,12 @@
                 <td>{{ ls.name }}</td>
                 <td>{{ ls.growth_time }}</td>
                 <td>{{ ls.life_time }}</td>
-                <td><span id="ls-buy-price-{{ ls.id }}"></span></td>
-                <td><span id="ls-sell-price-{{ ls.id }}"></span></td>
+                <td><span class="ls-buy-price-{{ ls.id }}">-</span></td>
+                <td><span class="ls-sell-price-{{ ls.id }}">-</span></td>
                 <td>{{ ls.consumption_type.name }}</td>
                 <td>{{ ls.consumption }}</td>
                 <td>{{ ls.product_name }}</td>
-                <td><span id="product-price-{{ ls.id }}"></span></td>
+                <td><span class="product-price-{{ ls.id }}">-</span></td>
             </tr>
             {% endfor %}
         </table>
@@ -106,10 +103,10 @@
                 <input class="full-width input" type="number">
                 <button class="full-width input">Koupit</button>
             </div>
-            {% include "pastvina/parts/livestock_production_chart.html" with max_age=ls.life_time color=ls.color name=ls.name name_genitive=ls.name_genitive id=ls.id %}
+            {% include "pastvina/parts/age_chart.html" with chart_type="livestock" color=ls.color name=ls.name name_genitive=ls.name_genitive id=ls.id %}
             <div class="quarter brick">
                 <input class="full-width input" type="number">
-                <button class="full-width input">Porazit a prodat (max 100 ks)</button>
+                <button class="full-width input">Porazit a prodat (max {{round.livestock_slaughter_limit}} ks)</button>
                 <input class="full-width input" type="number">
                 <button class="full-width input">Utratit</button>
             </div>

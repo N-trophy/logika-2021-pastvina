@@ -5,7 +5,7 @@ from django.http import HttpResponseForbidden, HttpResponse, HttpResponseBadRequ
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.static import serve
 from pastvina.models import Contribution, Crop, Livestock, TeamHistory, LivestockMarketHistory, \
-    TeamLivestockHistory
+    TeamLivestockHistory, CropMarketHistory, TeamCropHistory, Round
 from pastvina.templatetags.extras import markdown_to_html
 import time
 
@@ -72,11 +72,14 @@ def page_game(request):
     :param request: HTTP request
     :return: HTTP response
     """
-
     crops = Crop.objects.all()
     livestock = Livestock.objects.all()
+    context =  {'crops': crops, 'livestock': livestock}
 
-    return render(request, 'pastvina/game.html', {'crops': crops, 'livestock': livestock})
+    if 'round' in request.GET:
+        context['round'] = get_object_or_404(Round, id=request.GET['round'])
+
+    return render(request, 'pastvina/game.html', context)
 
 
 @login_required
@@ -107,28 +110,29 @@ def game_update(request):
     for tls in team_livestock:
         livestock_data[tls['livestock']]['by_age'][tls['age']] = tls['amount']
 
+    crops = CropMarketHistory.objects.filter(round=round_id, tick=tick).select_related('crop').all()
+    team_crops = TeamCropHistory.objects.filter(round=round_id, tick=tick, user=request.user).values(
+        'crop',
+        'age',
+        'amount',
+    )
+    crops_data = {}
+    for crop in crops:
+        crops_data[crop.crop.id] = {
+            'id': crop.crop.id,
+            'buy': crop.current_price_buy,
+            'sell': crop.current_price_sell,
+            'by_age': [0 for _ in range(crop.crop.rotting_time + crop.crop.growth_time + 1)],
+        }
+
+    for tcrop in team_crops:
+        crops_data[tcrop['crop']]['by_age'][tcrop['age']] = tcrop['amount']
+
     data = {
         "money": money,
         "time": int(time.time() * 1000) + 15000,
         "livestock": list(livestock_data.values()),
-        "crops": [
-            {
-                "name": "Melouny",
-                "id": 1,
-                "buy": 10,
-                "sell": 10,
-                "production": [0, 4, 3, 5],
-                "storage": [2, 5, 4, 0]
-            },
-            {
-                "name": "Oves",
-                "id": 2,
-                "buy": 5,
-                "sell": 4,
-                "production": [0, 1, 2, 3, 4, 8],
-                "storage": [4, 5, 6]
-            }
-        ]
+        "crops": list(crops_data.values()),
     }
 
     return JsonResponse(data)
