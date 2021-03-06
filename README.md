@@ -8,13 +8,14 @@
 $ virtualenv -p python3 venv
 $ source venv/bin/activate
 $ pip3 install -r requirements.txt
+$ export DJANGO_SETTINGS_MODULE=pastvina.settings.development
 ```
 
 ### Create db structure
 
 ```bash
-$ ./manage.py makemigrations pastvina --settings=pastvina.settings.development
-$ ./manage.py migrate pastvina --settings=pastvina.settings.development
+$ ./manage.py makemigrations pastvina
+$ ./manage.py migrate pastvina
 ```
 
 ### Run development server
@@ -22,8 +23,8 @@ $ ./manage.py migrate pastvina --settings=pastvina.settings.development
 ```bash
 $ cp pastvina/settings/development.py.txt pastvina/settings/development.py
 Edit pastvina/settings/development.py as you wish.
-$ ./manage.py collectstatic --settings=pastvina.settings.development
-$ ./manage.py runserver --settings=pastvina.settings.development
+$ ./manage.py collectstatic
+$ ./manage.py runserver
 ```
 
 ### Deploy to production
