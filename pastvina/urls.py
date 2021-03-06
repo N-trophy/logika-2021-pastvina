@@ -15,7 +15,6 @@ urlpatterns = [
     path('game/', views.page_game, name='game'),
     path('game/update', views.game_update, name='game_update'),
     path('', views.page_index, name='index'),
-    path('<path:path>', views.page_static, name='static_page'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden, HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.static import serve
-from pastvina.models import MediaFile, StaticPage, Contribution, Crop, Livestock
+from pastvina.models import MediaFile, Contribution, Crop, Livestock
 from pastvina.templatetags.extras import gen_file_refs, markdown_to_html
 import time
 
@@ -158,12 +158,6 @@ def protected_serve(request, path, document_root=None, show_indices=None):
         return serve(request, path, document_root, show_indices)
     else:
         return HttpResponseForbidden()
-
-
-def page_static(request, path):
-    page = get_object_or_404(StaticPage, endpoint='/' + path)
-
-    return render(request, 'pastvina/static_page.html', {'page': page})
 
 
 def handler_markdown_to_html(request):

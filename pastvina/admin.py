@@ -1,7 +1,7 @@
 from django.db import models
 
 from . import widgets
-from .models import Contribution, StaticPage, MediaFile, Menu, Crop, Livestock
+from .models import Contribution, MediaFile, Crop, Livestock
 from django.contrib import admin
 
 
@@ -12,19 +12,6 @@ class ContributionAdmin(admin.ModelAdmin):
     formfield_overrides = {
         models.TextField: {'widget': widgets.MarkdownTextField}
     }
-
-
-@admin.register(StaticPage)
-class StaticPageAdmin(admin.ModelAdmin):
-    list_display = ['name']
-    formfield_overrides = {
-        models.TextField: {'widget': widgets.MarkdownTextField}
-    }
-
-
-@admin.register(Menu)
-class MenuAdmin(admin.ModelAdmin):
-    list_display = ['name']
 
 
 @admin.register(MediaFile)

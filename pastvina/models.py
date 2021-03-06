@@ -71,24 +71,6 @@ class Contribution(PublishableModel):
             return ' | '.join(list(zip(*self.tag_list()))[0])
 
 
-class StaticPage(BaseModel):
-    class Meta:
-        verbose_name = 'statická stránka'
-        verbose_name_plural = 'statické stránky'
-
-    endpoint = models.CharField('URL lokace', max_length=30)
-    title = models.CharField('title', max_length=30)
-    name = models.CharField('název v menu', max_length=30)
-    content = models.TextField('obsah')
-
-    def save(self, *args, **kwargs):
-        if not self.endpoint or self.endpoint[0] != '/':
-            self.endpoint = '/' + self.endpoint
-        if self.endpoint[-1] != '/':
-            self.endpoint += '/'
-        super(StaticPage, self).save(*args, **kwargs)
-
-
 class MediaFile(BaseModel):
     class Meta:
         verbose_name = 'soubor'
@@ -125,16 +107,6 @@ class MediaFile(BaseModel):
     content = models.FileField('soubor', upload_to=path_in_storage, storage=FileSystemStorage(settings.STORAGE_ROOT,
                                                                                               settings.STORAGE_URL))
     name = models.SlugField('jméno', max_length=60, unique=True)
-
-
-class Menu(models.Model):
-    class Meta:
-        verbose_name = 'menu'
-        verbose_name_plural = 'menu'
-
-    name = models.CharField('jméno', max_length=30)
-    pages = models.ManyToManyField(StaticPage)
-    locations = models.TextField('lokace')
 
 
 """
