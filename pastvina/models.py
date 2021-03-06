@@ -186,9 +186,9 @@ class LivestockMarketHistory(models.Model):
     tick = models.PositiveIntegerField('číslo minikola')
     livestock = models.ForeignKey(Livestock, on_delete=models.RESTRICT, null=False, verbose_name='dobytek')
 
-    amount_sold = models.PositiveIntegerField('prodané množství')
-    current_price_buy = models.PositiveIntegerField('nákupní cena')
-    current_price_sell = models.PositiveIntegerField('prodejní cena')
+    amount_sold = models.PositiveIntegerField('prodané množství zvířete')
+    current_price_buy = models.PositiveIntegerField('nákupní cena zvířete')
+    current_price_sell = models.PositiveIntegerField('prodejní cena zvířete')
 
-    product_amount_sold = models.PositiveIntegerField('prodané množství')
-    product_current_price = models.PositiveIntegerField('aktuální cena')
+    product_amount_sold = models.PositiveIntegerField('prodané množství produktu')
+    product_current_price = models.PositiveIntegerField('aktuální cena produktu')
