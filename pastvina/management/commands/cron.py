@@ -32,6 +32,7 @@ def ticks_update() -> None:
             if delta >= 10 * round_.period:
                 next_tick = Tick(round=round_, index=last_tick.index + 1, start=now)
                 next_tick.save()
+                print(f'created tick {next_tick} in round {round_}')
                 new_tick(last_tick, next_tick)
 
 
