@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from pastvina.models import Round, Tick, Livestock, Crop, TeamHistory, \
-    CropMarketHistory, LivestockMarketHistory, TeamCropHistory
+    CropMarketHistory, LivestockMarketHistory
 
 
 def new(round: Round, init_tick: Tick) -> None:

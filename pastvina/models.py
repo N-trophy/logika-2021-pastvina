@@ -33,7 +33,7 @@ class Round(models.Model):
     id = models.AutoField(primary_key=True)
     start = models.DateTimeField('start')
     ticks = models.IntegerField('počet minikol')
-    period = models.TimeField('délka minikola')
+    period = models.IntegerField('délka minikola v 10s')
 
     crop_storage_size = models.IntegerField('velikost skladu')
     livestock_slaughter_limit = models.IntegerField('limit porážení')
@@ -45,15 +45,15 @@ class Round(models.Model):
 
     __str__ = __repr__
 
-    def last_tick_time(self) -> datetime:
-        """Time of last tick which should happen"""
-        return self.start + timedelta(seconds=self.ticks*self.period.second)
+    # def last_tick_time(self) -> datetime:
+    #     """Time of last tick which should happen"""
+    #     return self.start + timedelta(seconds=self.ticks*self.period.second)
 
     def is_running(self) -> bool:
         return self.start <= timezone.now() <= self.last_tick_time()
 
-    def tick(self) -> int:
-        return (datetime.now()-self.start).total_seconds() // self.period
+    # def current_tick(self) -> int:
+    #     return int((datetime.now()-self.start).total_seconds() + 1) // (10 * self.period)
 
 
 class Tick(models.Model):

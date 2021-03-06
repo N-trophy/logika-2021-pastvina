@@ -1,13 +1,13 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden, HttpResponse, HttpResponseBadRequest, JsonResponse
+from django.http import HttpResponseForbidden, HttpResponse, HttpResponseBadRequest, JsonResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.static import serve
+from django.utils import timezone
+
 from pastvina.models import Contribution, Crop, Livestock, TeamHistory, LivestockMarketHistory, \
-    TeamLivestockHistory, CropMarketHistory, TeamCropHistory, Round
+    TeamLivestockHistory, CropMarketHistory, TeamCropHistory, Round, Tick
 from pastvina.templatetags.extras import markdown_to_html
-import time
 
 
 @login_required
@@ -87,15 +87,11 @@ def game_update(request):
     """
     Returns a json to update the game state
     """
-    tick_id = 1
-    round_id = 1
-    # TODO Get current tick and round from the database
-    millis_to_update = int(time.time() * 1000) + 15000
-    # TODO Compute the time of next update
+    tick = Tick.objects.last()
 
-    money = TeamHistory.objects.filter(round=round_id, tick=tick_id, user=request.user).last()
-    livestock = LivestockMarketHistory.objects.filter(round=round_id, tick=tick_id).select_related('livestock').all()
-    team_livestock = TeamLivestockHistory.objects.filter(round=round_id, tick=tick_id, user=request.user).values(
+    money = TeamHistory.objects.filter(tick=tick, user=request.user).last()
+    livestock = LivestockMarketHistory.objects.filter(tick=tick).select_related('livestock').all()
+    team_livestock = TeamLivestockHistory.objects.filter(tick=tick, user=request.user).values(
         'livestock',
         'age',
         'amount',
@@ -113,8 +109,8 @@ def game_update(request):
     for tls in team_livestock:
         livestock_data[tls['livestock']]['by_age'][tls['age']] = tls['amount']
 
-    crops = CropMarketHistory.objects.filter(round=round_id, tick=tick_id).select_related('crop').all()
-    team_crops = TeamCropHistory.objects.filter(round=round_id, tick=tick_id, user=request.user).values(
+    crops = CropMarketHistory.objects.filter(tick=tick).select_related('crop').all()
+    team_crops = TeamCropHistory.objects.filter(tick=tick, user=request.user).values(
         'crop',
         'age',
         'amount',
@@ -131,9 +127,12 @@ def game_update(request):
     for tcrop in team_crops:
         crops_data[tcrop['crop']]['by_age'][tcrop['age']] = tcrop['amount']
 
+    now = timezone.now()
+
     data = {
+        "tick_id": tick.id,
         "money": money,
-        "time": millis_to_update,
+        "time": float(tick.round.period) * 10000 + float(tick.start.total_seconds()) * 1000 - float(now.total_seconds()) * 1000,
         "livestock": list(livestock_data.values()),
         "crops": list(crops_data.values()),
     }

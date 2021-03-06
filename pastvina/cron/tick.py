@@ -1,11 +1,11 @@
-from pastvina.models import Round, Tick
+from pastvina.models import Round, Tick, Livestock, Crop, TeamCropHistory
 
 
-def new_tick(tick: Tick, new_tick: Tick) -> None:
+def new(tick: Tick, new_tick: Tick) -> None:
     livestock = Livestock.objects.all()
     crops = Crop.objects.all()
 
-    TeamCropHistory.objects.filter(tick=tick)
+    # TeamCropHistory.objects.filter(tick=tick)
 
 
 
