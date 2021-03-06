@@ -38,6 +38,11 @@ class Round(models.Model):
 
     start_money = models.PositiveIntegerField('počáteční peníze')
 
+    def __repr__(self) -> str:
+        return f'{self.id}: Start {self.start}'
+
+    __str__ = __repr__
+
 
 class Crop(models.Model):
     """
@@ -47,6 +52,7 @@ class Crop(models.Model):
         verbose_name = 'plodina'
         verbose_name_plural = 'plodiny'
 
+    id = models.AutoField(primary_key=True)
     name = models.CharField('jméno', max_length=30)
     name_genitive = models.CharField('jméno (druhý pád)', max_length=30)
 
@@ -58,6 +64,11 @@ class Crop(models.Model):
 
     color = ColorField(verbose_name='barva', default='#aaaaaa', format='hexa')
 
+    def __repr__(self) -> str:
+        return f'{self.id}: {self.name}'
+
+    __str__ = __repr__
+
 
 class Livestock(models.Model):
     """
@@ -67,6 +78,7 @@ class Livestock(models.Model):
         verbose_name = 'dobytek'
         verbose_name_plural = 'dobytek'
 
+    id = models.AutoField(primary_key=True)
     name = models.CharField('jméno', max_length=30)
     name_genitive = models.CharField('jméno (druhý pád)', max_length=30)
 
@@ -85,6 +97,11 @@ class Livestock(models.Model):
 
     color = ColorField(verbose_name='barva', default='#aaaaaa', format='hexa')
 
+    def __repr__(self) -> str:
+        return f'{self.id}: {self.name}'
+
+    __str__ = __repr__
+
 
 class TeamCropHistory(models.Model):
     class Meta:
@@ -92,6 +109,7 @@ class TeamCropHistory(models.Model):
         verbose_name_plural = 'historie herních parametrů týmů (plodiny)'
         unique_together = (('round', 'user', 'tick', 'crop', 'age'),)
 
+    id = models.AutoField(primary_key=True)
     round = models.ForeignKey(Round, on_delete=models.RESTRICT, null=False, verbose_name='kolo')
     user = models.ForeignKey(User, on_delete=models.RESTRICT, null=False, verbose_name='tým')
     tick = models.PositiveIntegerField('číslo minikola')
@@ -107,6 +125,7 @@ class TeamLivestockHistory(models.Model):
         verbose_name_plural = 'historie herních parametrů týmů (dobytek)'
         unique_together = (('round', 'user', 'tick', 'livestock', 'age'),)
 
+    id = models.AutoField(primary_key=True)
     round = models.ForeignKey(Round, on_delete=models.RESTRICT, null=False, verbose_name='kolo')
     user = models.ForeignKey(User, on_delete=models.RESTRICT, null=False, verbose_name='tým')
     tick = models.PositiveIntegerField('číslo minikola')
@@ -126,6 +145,7 @@ class TeamHistory(models.Model):
         verbose_name_plural = 'historie herních parametrů týmů'
         unique_together = (('round', 'user', 'tick'),)
 
+    id = models.AutoField(primary_key=True)
     round = models.ForeignKey(Round, on_delete=models.RESTRICT, null=False, verbose_name='kolo')
     user = models.ForeignKey(User, on_delete=models.RESTRICT, null=False, verbose_name='tým')
     tick = models.PositiveIntegerField('číslo minikola')
@@ -142,6 +162,7 @@ class CropMarketHistory(models.Model):
         verbose_name_plural = 'historie obchodů (plodiny)'
         unique_together = (('round', 'tick', 'crop'),)
 
+    id = models.AutoField(primary_key=True)
     round = models.ForeignKey(Round, on_delete=models.RESTRICT, null=False, verbose_name='kolo')
     tick = models.PositiveIntegerField('číslo minikola')
     crop = models.ForeignKey(Crop, on_delete=models.RESTRICT, null=False, verbose_name='plodina')
@@ -160,6 +181,7 @@ class LivestockMarketHistory(models.Model):
         verbose_name_plural = 'historie obchodů (dobytek)'
         unique_together = (('round', 'tick', 'livestock'),)
 
+    id = models.AutoField(primary_key=True)
     round = models.ForeignKey(Round, on_delete=models.RESTRICT, null=False, verbose_name='kolo')
     tick = models.PositiveIntegerField('číslo minikola')
     livestock = models.ForeignKey(Livestock, on_delete=models.RESTRICT, null=False, verbose_name='dobytek')
