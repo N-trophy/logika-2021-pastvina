@@ -11,5 +11,5 @@
     {% if contrib.author %}
         @{{ contrib.author.username }}
     {% endif %} {{ contrib.updated }}</h2>
-<p>{{ contrib.text | gen_file_refs | markdown_to_html | safe }}</p>
+<p>{{ contrib.text | markdown_to_html | safe }}</p>
 </article>
