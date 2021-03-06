@@ -22,35 +22,7 @@ class BaseModel(models.Model):
         return self
 
 
-class PublishableModel(BaseModel):
-    class Meta:
-        abstract = True
-
-    published = models.BooleanField("publikováno", default=False, blank=True)
-    public_from = models.DateTimeField("publikováno od", null=True, blank=True)
-    public_to = models.DateTimeField("publikováno do", null=True, blank=True)
-
-    def is_public(self):
-        if not self.published:
-            return False
-        if self.public_from and self.public_from >= timezone.now():
-            return False
-        if self.public_to and self.public_to <= timezone.now():
-            return False
-        return True
-
-    @staticmethod
-    def q_public():
-        return Q(Q(public_to__gte=timezone.now()) | Q(public_to=None),
-                 Q(public_from__lte=timezone.now()) | Q(public_from=None),
-                 published=True)
-
-    @classmethod
-    def public_objects(cls):
-        return cls.objects.filter(PublishableModel.q_public())
-
-
-class Contribution(PublishableModel):
+class Contribution(models.Model):
     class Meta:
         verbose_name = 'novinka'
         verbose_name_plural = 'novinky'
@@ -58,17 +30,8 @@ class Contribution(PublishableModel):
     name = models.CharField('název', max_length=60)
     text = models.TextField('text novinky')
     author = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='autor')
-    tags = models.TextField('tagy', default="", blank=True)
-
-    def tag_list(self):
-        return [t.strip().split('#') if '#' in t else (t, None) for t in self.tags.split(',') if t.strip()]
-
-    def tag_list_str(self):
-        tags = self.tag_list()
-        if not tags:
-            return ''
-        else:
-            return ' | '.join(list(zip(*self.tag_list()))[0])
+    published = models.BooleanField('publikováno', default=False, blank=True)
+    public_from = models.DateTimeField('publikováno od', null=True, blank=True)
 
 
 class MediaFile(BaseModel):

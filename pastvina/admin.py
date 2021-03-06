@@ -7,7 +7,7 @@ from django.contrib import admin
 
 @admin.register(Contribution)
 class ContributionAdmin(admin.ModelAdmin):
-    list_display = ['name', 'published', 'author', 'tag_list_str']
+    list_display = ['name', 'published', 'author']
 
     formfield_overrides = {
         models.TextField: {'widget': widgets.MarkdownTextField}
