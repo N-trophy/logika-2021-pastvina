@@ -157,7 +157,7 @@ class LivestockMarketHistory(models.Model):
     """
     class Meta:
         verbose_name = 'historie obchodu (dobytek)'
-        verbose_name_plural = 'hisotire obchodů (dobytek)'
+        verbose_name_plural = 'historie obchodů (dobytek)'
         unique_together = (('round', 'tick', 'livestock'),)
 
     round = models.ForeignKey(Round, on_delete=models.RESTRICT, null=False, verbose_name='kolo')
