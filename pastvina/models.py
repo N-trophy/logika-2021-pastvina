@@ -60,12 +60,15 @@ class Tick(models.Model):
     """Tick is associated to round"""
     class Meta:
         verbose_name = 'tick'
-        verbose_name = 'ticks'
+        verbose_name_plural = 'ticky'
         unique_together = (('round', 'index'),)
 
     id = models.AutoField(primary_key=True)
     index = models.IntegerField('index')
     round = models.ForeignKey(Round, on_delete=models.RESTRICT, null=False, verbose_name='kolo')
+
+    # Just helpers
+    start = models.DateTimeField('start')
 
 
 class Crop(models.Model):
@@ -131,12 +134,11 @@ class TeamCropHistory(models.Model):
     class Meta:
         verbose_name = 'historie herních parametrů týmu (plodiny)'
         verbose_name_plural = 'historie herních parametrů týmů (plodiny)'
-        unique_together = (('round', 'user', 'tick', 'crop', 'age'),)
+        unique_together = (('tick', 'user', 'crop', 'age'),)
 
     id = models.AutoField(primary_key=True)
-    round = models.ForeignKey(Round, on_delete=models.RESTRICT, null=False, verbose_name='kolo')
+    tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo')
     user = models.ForeignKey(User, on_delete=models.RESTRICT, null=False, verbose_name='tým')
-    tick = models.PositiveIntegerField('číslo minikola')
     crop = models.ForeignKey(Crop, on_delete=models.RESTRICT, null=False, verbose_name='plodina')
     age = models.IntegerField('stáří produktu')
 
@@ -147,12 +149,11 @@ class TeamLivestockHistory(models.Model):
     class Meta:
         verbose_name = 'historie herních parametrů týmu (dobytek)'
         verbose_name_plural = 'historie herních parametrů týmů (dobytek)'
-        unique_together = (('round', 'user', 'tick', 'livestock', 'age'),)
+        unique_together = (('tick', 'user', 'livestock', 'age'),)
 
     id = models.AutoField(primary_key=True)
-    round = models.ForeignKey(Round, on_delete=models.RESTRICT, null=False, verbose_name='kolo')
+    tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo')
     user = models.ForeignKey(User, on_delete=models.RESTRICT, null=False, verbose_name='tým')
-    tick = models.PositiveIntegerField('číslo minikola')
     livestock = models.ForeignKey(Livestock, on_delete=models.RESTRICT, null=False, verbose_name='dobytek')
     age = models.IntegerField('stáří dobytka')
 
@@ -167,12 +168,11 @@ class TeamHistory(models.Model):
     class Meta:
         verbose_name = 'historie herních parametrů týmu'
         verbose_name_plural = 'historie herních parametrů týmů'
-        unique_together = (('round', 'user', 'tick'),)
+        unique_together = (('tick', 'user'),)
 
     id = models.AutoField(primary_key=True)
-    round = models.ForeignKey(Round, on_delete=models.RESTRICT, null=False, verbose_name='kolo')
+    tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo')
     user = models.ForeignKey(User, on_delete=models.RESTRICT, null=False, verbose_name='tým')
-    tick = models.PositiveIntegerField('číslo minikola')
 
     money = models.IntegerField('peníze')
 
@@ -184,11 +184,10 @@ class CropMarketHistory(models.Model):
     class Meta:
         verbose_name = 'historie obchodu (plodiny)'
         verbose_name_plural = 'historie obchodů (plodiny)'
-        unique_together = (('round', 'tick', 'crop'),)
+        unique_together = (('tick', 'crop'),)
 
     id = models.AutoField(primary_key=True)
-    round = models.ForeignKey(Round, on_delete=models.RESTRICT, null=False, verbose_name='kolo')
-    tick = models.PositiveIntegerField('číslo minikola')
+    tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo')
     crop = models.ForeignKey(Crop, on_delete=models.RESTRICT, null=False, verbose_name='plodina')
 
     amount_sold = models.PositiveIntegerField('prodané množství')
@@ -203,11 +202,10 @@ class LivestockMarketHistory(models.Model):
     class Meta:
         verbose_name = 'historie obchodu (dobytek)'
         verbose_name_plural = 'historie obchodů (dobytek)'
-        unique_together = (('round', 'tick', 'livestock'),)
+        unique_together = (('tick', 'livestock'),)
 
     id = models.AutoField(primary_key=True)
-    round = models.ForeignKey(Round, on_delete=models.RESTRICT, null=False, verbose_name='kolo')
-    tick = models.PositiveIntegerField('číslo minikola')
+    tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo')
     livestock = models.ForeignKey(Livestock, on_delete=models.RESTRICT, null=False, verbose_name='dobytek')
 
     amount_sold = models.PositiveIntegerField('prodané množství zvířete')

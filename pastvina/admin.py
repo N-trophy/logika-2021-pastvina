@@ -29,27 +29,32 @@ class RoundAdmin(admin.ModelAdmin):
     list_display = ['id', 'start', 'ticks', 'period', 'crop_storage_size', 'livestock_slaughter_limit', 'start_money']
 
 
+@admin.register(Tick)
+class RoundAdmin(admin.ModelAdmin):
+    list_display = ['id', 'index', 'round']
+
+
 @admin.register(TeamCropHistory)
 class CromHistoryAdmin(admin.ModelAdmin):
-    list_display = ['round', 'user', 'tick', 'crop', 'age', 'amount']
+    list_display = ['tick', 'user', 'crop', 'age', 'amount']
 
 
 @admin.register(TeamLivestockHistory)
 class TeamLivestockHistoryAdmin(admin.ModelAdmin):
-    list_display = ['round', 'user', 'tick', 'livestock', 'age', 'amount']
+    list_display = ['tick', 'user', 'livestock', 'age', 'amount']
 
 
 @admin.register(TeamHistory)
 class TeamHistoryAdmin(admin.ModelAdmin):
-    list_display = ['round', 'user', 'tick', 'money']
+    list_display = ['tick', 'user', 'money']
 
 
 @admin.register(CropMarketHistory)
 class CropMarketHistoryAdmin(admin.ModelAdmin):
-    list_display = ['round', 'tick', 'crop', 'amount_sold', 'current_price_buy', 'current_price_sell']
+    list_display = ['tick', 'crop', 'amount_sold', 'current_price_buy', 'current_price_sell']
 
 
 @admin.register(LivestockMarketHistory)
 class LivestockMarketHistoryADmin(admin.ModelAdmin):
-    list_display = ['round', 'tick', 'livestock', 'amount_sold', 'current_price_buy',
+    list_display = ['tick', 'livestock', 'amount_sold', 'current_price_buy',
                     'current_price_sell', 'product_amount_sold', 'product_current_price']
