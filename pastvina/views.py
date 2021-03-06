@@ -143,6 +143,56 @@ def game_update(request):
 
     return JsonResponse(data)
 
+@login_required
+def game_trade(request):
+    if 'tick_id'    not in request.GET \
+    or 'trade_type' not in request.GET \
+    or 'prod_type'  not in request.GET \
+    or 'prod_id'    not in request.GET \
+    or 'count'      not in request.GET:
+        return HttpResponse(request, status=404)
+
+    tick_id = int(request.GET['tick_id'])
+    trade_type = request.GET['trade_type']
+    prod_type = request.GET['prod_type']
+    prod_id = int(request.GET['prod_id'])
+    count = int(request.GET['count'])
+
+    if count <= 0:
+        return HttpResponse(request, status=404)
+
+    if tick_id != Tick.objects.last().id:
+        return HttpResponse(request, status=404)
+
+    if prod_type == 'crop':
+        crop = Crop.objects.filter(id=prod_id).last()
+        if crop is None:
+            return HttpResponse(request, status=404)
+
+        if trade_type == 'buy':
+            pass  # TODO
+        elif trade_type == 'sell':
+            pass  # TODO
+        else:
+            return HttpResponse(request, status=404)
+    elif prod_type == 'ls':
+        ls = Livestock.objects.filter(id=prod_id).last()
+        if ls is None:
+            return HttpResponse(request, status=404)
+
+        if trade_type == 'buy':
+            pass  # TODO
+        elif trade_type == 'sell':
+            pass  # TODO
+        elif trade_type == 'kill':
+            pass  # TODO
+        else:
+            return HttpResponse(request, status=404)
+    else:
+        return HttpResponse(request, status=404)
+
+    return HttpResponse(request, status=204)
+
 
 @login_required
 def handler_logout(request):

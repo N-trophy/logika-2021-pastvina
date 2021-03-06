@@ -1,4 +1,4 @@
-var tick_id = 0
+var tickId = 0
 
 var timeOfNextTick = Date.now();
 
@@ -11,25 +11,28 @@ function updateTimeToNextTick()
     }
     else
     {
-        $.getJSON("/game/update", function(update_data) {
-            update_charts(update_data);
-        })
-        .fail(function(){
-            console.log("Could not update chart data");
-        });
+        requestUpdateCharts();
     }
 }
 
+function requestUpdateCharts() {
+    $.getJSON("/game/update", function(update_data) {
+        updateCharts(update_data);
+    })
+    .fail(function(){
+        console.log("Could not update chart data");
+    });
+}
 
 var cropAgeCharts = new Map();
 var livestockAgeCharts = new Map();
 
-function update_charts(updateData) {
+function updateCharts(updateData) {
     console.log(updateData);
 
     document.getElementById("game-money").innerHTML = updateData.money;
     timeOfNextTick = updateData.time;
-    tick_id = updateData.tick_id;
+    tickId = updateData.tick_id;
 
     for (crop of updateData.crops) {
         $(".crop-buy-price-" + crop.id).text(crop.buy);
