@@ -18,7 +18,7 @@ function requestTrade(tradeType, prodType, prodId, count) {
     .done(function() {
         requestUpdateCharts();
     })
-    .fail(function() {
-        alert("Trade failed");
+    .fail(function(error) {
+        alert("Obchod neproběhl.\n" + error.responseText);
     });
 }

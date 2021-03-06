@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
+from django.db.models import Sum, F
 from django.http import HttpResponseForbidden, HttpResponse, HttpResponseBadRequest, JsonResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
@@ -74,10 +75,11 @@ def page_game(request):
     """
     crops = Crop.objects.all()
     livestock = Livestock.objects.all()
-    context =  {'crops': crops, 'livestock': livestock}
+    context = {'crops': crops, 'livestock': livestock}
 
-    if 'round' in request.GET:
-        context['round'] = get_object_or_404(Round, id=request.GET['round'])
+    tick = Tick.objects.select_related('round').last()
+    if tick is not None:
+        context['round'] = tick.round
 
     return render(request, 'pastvina/game.html', context)
 
@@ -143,6 +145,7 @@ def game_update(request):
 
     return JsonResponse(data)
 
+
 @login_required
 def game_trade(request):
     if 'tick_id'    not in request.GET \
@@ -150,7 +153,7 @@ def game_trade(request):
     or 'prod_type'  not in request.GET \
     or 'prod_id'    not in request.GET \
     or 'count'      not in request.GET:
-        return HttpResponse(request, status=404)
+        return HttpResponseBadRequest("Chybí parametr nákupu.")
 
     tick_id = int(request.GET['tick_id'])
     trade_type = request.GET['trade_type']
@@ -159,33 +162,104 @@ def game_trade(request):
     count = int(request.GET['count'])
 
     if count <= 0:
-        return HttpResponse(request, status=404)
+        return HttpResponseBadRequest("Nelze obchodovat záporné množství.")
 
-    if tick_id != Tick.objects.last().id:
-        return HttpResponse(request, status=404)
+    last_tick = Tick.objects.last()
+    if last_tick is None or tick_id != last_tick.id:
+        return HttpResponseBadRequest("Nákup uskutečněn v již uplynulé iteraci.")
+
+    user_state = TeamHistory.objects.get(tick=last_tick, user=request.user)
 
     if prod_type == 'crop':
-        crop = Crop.objects.filter(id=prod_id).last()
+        crop = CropMarketHistory.objects.filter(crop=prod_id, tick=last_tick).select_related('crop').last()
         if crop is None:
-            return HttpResponse(request, status=404)
+            return HttpResponseBadRequest(f"Plodina nenalezena. (tick {last_tick.index})")
 
         if trade_type == 'buy':
-            pass  # TODO
+            total_price = crop.current_price_buy * count
+            if total_price > user_state.money:
+                return HttpResponseBadRequest('Nemáte dostatek peněz.')
+            max_age = crop.crop.growth_time + crop.crop.rotting_time
+            c, _ = TeamCropHistory.objects.get_or_create(
+                tick=last_tick,
+                user=request.user,
+                crop=crop.crop,
+                age=max_age,
+                defaults={'amount': 0}
+            )
+            c.amount += count
+            c.save()
+            user_state.money -= total_price
+            user_state.save()
+            return HttpResponse("Obchod uskutečněn.")
         elif trade_type == 'sell':
-            pass  # TODO
+            total_price = crop.current_price_sell * count
+            by_age = TeamCropHistory.objects.filter(tick=last_tick, crop=crop.crop, user=request.user, age__lte=crop.crop.rotting_time).order_by('-age')
+            rest = count
+            pos = 0
+            while rest > 0:
+                if pos >= len(by_age):
+                    return HttpResponseBadRequest('Nemáte dostatek plodin.')
+                a = min(by_age[pos].amount, rest)
+                by_age[pos].amount -= a
+                rest -= a
+                pos += 1
+            TeamCropHistory.objects.bulk_update(by_age, ['amount'])
+            TeamHistory.objects.filter(tick=last_tick, user=request.user).update(money=F('money') + total_price)
+            return HttpResponse("Obchod uskutečněn.")
         else:
             return HttpResponse(request, status=404)
     elif prod_type == 'ls':
-        ls = Livestock.objects.filter(id=prod_id).last()
+        ls = LivestockMarketHistory.objects.filter(livestock=prod_id).select_related('livestock').last()
         if ls is None:
-            return HttpResponse(request, status=404)
+            return HttpResponseBadRequest(f"Dobytek nenalezen. (tick {last_tick.index})")
 
         if trade_type == 'buy':
-            pass  # TODO
+            total_price = ls.current_price_buy * count
+            if total_price > user_state.money:
+                return HttpResponseBadRequest('Nemáte dostatek peněz.')
+            max_age = ls.livestock.growth_time + ls.livestock.life_time
+            c, _ = TeamLivestockHistory.objects.get_or_create(
+                tick=last_tick,
+                user=request.user,
+                livestock=ls.livestock,
+                age=max_age,
+                defaults={'amount': 0}
+            )
+            c.amount += count
+            c.save()
+            user_state.money -= total_price
+            user_state.save()
+            return HttpResponse("Obchod uskutečněn.")
         elif trade_type == 'sell':
-            pass  # TODO
+            total_price = ls.current_price_sell * count
+            by_age = TeamLivestockHistory.objects.filter(tick=last_tick, livestock=ls.livestock, user=request.user,
+                                                    age__lte=ls.livestock.rotting_time).order_by('-age')
+            rest = count
+            pos = 0
+            while rest > 0:
+                if pos >= len(by_age):
+                    return HttpResponseBadRequest('Nemáte dostatek dobytka.')
+                a = min(by_age[pos].amount, rest)
+                by_age[pos].amount -= a
+                rest -= a
+                pos += 1
+            TeamLivestockHistory.objects.bulk_update(by_age, ['amount'])
+            TeamHistory.objects.filter(tick=last_tick, user=request.user).update(money=F('money') + total_price)
+            return HttpResponse("Obchod uskutečněn.")
         elif trade_type == 'kill':
-            pass  # TODO
+            by_age = TeamLivestockHistory.objects.filter(tick=last_tick, livestock=ls.livestock, user=request.user).order_by('-age')
+            rest = count
+            pos = 0
+            while rest > 0:
+                if pos >= len(by_age):
+                    break
+                a = min(by_age[pos].amount, rest)
+                by_age[pos].amount -= a
+                rest -= a
+                pos += 1
+            TeamLivestockHistory.objects.bulk_update(by_age, ['amount'])
+            return HttpResponse("Zvířata utracena.")
         else:
             return HttpResponse(request, status=404)
     else:
