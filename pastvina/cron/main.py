@@ -27,7 +27,7 @@ def ticks_update() -> None:
     # This function creates new tick.
     for round_ in Round.objects.all():
         if round_.is_running():
-            new_round(round_, round_.tick())
+            new(round_, round_.tick())
 
 
 if __name__ in ['__main__', 'django.core.management.commands.shell']:
