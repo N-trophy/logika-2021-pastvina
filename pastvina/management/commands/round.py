@@ -9,20 +9,20 @@ def new(round: Round, init_tick: Tick) -> None:
     crops = Crop.objects.all()
 
     team_history_set = [
-        TeamHistory(user=team.id, tick=init_tick, money=round.start_money)
+        TeamHistory(user=team, tick=init_tick, money=round.start_money)
         for team in teams
     ]
 
     crop_market_history = [
-        CropMarketHistory(tick=init_tick, crop=crop.id, amount_sold=0,
+        CropMarketHistory(tick=init_tick, crop=crop, amount_sold=0,
                           current_price_buy=crop.base_price_buy, current_price_sell=crop.base_price_sell)
         for crop in crops
     ]
 
     livestock_market_history = [
-        LivestockMarketHistory(tick=init_tick, livestock=ls.id, amount_sold=0,
+        LivestockMarketHistory(tick=init_tick, livestock=ls, amount_sold=0,
                                current_price_buy=ls.base_price_buy, current_price_sell=ls.base_price_sell,
-                               product_amount_sold=0, product_current_price=ls.product_base_price)
+                               product_amount_sold=0, product_current_price=ls.product_price)
         for ls in livestock
     ]
 

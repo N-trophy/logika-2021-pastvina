@@ -41,7 +41,7 @@ class Round(models.Model):
     start_money = models.PositiveIntegerField('počáteční peníze')
 
     def __repr__(self) -> str:
-        return f'{self.id}: Start {self.start}'
+        return f'kolo {self.id}: Start {self.start}'
 
     __str__ = __repr__
 
@@ -69,6 +69,9 @@ class Tick(models.Model):
 
     # Just helpers
     start = models.DateTimeField('start')
+
+    def __str__(self):
+        return "tick {0} ({1})".format(self.index, self.round)
 
 
 class Crop(models.Model):
