@@ -172,6 +172,7 @@ class Livestock(models.Model):
     product_price = models.IntegerField('základní cena produktu')
 
     growth_time = models.IntegerField('čas růstu')
+    life_time = models.IntegerField('čas života')
 
     consumption = models.FloatField("spotřeba")
     consumption_type = models.ForeignKey(Crop, on_delete=models.RESTRICT, null=False, verbose_name='krmivo')
@@ -255,7 +256,7 @@ class LivestockMarketHistory(models.Model):
 
     round = models.ForeignKey(Round, on_delete=models.RESTRICT, null=False, verbose_name='kolo')
     tick = models.PositiveIntegerField('číslo minikola')
-    livestock = models.ForeignKey(Crop, on_delete=models.RESTRICT, null=False, verbose_name='dobytek')
+    livestock = models.ForeignKey(Livestock, on_delete=models.RESTRICT, null=False, verbose_name='dobytek')
 
     amount_sold = models.PositiveIntegerField('prodané množství')
     current_price_buy = models.PositiveIntegerField('nákupní cena')
