@@ -216,7 +216,7 @@ class TeamHistory(models.Model):
     class Meta:
         verbose_name = 'historie herních parametrů týmu'
         verbose_name_plural = 'historie herních parametrů týmů'
-        unique_together = (('round', 'user', 'tick', 'livestock', 'age'),)
+        unique_together = (('round', 'user', 'tick'),)
 
     round = models.ForeignKey(Round, on_delete=models.RESTRICT, null=False, verbose_name='kolo')
     user = models.ForeignKey(User, on_delete=models.RESTRICT, null=False, verbose_name='tým')
