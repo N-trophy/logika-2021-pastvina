@@ -116,7 +116,7 @@ Game related models
 
 class Round(models.Model):
     """
-        Contains data relate to <game> at the <beginning of round>.
+    Contains data relate to <game> at the <beginning of round>.
     """
     class Meta:
         verbose_name = 'hra'
@@ -134,7 +134,7 @@ class Round(models.Model):
 
 class Crop(models.Model):
     """
-        Contains data related to <crop> through the <whole game>.
+    Contains data related to <crop> through the <whole game>.
     """
     class Meta:
         verbose_name = 'plodina'
@@ -154,7 +154,7 @@ class Crop(models.Model):
 
 class Livestock(models.Model):
     """
-        Contains data related to <livestock> through the <whole game>.
+    Contains data related to <livestock> through the <whole game>.
     """
     class Meta:
         verbose_name = 'dobytek'
@@ -210,7 +210,7 @@ class TeamLivestockHistory(models.Model):
 
 class TeamHistory(models.Model):
     """
-        Contains data related to the <team> at <each tick> of <each round>
+    Contains data related to the <team> at <each tick> of <each round>
     """
 
     class Meta:
@@ -227,7 +227,7 @@ class TeamHistory(models.Model):
 
 class CropMarketHistory(models.Model):
     """
-        Contains data related to the <crop> market at <each tick> of <each round>
+    Contains data related to the <crop> market at <each tick> of <each round>
     """
     class Meta:
         verbose_name = 'historie obchodu (plodiny)'
@@ -244,7 +244,7 @@ class CropMarketHistory(models.Model):
 
 class LivestockMarketHistory(models.Model):
     """
-        Contains data related to the <livestock> market at <each tick> of <each round>
+    Contains data related to the <livestock> market at <each tick> of <each round>
     """
     class Meta:
         verbose_name = 'historie obchodu (dobytek)'
