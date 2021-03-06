@@ -4,8 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden, HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.static import serve
-from pastvina.models import MediaFile, Contribution, Crop, Livestock
-from pastvina.templatetags.extras import gen_file_refs, markdown_to_html
+from pastvina.models import Contribution, Crop, Livestock
+from pastvina.templatetags.extras import markdown_to_html
 import time
 
 
@@ -137,30 +137,7 @@ def handler_logout(request):
     return redirect('/')
 
 
-@login_required
-def protected_serve(request, path, document_root=None, show_indices=None):
-    """
-    Serves a file from the private storage. The file is returned only if it's requested by its owner or by an admin.
-
-    Privacy policy: LOGIN REQUIRED
-
-    :param request: HTTP request
-    :param path: Path to the file
-    :param document_root: Prefix to be prepended to the path
-    :return: HTTP response
-    """
-    try:
-        owner_id = int(MediaFile.userid_from_filename(path.split('/')[-1]))
-    except ValueError:
-        owner_id = None
-
-    if request.user.is_staff or (owner_id is not None and request.user.id == owner_id):
-        return serve(request, path, document_root, show_indices)
-    else:
-        return HttpResponseForbidden()
-
-
 def handler_markdown_to_html(request):
     text = request.body.decode('utf-8')
-    html = markdown_to_html(gen_file_refs(text))
+    html = markdown_to_html(text)
     return HttpResponse(html)

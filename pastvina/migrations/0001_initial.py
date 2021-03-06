@@ -52,22 +52,6 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='MediaFile',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', models.DateTimeField(default=django.utils.timezone.now, editable=False, verbose_name='vytvořeno')),
-                ('updated', models.DateTimeField(default=django.utils.timezone.now, editable=False, verbose_name='upraveno')),
-                ('public', models.BooleanField(verbose_name='veřejné')),
-                ('content', models.FileField(storage=django.core.files.storage.FileSystemStorage('/home/apophis/jan/souteze/ntrophy/2021/logika-2021-pastvina/pastvina/storage', '/'), upload_to=pastvina.models.MediaFile.path_in_storage, verbose_name='soubor')),
-                ('name', models.SlugField(max_length=60, unique=True, verbose_name='jméno')),
-                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to=settings.AUTH_USER_MODEL, verbose_name='vlastník')),
-            ],
-            options={
-                'verbose_name': 'soubor',
-                'verbose_name_plural': 'soubory',
-            },
-        ),
-        migrations.CreateModel(
             name='Livestock',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),

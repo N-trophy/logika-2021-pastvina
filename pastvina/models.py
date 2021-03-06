@@ -8,20 +8,6 @@ from django.core.files.storage import FileSystemStorage
 from os import path, rename
 
 
-class BaseModel(models.Model):
-    class Meta:
-        abstract = True
-
-    created = models.DateTimeField("vytvořeno", default=timezone.now, editable=False)
-    updated = models.DateTimeField("upraveno", default=timezone.now, editable=False)
-
-    def save(self, *args, **kwargs):
-        self.updated = timezone.now()
-        super().save(*args, **kwargs)
-
-        return self
-
-
 class Contribution(models.Model):
     class Meta:
         verbose_name = 'novinka'
@@ -32,49 +18,6 @@ class Contribution(models.Model):
     author = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='autor')
     published = models.BooleanField('publikováno', default=False, blank=True)
     public_from = models.DateTimeField('publikováno od', null=True, blank=True)
-
-
-class MediaFile(BaseModel):
-    class Meta:
-        verbose_name = 'soubor'
-        verbose_name_plural = 'soubory'
-
-    @staticmethod
-    def userid_from_filename(filename):
-        return filename.split('__')[0]
-
-    def path_in_storage(self, fname=None):
-        if fname and '.' in fname:
-            ext = '.' + fname.split('.')[-1]
-        else:
-            ext = ''
-
-        if self.public:
-            return path.join(settings.MEDIA_DIR_NAME, "{0}{1}".format(self.name, ext))
-        else:
-            return path.join(settings.PRIVATE_DIR_NAME, "{0}__{1}__{2}{3}".format(self.owner.id,
-                                                                                  self.created.strftime(
-                                                                                      '%Y-%m-%d-%H%M'),
-                                                                                  self.name, ext))
-
-    def save(self, *args, **kwargs):
-        if self.content.storage.exists(self.content.name):
-            new_path = self.content.storage.path(self.path_in_storage(self.content.name))
-            rename(self.content.path, new_path)
-            self.content.name = self.path_in_storage(self.content.name)
-
-        super(MediaFile, self).save(*args, **kwargs)
-
-    public = models.BooleanField('veřejné')
-    owner = models.ForeignKey(User, on_delete=models.DO_NOTHING, verbose_name='vlastník')
-    content = models.FileField('soubor', upload_to=path_in_storage, storage=FileSystemStorage(settings.STORAGE_ROOT,
-                                                                                              settings.STORAGE_URL))
-    name = models.SlugField('jméno', max_length=60, unique=True)
-
-
-"""
-Game related models
-"""
 
 
 class Round(models.Model):

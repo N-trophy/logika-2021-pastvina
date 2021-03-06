@@ -5,8 +5,6 @@ from itertools import chain, zip_longest
 
 from django.utils import timezone
 
-from pastvina.models import MediaFile
-
 
 register = template.Library()
 
@@ -33,26 +31,6 @@ def key(obj, k):
     :return: element indexed by the provided key
     """
     return obj[k]
-
-
-@register.filter
-def gen_file_refs(text):
-    """
-    Parses the input text and replaces all occurences of file tags by their respective real urls.
-    A tag [[<name>]] is replaced by the url of the file with name <name>.
-    Unmatched file tags are ignored (i.e. replaced by an empty string).
-
-    :param  text: input text
-    :return: input text with urls replaced
-    """
-    regexp = r"\[\[[^\[\]]*\]\]"
-    matches = [ match[2:-2] for match in re.findall(regexp, text) ]
-    context = re.split(regexp, text)
-
-    urls = { f.name: f.content.url for f in MediaFile.objects.filter(name__in=matches)}
-    result = [ urls[m] if m in urls else '' for m in matches ]
-
-    return ''.join(list(chain.from_iterable(zip_longest(context, result)))[:-1])
 
 
 @register.filter
