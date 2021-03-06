@@ -56,6 +56,18 @@ class Round(models.Model):
         return (datetime.now()-self.start).total_seconds() // self.period
 
 
+class Tick(models.Model):
+    """Tick is associated to round"""
+    class Meta:
+        verbose_name = 'tick'
+        verbose_name = 'ticks'
+        unique_together = (('round', 'index'),)
+
+    id = models.AutoField(primary_key=True)
+    index = models.IntegerField('index')
+    round = models.ForeignKey(Round, on_delete=models.RESTRICT, null=False, verbose_name='kolo')
+
+
 class Crop(models.Model):
     """
     Contains data related to <crop> through the <whole game>.
