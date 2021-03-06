@@ -119,9 +119,10 @@ class Round(models.Model):
     Contains data relate to <game> at the <beginning of round>.
     """
     class Meta:
-        verbose_name = 'hra'
-        verbose_name_plural = 'hry'
+        verbose_name = 'kolo'
+        verbose_name_plural = 'kola'
 
+    id = models.AutoField(primary_key=True)
     start = models.DateTimeField('start')
     ticks = models.IntegerField('počet minikol')
     period = models.TimeField('délka minikola')
