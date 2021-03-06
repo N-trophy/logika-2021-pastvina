@@ -1,18 +1,18 @@
-var timeOfNextTick = Date.now();
 var tick = 0
-var round = 1
+var round = 0
+
+var timeOfNextTick = Date.now();
 
 function updateTimeToNextTick()
 {
     let millisToNextTick = timeOfNextTick - Date.now();
     if (millisToNextTick > 0)
     {
-        document.getElementById("tick-countdown").innerHTML = Math.round(millisToNextTick/1000);
+        document.getElementById("tick-countdown").innerHTML = Math.floor(millisToNextTick/1000);
     }
     else
     {
-        $.getJSON("/game/update?tick="+tick+"&round="+round, function(update_data) {
-//            tick++;
+        $.getJSON("/game/update", function(update_data) {
             update_charts(update_data);
         })
         .fail(function(){
@@ -30,24 +30,25 @@ function update_charts(updateData) {
 
     document.getElementById("game-money").innerHTML = updateData.money;
     timeOfNextTick = updateData.time;
+    tick = updateData.tick;
+    round = updateData.round;
 
     for (crop of updateData.crops) {
         $(".crop-buy-price-" + crop.id).text(crop.buy);
         $(".crop-sell-price-" + crop.id).text(crop.sell);
 
-        // Production
         let ageChart = cropAgeCharts[crop.id];
         for (var i = 0; i < crop.by_age.length; i++) {
             ageChart.data.labels[i] = "týden "+i
         }
-        ageChart.data.datasets[0].data = crop.production;
+        ageChart.data.datasets[0].data = crop.by_age;
         ageChart.update();
     }
 
     for (ls of updateData.livestock) {
         $(".ls-buy-price-" + ls.id).text(ls.buy);
         $(".ls-sell-price-" + ls.id).text(ls.sell);
-        $(".product-price-" + ls.id).text(ls.product_price);
+        $(".ls-product-price-" + ls.id).text(ls.product_price);
 
         let ageChart = livestockAgeCharts[ls.id];
         ageChart.data.labels = new Array()
