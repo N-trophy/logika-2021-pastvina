@@ -6,6 +6,8 @@ from django.db.models import Q
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from os import path, rename
+from datetime import datetime, timedelta
+from django.utils import timezone
 
 
 class Contribution(models.Model):
@@ -42,6 +44,16 @@ class Round(models.Model):
         return f'{self.id}: Start {self.start}'
 
     __str__ = __repr__
+
+    def last_tick_time(self) -> datetime:
+        """Time of last tick which should happen"""
+        return self.start + timedelta(seconds=self.ticks*self.period.second)
+
+    def is_running(self) -> bool:
+        return self.start <= timezone.now() <= self.last_tick_time()
+
+    def tick(self) -> int:
+        return (datetime.now()-self.start).total_seconds() // self.period
 
 
 class Crop(models.Model):
