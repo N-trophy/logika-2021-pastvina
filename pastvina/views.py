@@ -127,15 +127,16 @@ def game_update(request):
     for tcrop in team_crops:
         crops_data[tcrop['crop']]['by_age'][tcrop['age']] = tcrop['amount']
 
-    now = timezone.now()
-
     data = {
         "tick_id": tick.id,
+        "round_id": tick.round.id,
+        "time": int(tick.start.timestamp() * 1000) + tick.round.period * 10000,
         "money": money,
-        "time": float(tick.round.period) * 10000 + float(tick.start.total_seconds()) * 1000 - float(now.total_seconds()) * 1000,
         "livestock": list(livestock_data.values()),
         "crops": list(crops_data.values()),
     }
+
+    data['time'] = int(timezone.now().timestamp() * 1000) + 30000  # TODO remove when new ticks are added automatically
 
     return JsonResponse(data)
 
