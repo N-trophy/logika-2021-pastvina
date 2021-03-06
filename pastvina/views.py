@@ -89,7 +89,9 @@ def game_update(request):
     """
     tick = Tick.objects.last()
 
-    money = TeamHistory.objects.filter(tick=tick, user=request.user).last()
+    team_history = TeamHistory.objects.filter(tick=tick, user=request.user).last()
+    if team_history:
+        money = team_history.money
     livestock = LivestockMarketHistory.objects.filter(tick=tick).select_related('livestock').all()
     team_livestock = TeamLivestockHistory.objects.filter(tick=tick, user=request.user).values(
         'livestock',
@@ -107,7 +109,8 @@ def game_update(request):
         }
 
     for tls in team_livestock:
-        livestock_data[tls['livestock']]['by_age'][tls['age']] = tls['amount']
+        if livestock_data[tls['livestock']]:
+            livestock_data[tls['livestock']]['by_age'][tls['age']] = tls['amount']
 
     crops = CropMarketHistory.objects.filter(tick=tick).select_related('crop').all()
     team_crops = TeamCropHistory.objects.filter(tick=tick, user=request.user).values(
@@ -125,11 +128,11 @@ def game_update(request):
         }
 
     for tcrop in team_crops:
-        crops_data[tcrop['crop']]['by_age'][tcrop['age']] = tcrop['amount']
+        if crops_data[tcrop['crop']]:
+            crops_data[tcrop['crop']]['by_age'][tcrop['age']] = tcrop['amount']
 
     data = {
         "tick_id": tick.id,
-        "round_id": tick.round.id,
         "time": int(tick.start.timestamp() * 1000) + tick.round.period * 10000,
         "money": money,
         "livestock": list(livestock_data.values()),

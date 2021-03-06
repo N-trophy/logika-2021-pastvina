@@ -1,5 +1,4 @@
 var tick_id = 0
-var round_id = 0
 
 var timeOfNextTick = Date.now();
 
@@ -31,7 +30,6 @@ function update_charts(updateData) {
     document.getElementById("game-money").innerHTML = updateData.money;
     timeOfNextTick = updateData.time;
     tick_id = updateData.tick_id;
-    round_id = updateData.round_id;
 
     for (crop of updateData.crops) {
         $(".crop-buy-price-" + crop.id).text(crop.buy);
