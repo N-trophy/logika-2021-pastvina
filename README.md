@@ -13,7 +13,6 @@ $ pip3 install -r requirements.txt
 ### Create db structure
 
 ```bash
-$ ./manage.py migrate --settings=pastvina.settings.development
 $ ./manage.py makemigrations pastvina --settings=pastvina.settings.development
 $ ./manage.py migrate pastvina --settings=pastvina.settings.development
 ```

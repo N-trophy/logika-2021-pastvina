@@ -239,7 +239,8 @@ class CropMarketHistory(models.Model):
     crop = models.ForeignKey(Crop, on_delete=models.RESTRICT, null=False, verbose_name='plodina')
 
     amount_sold = models.PositiveIntegerField('prodané množství')
-    current_price = models.PositiveIntegerField('aktuální cena')
+    current_price_buy = models.PositiveIntegerField('nákupní cena')
+    current_price_sell = models.PositiveIntegerField('prodejní cena')
 
 
 class LivestockMarketHistory(models.Model):
@@ -256,7 +257,8 @@ class LivestockMarketHistory(models.Model):
     livestock = models.ForeignKey(Crop, on_delete=models.RESTRICT, null=False, verbose_name='dobytek')
 
     amount_sold = models.PositiveIntegerField('prodané množství')
-    current_price = models.PositiveIntegerField('aktuální cena')
+    current_price_buy = models.PositiveIntegerField('nákupní cena')
+    current_price_sell = models.PositiveIntegerField('prodejní cena')
 
     product_amount_sold = models.PositiveIntegerField('prodané množství')
     product_current_price = models.PositiveIntegerField('aktuální cena')
