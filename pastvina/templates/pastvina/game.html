@@ -62,8 +62,6 @@
             <div class="quarter brick">
                 <input class="full-width input" type="number">
                 <button class="full-width input">Prodat</button>
-                <input class="full-width input" type="number">
-                <button class="full-width input">Krmit</button>
             </div>
         </div>
         {% endfor %}
@@ -103,7 +101,9 @@
             {% include "pastvina/parts/livestock_production_chart.html" with weeks=ls.growth_time color=ls.color name=ls.name name_genitive=ls.name_genitive id=ls.id %}
             <div class="quarter brick">
                 <input class="full-width input" type="number">
-                <button class="full-width input">Prodat</button>
+                <button class="full-width input">Porazit a prodat (max 100 ks)</button>
+                <input class="full-width input" type="number">
+                <button class="full-width input">Utratit</button>
             </div>
         </div>
         {% endfor %}
