@@ -14,12 +14,33 @@
 
 <section class="padding-small light">
     <h2>Přehled kol</h2>
-    
-    <ul>
+    <div class="games">
         {% for round in rounds %}
-        <li><a href="{% url 'game' round.id %}">Hra {{forloop.counter}}</a></li>
+            {% if round.id == 1 %}        
+                <a href="{% url 'game' round.id %}" class="game_number test_game">
+                    <h3>Testovací hra</h3>
+                </a>
+                <div class="real_games two_thirds">
+            {% else %}
+                <a href="{% url 'game' round.id %}" class="game_number real_game">
+                    <h3>Kolo {{forloop.counter}}</h3>
+                </a>
+            {% endif %}
         {% endfor %}
-    </ul>
+        </div>
+    </div>
+</section>
+
+<section class="statistics">
+    <h2>Statistiky z odehraných kol:</h2>
+    {% for round in rounds %}
+        {% if round.id == 1 %}
+            <h3>Testovací kolo</h3>
+        {% else %}
+            <h3>Kolo {{forloop.counter|add:"-1"}}</h3>
+        {% endif %}
+    {% endfor %}
+
 </section>
 
 {% endblock %}

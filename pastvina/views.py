@@ -77,6 +77,16 @@ def page_game_overview(request):
     """
     rounds = Round.objects.all()
 
+
+    rounds = list(rounds)
+    r_3 = Round()
+    r_3.id = 3
+    r_4 = Round()
+    r_4.id = 4
+    rounds.append(r_3)
+    rounds.append(r_4)
+
+
     context = {'rounds': rounds}
 
     return render(request, 'pastvina/game_overview.html', context)

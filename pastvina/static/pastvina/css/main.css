@@ -76,6 +76,9 @@ section{
 .third {
     width: 33.33%;
 }
+.two_thirds {
+  width: 66.66%;
+}
 
 .quarter {
     width: 24.999%;
@@ -247,6 +250,41 @@ a {
     text-decoration: inherit;
 }
 
+.game_number {
+  display: inline-block;
+  vertical-align: middle;
+  float: left;
+  margin: 4px
+}
+.test_game {
+  width: calc(33.33% - 10px);
+  background-color: #e5e5e5;
+}
+.test_game h3 {
+  -webkit-transform: translateY(300%);
+  transform: translateY(300%);
+}
+.real_game {
+  width: calc(100% - 10px);
+  max-height: 33%;
+  background-color: #ff8686;
+}
+.games {
+  max-width: 1200px;
+  display: flex;
+  margin: auto;
+  min-height: 150px;
+  height: auto;
+}
+.real_games {
+  height: 100%;
+  float: left;
+}
+
+.statistics {
+
+}
+
 form input {
     padding: 5px;
 }
@@ -355,6 +393,13 @@ nav .logo{
     margin: auto;
     text-align: center;
     color: white;
+}
+section h2{
+  text-align: center;
+}
+
+.statistics {
+  padding: 5px 40px 15px;
 }
 
 .landing .center h1{
