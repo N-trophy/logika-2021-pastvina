@@ -178,7 +178,7 @@ def game_trade(request, round_id):
     last_tick = Tick.objects.filter(round=round).last()
     if round is None:
         return HttpResponseNotFound("Neexistuje kolo s daným id")
-    if tick is None:
+    if last_tick is None:
         return HttpResponseNotFound("V daném kole neexistuje iterace")
 
     if 'tick_id'    not in request.GET \
@@ -197,7 +197,7 @@ def game_trade(request, round_id):
     if count <= 0:
         return HttpResponseBadRequest("Nelze obchodovat záporné množství.")
 
-    if last_tick is None or tick_id != last_tick.id:
+    if tick_id != last_tick.id:
         return HttpResponseBadRequest("Nákup uskutečněn v již uplynulé iteraci.")
 
     user_state = TeamHistory.objects.get(tick=last_tick, user=request.user)
