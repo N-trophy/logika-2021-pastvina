@@ -4,6 +4,7 @@ cat pastvina/cron/main.py | ./manage.py shell --settings=...
 Run it manully to make single tisk.
 """
 from django.core.management import BaseCommand
+from django.db import transaction
 
 from pastvina.models import Round, Tick
 from django.utils import timezone
@@ -42,6 +43,7 @@ class Command(BaseCommand):
     # def add_arguments(self, parser):
     #     parser.add_argument('poll_ids', nargs='+', type=int)
 
+    @transaction.atomic
     def handle(self, *args, **options):
         rounds_update()
         ticks_update()
