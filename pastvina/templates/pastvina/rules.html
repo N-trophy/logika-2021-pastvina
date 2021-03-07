@@ -1,7 +1,7 @@
 {% extends "pastvina/base.html" %}
 {% load extras %}
 
-{% block title %} Hra {% endblock%}
+{% block title %} Pravidla {% endblock%}
 
 {% block head %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -11,6 +11,7 @@
 <section class="padding-small light">
     <h1>Pravidla</h1>
 </section>
+<div id="rules_text">
 <section class="padding-small dark rules">
     <h3>O hře</h3>
     <p>Na následujících 90 minut se stáváte farmáři, pěstujete plodiny, chováte dobytek a snažíte se maximalizovat svůj zisk.</p>
@@ -25,14 +26,26 @@
         Plodiny stačí zasadit a počkat, až vyrostou. Dobytek však musíte krmit, a to plodinami, které si buď koupíte, nebo sami vypěstujete.
         Informace o jednotlivých surovinách najdete v tabulkách v rozhraní hry. Jediná položka, která se mění, je cena.
     </p>
-    <p>Dejte si pozor na následující věci: ceny všech surovin se mění s časem</p>
     <p>Hraje se 'tahově', každých 10-30s se uloží zaklikané změny a odešlou k vyhodnocení. 
         V návaznosti na tahu vás a vašich soupeřů se změní situace na trhu a upraví se ceny plodin a dobytka.</p>
-    <p></p>
 
+</section>
 
+<section class="padding-small light rules">
+
+    <h3>Dejte si pozor na následující věci:</h3>
+    <p>
+        <ul>
+            <li>Ceny všech surovin se mění s časem.</li>
+            <li>Když nebudete krmit zvířata, zemřou vám.</li>
+            <li>Stodola má jen omezenou kapacitu.</li>
+        </ul>
+    </p>
+</section>
+
+<section class="padding-small dark rules">
     <h3>Rozhraní hry</h3>
-    <p>Rozhraní samotné hry se vám ukáže po kliknutí na tlařítko "Hra" v pravém horním menu. 
+    <p>Rozhraní samotné hry se vám ukáže po kliknutí na tlařítko "Hry" v pravém horním menu. 
         Doporučujeme si ho prohlédnout před samotným začátkem hry.</p>
     <p>V horní části stránky se nachází informační panel. 
         Na jeho pravé straně vidíte vaši současnou hotovost, na pravé pak čas zbývající do konce tahu.</p>
@@ -75,6 +88,6 @@
         </ul>
     </p>
 </section>
-
+</div>
 
 {% endblock %}

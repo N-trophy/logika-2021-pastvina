@@ -97,6 +97,10 @@ section{
   max-width: 100%;
   padding: 0px 15px;
 }
+#rules_text {
+  background: rgb(60,60,60);
+  background: linear-gradient(150deg,rgba(70,80,60,255) 0%, rgba(20,30,10,255) 100%);
+}
 
 article{
   background-color: white;
@@ -149,8 +153,10 @@ article .labels span.orange{
 
 .full-width{
     width: 100%;
-    margin: 5px 0px;
-    padding: 0px 8px;
+  }
+
+.setter{
+  margin: 5px 0px;
 }
 
 .buy-sell-button{
@@ -177,6 +183,7 @@ article .labels span.orange{
     background-position: top;
     background-repeat: no-repeat;
     background-size: cover;
+    padding: 0px !important;
 }
 
 .button{
@@ -370,6 +377,7 @@ nav .logo{
   color: #383838;
 }
 
+
 /* MODAL FORM */
 from.modal {
     z-index: 10;
@@ -438,6 +446,7 @@ footer span a i {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    background-color: #f1f1f1;
 }
 
 /* =========== STICKY HEADER =========== */
