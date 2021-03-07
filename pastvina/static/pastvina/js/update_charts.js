@@ -24,6 +24,14 @@ function requestUpdateCharts() {
     });
 }
 
+function getReversedData(dataArray, dataSize, defaultValue=0) {
+    let reversedData = dataArray.slice(0, dataSize);
+    for (let i = reversedData.length; i < dataSize; i++) {
+        reversedData.push(defaultValue);
+    }
+    return reversedData.reverse();
+}
+
 var cropAgeCharts = new Object();
 var livestockAgeCharts = new Object();
 var cropSellTime = new Object();
@@ -42,10 +50,12 @@ function updateCharts(updateData) {
         $(".crop-sell-price-" + crop.id).text(crop.sell);
 
         let ageChart = cropAgeCharts[crop.id];
-        for (let i = 0; i < crop.by_age.length; i++) {
-            ageChart.data.labels[i] = "týden "+i
-        }
-        ageChart.data.datasets[0].data = crop.by_age;
+        // ageChart.data.labels = new Array();
+        // for (let i = 0; i < crop.by_age.length; i++) {
+        //     ageChart.data.labels[i] = "týden " + i;
+        // }
+        console.log(ageChart.data.labels.length);
+        ageChart.data.datasets[0].data = getReversedData(crop.by_age, ageChart.data.labels.length);
         ageChart.update();
 
         let maxBuy = Math.floor(updateData.money/crop.buy);
@@ -60,11 +70,11 @@ function updateCharts(updateData) {
         $(".ls-product-price-" + ls.id).text(ls.product_price);
 
         let ageChart = livestockAgeCharts[ls.id];
-        ageChart.data.labels = new Array()
-        for (let i = 0; i < ls.by_age.length; i++) {
-            ageChart.data.labels[i] = "týden "+i
-        }
-        ageChart.data.datasets[0].data = ls.by_age;
+        // ageChart.data.labels = new Array();
+        // for (let i = 0; i < ls.by_age.length; i++) {
+        //     ageChart.data.labels[i] = "týden " + i;
+        // }
+        ageChart.data.datasets[0].data = getReversedData(ls.by_age, ageChart.data.labels.length);
         ageChart.update();
 
         let maxBuy = Math.floor(updateData.money/ls.buy);

@@ -143,7 +143,7 @@ class TeamCropHistory(models.Model):
     tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo')
     user = models.ForeignKey(User, on_delete=models.RESTRICT, null=False, verbose_name='tým')
     crop = models.ForeignKey(Crop, on_delete=models.RESTRICT, null=False, verbose_name='plodina')
-    age = models.IntegerField('stáří produktu')
+    age = models.IntegerField('čas do zkažení produktu')
 
     amount = models.IntegerField('množství')
 
@@ -158,7 +158,7 @@ class TeamLivestockHistory(models.Model):
     tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo')
     user = models.ForeignKey(User, on_delete=models.RESTRICT, null=False, verbose_name='tým')
     livestock = models.ForeignKey(Livestock, on_delete=models.RESTRICT, null=False, verbose_name='dobytek')
-    age = models.IntegerField('stáří dobytka')
+    age = models.IntegerField('čas do smrti dobytka')
 
     amount = models.IntegerField('množství')
 

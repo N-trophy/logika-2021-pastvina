@@ -10,7 +10,17 @@
         type: 'bar',
         data: {
             labels: [
-                "týden 0",
+            {% for ls in ''|center:growth_time %}
+                "týden růstu {{ forloop.revcounter }}",
+            {% endfor %}
+            "týden 0",
+            {% for ls in ''|center:life_time %}
+                {% if chart_type == 'livestock' %}
+                "týden života {{ forloop.counter }}",
+                {% else %}
+                "týden kažení {{ forloop.counter }}",
+                {% endif %}
+            {% endfor %}
             ],
             datasets: [{
                 {% if chart_type == 'livestock' %}
@@ -19,9 +29,7 @@
                 label: 'produkce {{name_genitive}} dle stáří',
                 {% endif %}
                 backgroundColor: '{{ color }}',
-                data: [
-                0,
-                ]
+                data: [0]
             }]
         },
         options: {
