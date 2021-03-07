@@ -3,6 +3,7 @@ from django.urls import path
 from pastvina import views
 from django.conf.urls.static import static
 from django.conf import settings
+from django.views.generic import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -10,6 +11,7 @@ urlpatterns = [
     path('logout/', views.handler_logout, name='logout'),
 
     path('api/md_to_html', views.handler_markdown_to_html, name='md_to_html'),
+    path('favicon.ico', RedirectView.as_view(url='/static/pastvina/img/logo.png')),
 
     path('game/', views.page_game, name='game'),
     path('game/update', views.game_update, name='game_update'),
