@@ -63,6 +63,14 @@ def page_login(request):
 
 
 @login_required
+def page_rules(request):
+    """
+    Page with rules.
+    """
+    return render(request, 'pastvina/rules.html', {})
+
+
+@login_required
 def page_game_overview(request):
     """
     Renders the game overview page from template.
@@ -72,6 +80,7 @@ def page_game_overview(request):
     context = {'rounds': rounds}
 
     return render(request, 'pastvina/game_overview.html', context)
+
 
 @login_required
 def page_game(request, round_id):

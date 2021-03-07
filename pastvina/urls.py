@@ -13,10 +13,13 @@ urlpatterns = [
     path('api/md_to_html', views.handler_markdown_to_html, name='md_to_html'),
     path('favicon.ico', RedirectView.as_view(url='/static/pastvina/img/logo.png')),
 
+    path('rules/', views.page_rules, name='rules'),
+
     path('game/', views.page_game_overview, name='game_overview'),
     path('game/<int:round_id>/', views.page_game, name='game'),
     path('game/<int:round_id>/update', views.game_update, name='game_update'),
     path('game/<int:round_id>/trade', views.game_trade, name='game_trade'),
+
     path('', views.page_index, name='index'),
 ]
 
