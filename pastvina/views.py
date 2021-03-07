@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
 from django.db.models import Sum, F
 from django.http import HttpResponseForbidden, HttpResponse, HttpResponseBadRequest, JsonResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
@@ -147,6 +148,7 @@ def game_update(request):
 
 
 @login_required
+@transaction.atomic
 def game_trade(request):
     if 'tick_id'    not in request.GET \
     or 'trade_type' not in request.GET \
@@ -194,7 +196,8 @@ def game_trade(request):
             return HttpResponse("Obchod uskutečněn.")
         elif trade_type == 'sell':
             total_price = crop.current_price_sell * count
-            by_age = TeamCropHistory.objects.filter(tick=last_tick, crop=crop.crop, user=request.user, age__lte=crop.crop.life_time).order_by('-age')
+            by_age = TeamCropHistory.objects.filter(tick=last_tick, crop=crop.crop,
+                                                    user=request.user, age__lte=crop.crop.rotting_time).order_by('-age')
             rest = count
             pos = 0
             while rest > 0:
@@ -205,7 +208,10 @@ def game_trade(request):
                 rest -= a
                 pos += 1
             TeamCropHistory.objects.bulk_update(by_age, ['amount'])
-            TeamHistory.objects.filter(tick=last_tick, user=request.user).update(money=F('money') + total_price)
+            user_state.money += total_price
+            user_state.save()
+            crop.amount_sold += count
+            crop.save()
             return HttpResponse("Obchod uskutečněn.")
         else:
             return HttpResponse(request, status=404)
@@ -233,6 +239,11 @@ def game_trade(request):
             return HttpResponse("Obchod uskutečněn.")
         elif trade_type == 'sell':
             total_price = ls.current_price_sell * count
+            if last_tick.round.livestock_slaughter_limit < user_state.slaughtered + count:
+                return HttpResponseBadRequest(f'Příliš mnoho poražených zvířat.\n'
+                                              f'Limit na iteraci je {last_tick.round.livestock_slaughter_limit}.\n'
+                                              f'Již jste porazili {user_state.slaughtered} kusů.')
+
             by_age = TeamLivestockHistory.objects.filter(tick=last_tick, livestock=ls.livestock, user=request.user,
                                                     age__lte=ls.livestock.life_time).order_by('-age')
             rest = count
@@ -245,7 +256,10 @@ def game_trade(request):
                 rest -= a
                 pos += 1
             TeamLivestockHistory.objects.bulk_update(by_age, ['amount'])
-            TeamHistory.objects.filter(tick=last_tick, user=request.user).update(money=F('money') + total_price)
+            user_state.money += total_price
+            user_state.slaughtered += count
+            ls.amount_sold += count
+            ls.save()
             return HttpResponse("Obchod uskutečněn.")
         elif trade_type == 'kill':
             by_age = TeamLivestockHistory.objects.filter(tick=last_tick, livestock=ls.livestock, user=request.user).order_by('-age')
