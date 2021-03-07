@@ -227,6 +227,10 @@ form input {
 
 /* =========== MESSAGES ========= */
 
+.messages {
+    list-style-type:none
+}
+
 .message.debug {
     color: #b800cc;
 }
