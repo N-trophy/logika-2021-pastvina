@@ -16,9 +16,11 @@ function requestTrade(tradeType, prodType, prodId, count) {
     $.get("trade", { 'tick_id': tickId, 'trade_type': tradeType, 'prod_type': prodType, 'prod_id': prodId, 'count': count })
     .done(function(data) {
         requestUpdateCharts();
+        console.log(data);
         // alert(data);
     })
     .fail(function(error) {
+        console.log(error.responseText);
         alert("Obchod neproběhl.\n" + error.responseText);
     });
 }

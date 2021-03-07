@@ -63,7 +63,18 @@ def page_login(request):
 
 
 @login_required
-def page_game(request):
+def page_game_overview(request):
+    """
+    Renders the game overview page from template.
+    """
+    rounds = Round.objects.all()
+
+    context = {'rounds': rounds}
+
+    return render(request, 'pastvina/game_overview.html', context)
+
+@login_required
+def page_game(request, round_id):
     """
     Renders the game page from template.
 
@@ -76,21 +87,34 @@ def page_game(request):
     """
     crops = Crop.objects.all()
     livestock = Livestock.objects.all()
-    context = {'crops': crops, 'livestock': livestock}
+    round = Round.objects.filter(id=round_id).last()
+    context = {
+        'crops': crops,
+        'livestock': livestock,
+        'round': round
+    }
 
-    tick = Tick.objects.select_related('round').last()
-    if tick is not None:
-        context['round'] = tick.round
+    # Prevent endless empty requests from frontend
+    if round is None:
+        return HttpResponseNotFound("Neexistuje kolo s daným id")
+    if Tick.objects.filter(round=round).last() is None:
+        return HttpResponseNotFound("V daném kole neexistuje iterace")
 
     return render(request, 'pastvina/game.html', context)
 
 
 @login_required
-def game_update(request):
+def game_update(request, round_id):
     """
     Returns a json to update the game state
     """
-    tick = Tick.objects.last()
+    round = Round.objects.filter(id=round_id).last()
+    tick = Tick.objects.filter(round=round).last()
+
+    if round is None:
+        return HttpResponseNotFound("Neexistuje kolo s daným id")
+    if tick is None:
+        return HttpResponseNotFound("V daném kole neexistuje iterace")
 
     team_history = TeamHistory.objects.filter(tick=tick, user=request.user).last()
     if team_history:
@@ -136,7 +160,7 @@ def game_update(request):
 
     data = {
         "tick_id": tick.id,
-        "time": int(tick.start.timestamp() * 1000) + tick.round.period * 10000,
+        "time": int(tick.start.timestamp() * 1000) + round.period * 10000,
         "money": money,
         "livestock": list(livestock_data.values()),
         "crops": list(crops_data.values()),
@@ -149,7 +173,14 @@ def game_update(request):
 
 @login_required
 @transaction.atomic
-def game_trade(request):
+def game_trade(request, round_id):
+    round = Round.objects.filter(id=round_id).last()
+    last_tick = Tick.objects.filter(round=round).last()
+    if round is None:
+        return HttpResponseNotFound("Neexistuje kolo s daným id")
+    if tick is None:
+        return HttpResponseNotFound("V daném kole neexistuje iterace")
+
     if 'tick_id'    not in request.GET \
     or 'trade_type' not in request.GET \
     or 'prod_type'  not in request.GET \
@@ -166,7 +197,6 @@ def game_trade(request):
     if count <= 0:
         return HttpResponseBadRequest("Nelze obchodovat záporné množství.")
 
-    last_tick = Tick.objects.last()
     if last_tick is None or tick_id != last_tick.id:
         return HttpResponseBadRequest("Nákup uskutečněn v již uplynulé iteraci.")
 
@@ -214,7 +244,7 @@ def game_trade(request):
             crop.save()
             return HttpResponse("Obchod uskutečněn.")
         else:
-            return HttpResponse(request, status=404)
+            return HttpResponseNotFound(request)
     elif prod_type == 'ls':
         ls = LivestockMarketHistory.objects.filter(livestock=prod_id).select_related('livestock').last()
         if ls is None:
@@ -239,9 +269,9 @@ def game_trade(request):
             return HttpResponse("Obchod uskutečněn.")
         elif trade_type == 'sell':
             total_price = ls.current_price_sell * count
-            if last_tick.round.livestock_slaughter_limit < user_state.slaughtered + count:
+            if round.livestock_slaughter_limit < user_state.slaughtered + count:
                 return HttpResponseBadRequest(f'Příliš mnoho poražených zvířat.\n'
-                                              f'Limit na iteraci je {last_tick.round.livestock_slaughter_limit}.\n'
+                                              f'Limit na iteraci je {round.livestock_slaughter_limit}.\n'
                                               f'Již jste porazili {user_state.slaughtered} kusů.')
 
             by_age = TeamLivestockHistory.objects.filter(tick=last_tick, livestock=ls.livestock, user=request.user,
@@ -275,11 +305,9 @@ def game_trade(request):
             TeamLivestockHistory.objects.bulk_update(by_age, ['amount'])
             return HttpResponse("Zvířata utracena.")
         else:
-            return HttpResponse(request, status=404)
+            return HttpResponseNotFound("Neznámá operace")
     else:
-        return HttpResponse(request, status=404)
-
-    return HttpResponse(request, status=204)
+        return HttpResponseNotFound("Neznámý typ zboží")
 
 
 @login_required

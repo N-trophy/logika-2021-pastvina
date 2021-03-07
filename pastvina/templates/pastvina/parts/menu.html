@@ -9,12 +9,8 @@
 {% endif %}
     <div class="left">
     <a href="/" class="logo">N-trophy 2021 finále</a>
-    <a href="{% url 'game' %}">Hra</a>
-    
-    {% for page in static_pages %}
-        <a href="">{{ page.name }}</a>
-    {% endfor %}
-    
+    <a href="{% url 'game_overview' %}">Hry</a>
+
     </div>
     <div class="right">
     {% if user.is_superuser %}

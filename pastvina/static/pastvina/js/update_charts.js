@@ -15,8 +15,8 @@ function updateTimeToNextTick()
     }
 }
 
-function requestUpdateCharts() {
-    $.getJSON("/game/update", function(update_data) {
+function requestUpdateCharts(round_id) {
+    $.getJSON("update", function(update_data) {
         updateCharts(update_data);
     })
     .fail(function(){
