@@ -24,13 +24,16 @@ function requestUpdateCharts() {
     });
 }
 
-var cropAgeCharts = new Map();
-var livestockAgeCharts = new Map();
+var cropAgeCharts = new Object();
+var livestockAgeCharts = new Object();
+var cropSellTime = new Object();
+var livestockSellTime = new Object();
+var livestockMaxSell = Infinity;
 
 function updateCharts(updateData) {
     console.log(updateData);
 
-    document.getElementById("game-money").innerHTML = updateData.money;
+    $("#game-money").text(updateData.money);
     timeOfNextTick = updateData.time;
     tickId = updateData.tick_id;
 
@@ -39,11 +42,16 @@ function updateCharts(updateData) {
         $(".crop-sell-price-" + crop.id).text(crop.sell);
 
         let ageChart = cropAgeCharts[crop.id];
-        for (var i = 0; i < crop.by_age.length; i++) {
+        for (let i = 0; i < crop.by_age.length; i++) {
             ageChart.data.labels[i] = "týden "+i
         }
-        ageChart.data.datasets[0].data = crop.by_age.reverse();
+        ageChart.data.datasets[0].data = crop.by_age;
         ageChart.update();
+
+        let maxBuy = Math.floor(updateData.money/crop.buy);
+        let maxSell = crop.by_age.slice(0, cropSellTime[crop.id]).reduce((a, b) => a + b, 0);
+        $("#buy-crop-count-" + crop.id).attr({ "max": maxBuy });
+        $("#sell-crop-count-" + crop.id).attr({ "max": maxSell });
     }
 
     for (ls of updateData.livestock) {
@@ -53,10 +61,17 @@ function updateCharts(updateData) {
 
         let ageChart = livestockAgeCharts[ls.id];
         ageChart.data.labels = new Array()
-        for (var i = 0; i < ls.by_age.length; i++) {
+        for (let i = 0; i < ls.by_age.length; i++) {
             ageChart.data.labels[i] = "týden "+i
         }
-        ageChart.data.datasets[0].data = ls.by_age.reverse();
+        ageChart.data.datasets[0].data = ls.by_age;
         ageChart.update();
+
+        let maxBuy = Math.floor(updateData.money/ls.buy);
+        let maxSell = Math.min(livestockMaxSell, ls.by_age.slice(0, livestockSellTime[ls.id]).reduce((a, b) => a + b, 0));
+        let maxKill = ls.by_age.reduce((a, b) => a + b, 0);
+        $("#buy-ls-count-" + ls.id).attr({ "max": maxBuy });
+        $("#sell-ls-count-" + ls.id).attr({ "max": maxSell });
+        $("#kill-ls-count-" + ls.id).attr({ "max": maxKill });
     }
 }

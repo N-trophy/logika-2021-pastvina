@@ -24,7 +24,7 @@
                 }).done(function(response) {
                     window.location = "";
                 }).fail(function (error) {
-                console.log(error)
+                    console.log(error);
                     var msg = error.responseText;
                     $("#message").html(msg);
                 });
