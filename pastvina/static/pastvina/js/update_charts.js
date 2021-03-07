@@ -1,21 +1,26 @@
-var tickId = 0
-
-var timeOfNextTick = Date.now();
+var tickId = 0;
+var timeOfNextUpdate = Date.now();
+var showTime = false;
 
 function updateTimeToNextTick()
 {
-    let millisToNextTick = timeOfNextTick - Date.now();
-    if (millisToNextTick > 0)
+    let millisToNextUpdate = timeOfNextUpdate - Date.now();
+    if (millisToNextUpdate <= 0)
     {
-        document.getElementById("tick-countdown").innerHTML = Math.floor(millisToNextTick/1000);
-    }
-    else
-    {
+        timeOfNextUpdate = Date.now() + 5000;
+        showTime = false;
         requestUpdateCharts();
+    }
+
+    if (showTime) {
+        $("#tick-countdown").text(Math.floor(millisToNextUpdate/1000));
+    }
+    else {
+        $("#tick-countdown").text("-");
     }
 }
 
-function requestUpdateCharts(round_id) {
+function requestUpdateCharts() {
     $.getJSON("update", function(update_data) {
         updateCharts(update_data);
     })
@@ -42,7 +47,11 @@ function updateCharts(updateData) {
     console.log(updateData);
 
     $("#game-money").text(updateData.money);
-    timeOfNextTick = updateData.time;
+    if (updateData.time > Date.now())
+    {
+        timeOfNextUpdate = updateData.time;
+        showTime = true;
+    }
     tickId = updateData.tick_id;
 
     for (crop of updateData.crops) {
@@ -54,7 +63,6 @@ function updateCharts(updateData) {
         // for (let i = 0; i < crop.by_age.length; i++) {
         //     ageChart.data.labels[i] = "týden " + i;
         // }
-        console.log(ageChart.data.labels.length);
         ageChart.data.datasets[0].data = getReversedData(crop.by_age, ageChart.data.labels.length);
         ageChart.update();
 
