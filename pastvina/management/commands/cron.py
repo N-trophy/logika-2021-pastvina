@@ -11,7 +11,7 @@ from django.utils import timezone
 
 
 def rounds_update() -> None:
-    from .round import new as new_round
+    from ._round import new as new_round
 
     for round_ in Round.objects.all():
         if round_.is_running() and not Tick.objects.filter(round=round_).exists():
@@ -23,7 +23,7 @@ def rounds_update() -> None:
 
 def ticks_update() -> None:
     from pastvina.models import Round
-    from .tick import new as new_tick
+    from ._tick import new as new_tick
 
     for round_ in Round.objects.all():
         if round_.is_running():
@@ -38,10 +38,7 @@ def ticks_update() -> None:
 
 
 class Command(BaseCommand):
-    help = 'Runs and iteration of updates.'
-
-    # def add_arguments(self, parser):
-    #     parser.add_argument('poll_ids', nargs='+', type=int)
+    help = 'Runs one iteration of updates.'
 
     @transaction.atomic
     def handle(self, *args, **options):
