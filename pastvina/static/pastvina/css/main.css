@@ -19,34 +19,34 @@ body{
 }
 
 h1{
-  font-size: 3rem;
-  margin: 0;
-  text-align: left;
+    font-size: 3rem;
+    margin: 0;
+    text-align: left;
 }
 section h1{
-  text-align: center;
+    text-align: center;
 }
 h2{
-  font-size: 2.1rem;
-  font-weight: 500;
-  text-align: left;
+    font-size: 2.1rem;
+    font-weight: 500;
+    text-align: left;
 }
 p{
-  font-size: 1rem;
-  line-height: 1.4;
-  font-weight: 600;
-  margin: 0 auto;
-  max-width: 600px;
-  text-align: left;
+    font-size: 1rem;
+    line-height: 1.4;
+    font-weight: 600;
+    margin: 0 auto;
+    max-width: 600px;
+    text-align: left;
 }
 
 section{
-  position: relative;
-  padding: 0 40px;
-  font-size: 1rem;
-  text-align: center;
-  overflow: hidden;
-  color: #383838;
+    position: relative;
+    padding: 0 40px;
+    font-size: 1rem;
+    text-align: center;
+    overflow: hidden;
+    color: #383838;
 }
 
 .container {
@@ -62,11 +62,11 @@ section{
     padding: 0;
     display: inline-block;
     min-height: 10px;
-    float: left;   
+    float: left;
 }
 
 .container .brick {
-  height: 294px;
+    height: 294px;
 }
 
 .half {
@@ -82,54 +82,54 @@ section{
 }
 
 .brick-inputs {
-  width: 90%;
-  padding: 25px 15px 0px 15px;
+    width: 90%;
+    padding: 25px 15px 0px 15px;
 }
 
 .rules {
-  text-align: left;
-  max-width: 1200px;
-  margin: auto;
+    text-align: left;
+    max-width: 1200px;
+    margin: auto;
 }
 .rules p {
-  margin: auto;
-  margin-top: 10px;
-  max-width: 100%;
-  padding: 0px 15px;
+    margin: auto;
+    margin-top: 10px;
+    max-width: 100%;
+    padding: 0px 15px;
 }
 
 article{
-  background-color: white;
-  color: #383838;
-  padding: 40px;
-  margin: 0 auto 40px auto;
-  display: inline-block;
+    background-color: white;
+    color: #383838;
+    padding: 40px;
+    margin: 0 auto 40px auto;
+    display: inline-block;
 }
 
 article h1{
-  font-size: 2rem;
+    font-size: 2rem;
 }
 
 article .labels{
-  text-align: left;
-  margin-bottom: 20px;
+    text-align: left;
+    margin-bottom: 20px;
 }
 
 article .labels span{
-  font-size: 0.6rem;
-  font-weight: 600;
-  padding: 5px 10px;
-  margin-right: 10px;
-  color: white;
-  background-color: #383838;
-  border-radius: 7px;
+    font-size: 0.6rem;
+    font-weight: 600;
+    padding: 5px 10px;
+    margin-right: 10px;
+    color: white;
+    background-color: #383838;
+    border-radius: 7px;
 }
 
 article .labels span.red{
-  background-color: #cb2222;
+    background-color: #cb2222;
 }
 article .labels span.blue{
-  background-color: #21b6cb;
+    background-color: #21b6cb;
 }
 article .labels span.orange{
     background-color: #eb990d;
@@ -154,12 +154,12 @@ article .labels span.orange{
 }
 
 .buy-sell-button{
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  height: 30px;
-  padding: 5px;
-  border-radius: 5px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 30px;
+    padding: 5px;
+    border-radius: 5px;
 }
 
 .center{
@@ -193,12 +193,12 @@ article .labels span.orange{
 .button:focus {outline:0;}
 
 .button.primary{
-  border: none;
-  /* background-color: #13102F; */
-  background-color: #90d43d;
-  /* color: white; */
-  color: black;
-  font-weight: 500;
+    border: none;
+    /* background-color: #13102F; */
+    background-color: #90d43d;
+    /* color: white; */
+    color: black;
+    font-weight: 500;
 }
 
 .light {
@@ -207,8 +207,8 @@ article .labels span.orange{
 }
 
 .dark {
-  background-color: #383838;
-  color: white;
+    background-color: #383838;
+    color: white;
 }
 
 p.alert, span.alert {
@@ -216,28 +216,28 @@ p.alert, span.alert {
 }
 
 .padding{
-  padding-top: 40px;
-  padding-bottom: 40px;
+    padding-top: 40px;
+    padding-bottom: 40px;
 }
 
 .padding-small{
-  padding-top: 20px;
-  padding-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .margin{
-  margin-top: 40px;
-  margin-bottom: 40px;
+    margin-top: 40px;
+    margin-bottom: 40px;
 }
 
 .margin-small{
-  margin-top: 20px;
-  margin-bottom: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 a {
-  color: inherit;
-  text-decoration: inherit;
+    color: inherit;
+    text-decoration: inherit;
 }
 
 form input {
@@ -304,32 +304,32 @@ nav {
 
 
 nav a{
-  text-decoration: none;
-  margin-right: 40px;
-  vertical-align: middle;
-  line-height: 1;
-  color: inherit;
+    text-decoration: none;
+    margin-right: 40px;
+    vertical-align: middle;
+    line-height: 1;
+    color: inherit;
 }
 
 nav .logo{
-  font-size: 40px;
-  margin-right: 100px;
-  line-height: 1;
+    font-size: 40px;
+    margin-right: 100px;
+    line-height: 1;
 }
 
 /* =========== LANDING =========== */
 
 .landing{
-  position: relative;
-  background-image: url('../img/goat.jpg');
+    position: relative;
+    background-image: url('../img/goat.jpg');
 }
 
 .landing .overlay{
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  /* background: rgb(147,0,193);
-  background: linear-gradient(150deg, rgba(147,0,193,1) 0%, rgba(0,230,255,1) 100%); */
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    /* background: rgb(147,0,193);
+    background: linear-gradient(150deg, rgba(147,0,193,1) 0%, rgba(0,230,255,1) 100%); */
 }
 
 .overlay {
@@ -339,35 +339,35 @@ nav .logo{
 }
 
 .landing .center{
-  height: 200px;
-  max-width: 800px;
+    height: 200px;
+    max-width: 800px;
 }
 
 .landing .center h2{
-  max-width: 550px;
-  margin: auto;
-  text-align: center;
-  color: white;
+    max-width: 550px;
+    margin: auto;
+    text-align: center;
+    color: white;
 }
 
 .landing .center h1{
-  text-align: center;
-  color: white;
+    text-align: center;
+    color: white;
 }
 
 .landing .center .button{
-  margin-top: 20px;
-  margin-left: 10px;
-  margin-right: 10px;
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .about{
-  width: 46%;
-  padding: 50px 2%;
-  text-align: left;
-  display: inline-block;
-  vertical-align: middle;
-  color: #383838;
+    width: 46%;
+    padding: 50px 2%;
+    text-align: left;
+    display: inline-block;
+    vertical-align: middle;
+    color: #383838;
 }
 
 /* MODAL FORM */
@@ -386,8 +386,8 @@ form.modal.login p {
 }
 
 .login form.center {
-  height: 250px;
-  max-width: 400px;
+    height: 250px;
+    max-width: 400px;
 }
 
 section.login {
@@ -398,27 +398,27 @@ section.login {
 }
 
 form.center h3{
-  max-width: auto;
-  text-align: center;
+    max-width: auto;
+    text-align: center;
 }
 
 form.center p{
-  max-width: auto;
-  text-align: center;
-  margin: 20px;
+    max-width: auto;
+    text-align: center;
+    margin: 20px;
 }
 
 form.center .button{
-  margin-top: 40px;
+    margin-top: 40px;
 }
 
 /* FOOTER */
 footer{
-  position: relative;
-  padding: 0 40px;
-  text-align: center;
-  overflow: hidden;
-  color: #383838;
+    position: relative;
+    padding: 0 40px;
+    text-align: center;
+    overflow: hidden;
+    color: #383838;
 }
 
 
@@ -448,9 +448,9 @@ footer span a i {
     top: 0;
     width: 100%;
     z-index: 3;
-  }
+    }
 
-  .game-header {
+    .game-header {
     background: rgb(60,60,60);
     background: linear-gradient(150deg,rgba(70,80,60,255) 0%, rgba(20,30,10,255) 100%);
     padding: 10px 40px;
