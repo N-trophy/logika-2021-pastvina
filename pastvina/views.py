@@ -160,6 +160,7 @@ def game_update(request, round_id):
 
     data = {
         "tick_id": tick.id,
+        "tick_index": tick.index,
         "time": int(tick.start.timestamp() * 1000) + round.period * 10000,
         "money": money,
         "livestock": list(livestock_data.values()),
