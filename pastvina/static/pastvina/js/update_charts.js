@@ -1,6 +1,7 @@
 var tickId = 0;
 var timeOfNextUpdate = Date.now();
 var showTime = false;
+var loadTime = Date.now();
 
 function updateTimeToNextTick()
 {
@@ -45,10 +46,12 @@ var livestockMaxSell = Infinity;
 
 function updateCharts(updateData) {
     console.log(updateData);
+    if (updateData.reload_time && updateData.reload_time > loadTime) {
+        location.reload();
+    }
 
     $("#game-money").text(updateData.money);
-    if (updateData.time > Date.now())
-    {
+    if (updateData.time > Date.now()) {
         timeOfNextUpdate = updateData.time;
         showTime = true;
     }

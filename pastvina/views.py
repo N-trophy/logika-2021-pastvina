@@ -171,6 +171,9 @@ def game_update(request, round_id):
         if crops_data[tcrop['crop']]:
             crops_data[tcrop['crop']]['by_age'][tcrop['age']] = tcrop['amount']
 
+    # TODO Set reload time
+    reload_time = int(round_.start.timestamp() * 1000)
+
     data = {
         "tick_id": tick.id,
         "tick_index": tick.index,
@@ -178,6 +181,7 @@ def game_update(request, round_id):
         "money": money,
         "livestock": list(livestock_data.values()),
         "crops": list(crops_data.values()),
+        "reload_time": reload_time,
     }
 
     return JsonResponse(data)
