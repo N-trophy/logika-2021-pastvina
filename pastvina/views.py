@@ -75,19 +75,15 @@ def page_game_overview(request):
     """
     Renders the game overview page from template.
     """
-    rounds = Round.objects.all()
+    test_round_id = 1 # Can be set to None
 
+    real_rounds = Round.objects.exclude(id=test_round_id).all()
+    test_round = Round.objects.filter(id=test_round_id).last()
 
-    rounds = list(rounds)
-    r_3 = Round()
-    r_3.id = 3
-    r_4 = Round()
-    r_4.id = 4
-    rounds.append(r_3)
-    rounds.append(r_4)
-
-
-    context = {'rounds': rounds}
+    context = {
+        'real_rounds': real_rounds,
+        'test_round': test_round,
+    }
 
     return render(request, 'pastvina/game_overview.html', context)
 

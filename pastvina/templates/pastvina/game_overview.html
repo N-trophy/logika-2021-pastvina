@@ -14,18 +14,23 @@
 
 <section class="padding-small light">
     <h2>Přehled kol</h2>
-    <div class="games">
-        {% for round in rounds %}
-            {% if round.id == 1 %}
-                <a href="{% url 'game' round.id %}" class="game_number test_game">
+    <div class="game-type-container">
+        {% if test_round %}
+        <div style="flex: 1;" class="vertical-container">
+            <div class="game-wrapper">
+                <a class="game-ref test_game" href="{% url 'game' test_round.id %}">
                     <h3>Testovací hra</h3>
                 </a>
-                <div class="real_games two_thirds">
-            {% else %}
-                <a href="{% url 'game' round.id %}" class="game_number real_game">
+            </div>
+        </div>
+        {% endif %}
+        <div style="flex: 2;" class="vertical-container">
+        {% for round in real_rounds %}
+            <div class="game-wrapper">
+                <a class="game-ref real_game" href="{% url 'game' round.id %}">
                     <h3>Kolo {{forloop.counter}}</h3>
                 </a>
-            {% endif %}
+            </div>
         {% endfor %}
         </div>
     </div>
@@ -33,14 +38,23 @@
 
 <section class="statistics">
     <h2>Statistiky z odehraných kol:</h2>
-    {% for round in rounds %}
-        {% if round.id == 1 %}
-            <h3>Testovací kolo</h3>
-        {% else %}
-            <h3>Kolo {{forloop.counter|add:"-1"}}</h3>
+    <div class="vertical-container">
+        {% if test_round %}
+            <div class="game-wrapper">
+                <a class="game-ref" href="{% url 'game' test_round.id %}">
+                    <h3 style="margin:4px">Testovací hra</h3>
+                </a>
+            </div>
         {% endif %}
-    {% endfor %}
-
+        {% for round in real_rounds %}
+            <div class="game-wrapper">
+                <a class="game-ref" href="{% url 'game' round.id %}">
+                    <h3 style="margin:4px">Kolo {{forloop.counter}}</h3>
+                </a>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
 </section>
 
 {% endblock %}

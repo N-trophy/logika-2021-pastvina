@@ -263,43 +263,56 @@ a {
     text-decoration: inherit;
 }
 
-.game_number {
-    display: inline-block;
-    vertical-align: middle;
-    float: left;
-    margin: 4px;
-}
-
-.test_game {
-    width: calc(33.33% - 10px);
-    background-color: #e5e5e5;
-}
-
-.test_game h3 {
-    -webkit-transform: translateY(300%);
-    transform: translateY(300%);
-}
-
-.real_game {
-    width: calc(100% - 10px);
-    max-height: 33%;
-    background-color: #ff8686;
-}
-
-.games {
-    max-width: 1200px;
+.game-type-container {
     display: flex;
-    margin: auto;
-    min-height: 150px;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    width: 100%;
+    height: auto;
+    justify-content: stretch;
+    align-items: stretch;
+}
+
+.game-type-container > div {
+    flex: 1;
+    width: auto;
     height: auto;
 }
 
-.real_games {
-    height: 100%;
-    float: left;
+.vertical-container {
+    display: flex;
+    flex-flow: column wrap;
+    width: auto;
+    height: auto;
+    justify-content: space-around;
+    align-items: stretch;
 }
 
-.statistics {}
+.vertical-container > div {
+    flex: 1;
+}
+
+.game-wrapper {
+    margin: 4px;
+}
+
+.game-ref {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+.test_game {
+    background-color: #e5e5e5;
+}
+
+.real_game {
+    background-color: #ff8686;
+}
+
 
 form input {
     padding: 5px;
