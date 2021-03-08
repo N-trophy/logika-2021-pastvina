@@ -115,9 +115,7 @@ def page_game(request, round_id):
 
     # Prevent endless empty requests from frontend
     if round_ is None:
-        return HttpResponseNotFound("Neexistuje kolo s daným id")
-    if Tick.objects.filter(round=round_).last() is None:
-        return HttpResponseNotFound("V daném kole neexistuje iterace")
+        return HttpResponseNotFound("Dané kolo neexistuje")
 
     return render(request, 'pastvina/game.html', context)
 
