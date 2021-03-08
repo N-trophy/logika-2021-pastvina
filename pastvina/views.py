@@ -323,6 +323,19 @@ def game_trade(request, round_id):
 
 
 @login_required
+def statistics(request, round_id):
+    """
+    Renders the statistics page from template.
+    """
+    round_ = Round.objects.filter(id=round_id).last()
+
+    if round_ is None:
+        return HttpResponseNotFound("Dané kolo neexistuje")
+
+    return HttpResponseNotFound("Daná stránka zatím neexistuje")
+
+
+@login_required
 def handler_logout(request):
     """
     Logs a user out and redirects to 'index'.
