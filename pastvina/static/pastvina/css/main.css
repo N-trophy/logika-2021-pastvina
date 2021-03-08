@@ -1,11 +1,12 @@
 /* =========== SETUP =========== */
 
-body{
+body {
     margin: 0;
-    font-family: 'Quicksand', sans-serif;
+    font-family: "Quicksand", sans-serif;
     background-color: #90d43d;
     color: white;
 }
+
 
 /* =========== CONSTANTS =========== */
 
@@ -18,20 +19,23 @@ body{
     border-radius: 5px;
 }
 
-h1{
+h1 {
     font-size: 3rem;
     margin: 0;
     text-align: left;
 }
-section h1{
+
+section h1 {
     text-align: center;
 }
-h2{
+
+h2 {
     font-size: 2.1rem;
     font-weight: 500;
     text-align: left;
 }
-p{
+
+p {
     font-size: 1rem;
     line-height: 1.4;
     font-weight: 600;
@@ -40,7 +44,7 @@ p{
     text-align: left;
 }
 
-section{
+section {
     position: relative;
     padding: 0 40px;
     font-size: 1rem;
@@ -76,8 +80,9 @@ section{
 .third {
     width: 33.33%;
 }
+
 .two_thirds {
-  width: 66.66%;
+    width: 66.66%;
 }
 
 .quarter {
@@ -94,18 +99,20 @@ section{
     max-width: 1200px;
     margin: auto;
 }
+
 .rules p {
     margin: auto;
     margin-top: 10px;
     max-width: 100%;
     padding: 0px 15px;
 }
+
 #rules_text {
-  background: rgb(60,60,60);
-  background: linear-gradient(150deg,rgba(70,80,60,255) 0%, rgba(20,30,10,255) 100%);
+    background: rgb(60, 60, 60);
+    background: linear-gradient(150deg, rgba(70, 80, 60, 255) 0%, rgba(20, 30, 10, 255) 100%);
 }
 
-article{
+article {
     background-color: white;
     color: #383838;
     padding: 40px;
@@ -113,16 +120,16 @@ article{
     display: inline-block;
 }
 
-article h1{
+article h1 {
     font-size: 2rem;
 }
 
-article .labels{
+article .labels {
     text-align: left;
     margin-bottom: 20px;
 }
 
-article .labels span{
+article .labels span {
     font-size: 0.6rem;
     font-weight: 600;
     padding: 5px 10px;
@@ -132,37 +139,40 @@ article .labels span{
     border-radius: 7px;
 }
 
-article .labels span.red{
+article .labels span.red {
     background-color: #cb2222;
 }
-article .labels span.blue{
+
+article .labels span.blue {
     background-color: #21b6cb;
 }
-article .labels span.orange{
+
+article .labels span.orange {
     background-color: #eb990d;
 }
 
-.left{
+.left {
     float: left;
 }
-.right{
+
+.right {
     float: right;
 }
 
-.full-height{
+.full-height {
     height: 720px;
     height: 100vh;
 }
 
-.full-width{
+.full-width {
     width: 100%;
 }
 
-.setter{
-  margin: 5px 0px;
+.setter {
+    margin: 5px 0px;
 }
 
-.buy-sell-button{
+.buy-sell-button {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -171,7 +181,7 @@ article .labels span.orange{
     border-radius: 5px;
 }
 
-.center{
+.center {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -182,14 +192,14 @@ article .labels span.orange{
     text-align: center;
 }
 
-.background{
+.background {
     background-position: top;
     background-repeat: no-repeat;
     background-size: cover;
     padding: 0px !important;
 }
 
-.button{
+.button {
     padding: 15px 25px;
     display: inline-block;
     border: 3px solid #90d43d;
@@ -200,9 +210,11 @@ article .labels span.orange{
     cursor: pointer;
 }
 
-.button:focus {outline:0;}
+.button:focus {
+    outline: 0;
+}
 
-.button.primary{
+.button.primary {
     border: none;
     /* background-color: #13102F; */
     background-color: #90d43d;
@@ -221,26 +233,27 @@ article .labels span.orange{
     color: white;
 }
 
-p.alert, span.alert {
+p.alert,
+span.alert {
     color: red;
 }
 
-.padding{
+.padding {
     padding-top: 40px;
     padding-bottom: 40px;
 }
 
-.padding-small{
+.padding-small {
     padding-top: 20px;
     padding-bottom: 20px;
 }
 
-.margin{
+.margin {
     margin-top: 40px;
     margin-bottom: 40px;
 }
 
-.margin-small{
+.margin-small {
     margin-top: 20px;
     margin-bottom: 20px;
 }
@@ -251,65 +264,93 @@ a {
 }
 
 .game_number {
-  display: inline-block;
-  vertical-align: middle;
-  float: left;
-  margin: 4px
+    display: inline-block;
+    vertical-align: middle;
+    float: left;
+    margin: 4px;
 }
+
 .test_game {
-  width: calc(33.33% - 10px);
-  background-color: #e5e5e5;
+    width: calc(33.33% - 10px);
+    background-color: #e5e5e5;
 }
+
 .test_game h3 {
-  -webkit-transform: translateY(300%);
-  transform: translateY(300%);
+    -webkit-transform: translateY(300%);
+    transform: translateY(300%);
 }
+
 .real_game {
-  width: calc(100% - 10px);
-  max-height: 33%;
-  background-color: #ff8686;
+    width: calc(100% - 10px);
+    max-height: 33%;
+    background-color: #ff8686;
 }
+
 .games {
-  max-width: 1200px;
-  display: flex;
-  margin: auto;
-  min-height: 150px;
-  height: auto;
+    max-width: 1200px;
+    display: flex;
+    margin: auto;
+    min-height: 150px;
+    height: auto;
 }
+
 .real_games {
-  height: 100%;
-  float: left;
+    height: 100%;
+    float: left;
 }
 
-.statistics {
-
-}
+.statistics {}
 
 form input {
     padding: 5px;
 }
 
 .table-all {
-    border-collapse:collapse;
-    border-spacing:0;
-    width:100%;
-    display:table;
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    display: table;
     color: #383838;
-    border:1px solid #ccc;
+    border: 1px solid #ccc;
 }
-.table-all tr{border-bottom:1px solid #ddd}.w3-striped tbody tr:nth-child(even){background-color:#f1f1f1}
-.table-all tr:nth-child(odd){background-color:#fff}.table-all tr:nth-child(even){background-color:#f1f1f1}
-.table-all td,.table-all th{padding:10px 10px;display:table-cell;text-align:left;vertical-align:top}
-.table-all th:first-child,.table-all td:first-child{padding-left:16px}
 
+.table-all tr {
+    border-bottom: 1px solid #ddd;
+}
+
+.w3-striped tbody tr:nth-child(even) {
+    background-color: #f1f1f1;
+}
+
+.table-all tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.table-all tr:nth-child(even) {
+    background-color: #f1f1f1;
+}
+
+.table-all td,
+.table-all th {
+    padding: 10px 10px;
+    display: table-cell;
+    text-align: left;
+    vertical-align: top;
+}
+
+.table-all th:first-child,
+.table-all td:first-child {
+    padding-left: 16px;
+}
 
 
 /* =========== CHART ========= */
 
+
 /* =========== MESSAGES ========= */
 
 .messages {
-    list-style-type:none
+    list-style-type: none;
 }
 
 .message.debug {
@@ -328,16 +369,17 @@ form input {
     color: green;
 }
 
+
 /* =========== NAVIGATION =========== */
 
-nav.absolute{
+nav.absolute {
     position: absolute;
     background: none;
 }
 
 nav {
-    background: rgb(60,60,60);
-    background: linear-gradient(150deg, rgba(60,60,60,1) 0%, rgba(0,0,0,1) 100%);
+    background: rgb(60, 60, 60);
+    background: linear-gradient(150deg, rgba(60, 60, 60, 1) 0%, rgba(0, 0, 0, 1) 100%);
     opacity: 85%;
     display: block;
     z-index: 2;
@@ -347,8 +389,7 @@ nav {
     padding: 40px 4% 20px 4%;
 }
 
-
-nav a{
+nav a {
     text-decoration: none;
     margin-right: 40px;
     vertical-align: middle;
@@ -356,20 +397,21 @@ nav a{
     color: inherit;
 }
 
-nav .logo{
+nav .logo {
     font-size: 40px;
     margin-right: 100px;
     line-height: 1;
 }
 
+
 /* =========== LANDING =========== */
 
-.landing{
+.landing {
     position: relative;
-    background-image: url('../img/goat.jpg');
+    background-image: url("../img/goat.jpg");
 }
 
-.landing .overlay{
+.landing .overlay {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -378,42 +420,43 @@ nav .logo{
 }
 
 .overlay {
-    background: rgb(60,60,60);
-    background: linear-gradient(150deg, rgba(60,60,60,1) 0%, rgba(0,0,0,1) 100%);
+    background: rgb(60, 60, 60);
+    background: linear-gradient(150deg, rgba(60, 60, 60, 1) 0%, rgba(0, 0, 0, 1) 100%);
     opacity: 85%;
 }
 
-.landing .center{
+.landing .center {
     height: 200px;
     max-width: 800px;
 }
 
-.landing .center h2{
+.landing .center h2 {
     max-width: 550px;
     margin: auto;
     text-align: center;
     color: white;
 }
-section h2{
-  text-align: center;
+
+section h2 {
+    text-align: center;
 }
 
 .statistics {
-  padding: 5px 40px 15px;
+    padding: 5px 40px 15px;
 }
 
-.landing .center h1{
+.landing .center h1 {
     text-align: center;
     color: white;
 }
 
-.landing .center .button{
+.landing .center .button {
     margin-top: 20px;
     margin-left: 10px;
     margin-right: 10px;
 }
 
-.about{
+.about {
     width: 46%;
     padding: 50px 2%;
     text-align: left;
@@ -424,6 +467,7 @@ section h2{
 
 
 /* MODAL FORM */
+
 from.modal {
     z-index: 10;
 }
@@ -450,23 +494,25 @@ section.login {
     min-height: 800px;
 }
 
-form.center h3{
+form.center h3 {
     max-width: auto;
     text-align: center;
 }
 
-form.center p{
+form.center p {
     max-width: auto;
     text-align: center;
     margin: 20px;
 }
 
-form.center .button{
+form.center .button {
     margin-top: 40px;
 }
 
+
 /* FOOTER */
-footer{
+
+footer {
     position: relative;
     padding: 0 40px;
     text-align: center;
@@ -474,17 +520,18 @@ footer{
     color: #383838;
 }
 
-
 footer span {
     margin-left: 40px;
     margin-right: 40px;
 }
 
 footer span a i {
-    margin-right: 5px
+    margin-right: 5px;
 }
 
+
 /* control panel */
+
 .control-box {
     border: solid black 1px;
     padding: 10px;
@@ -494,19 +541,22 @@ footer span a i {
     background-color: #f1f1f1;
 }
 
+
 /* =========== STICKY HEADER =========== */
 
+
 /* The sticky class is added to the header with JS when it reaches its scroll position */
+
 .sticky {
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 3;
-    }
+}
 
-    .game-header {
-    background: rgb(60,60,60);
-    background: linear-gradient(150deg,rgba(70,80,60,255) 0%, rgba(20,30,10,255) 100%);
+.game-header {
+    background: rgb(60, 60, 60);
+    background: linear-gradient(150deg, rgba(70, 80, 60, 255) 0%, rgba(20, 30, 10, 255) 100%);
     padding: 10px 40px;
     overflow: auto;
 }

@@ -37,7 +37,7 @@ def key(obj, k):
 def latex_to_html(text):
     """
     Transforms the input latex text into html.
-    
+
     :param text: latex text
     :return: respective html code
     """
@@ -52,7 +52,7 @@ def latex_to_html(text):
 def markdown_to_html(text):
     """
     Transforms the input markdown text into html.
-    
+
     :param text: markdown text
     :return: respective html code
     """
