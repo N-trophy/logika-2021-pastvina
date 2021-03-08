@@ -32,8 +32,8 @@
                 <th>Název</th>
                 <th>Doba růstu</th>
                 <th>Doba kažení</th>
-                <th>Cena nákup</th>
-                <th>Cena prodej</th>
+                <th>Cena sazenice</th>
+                <th>Cena plodiny</th>
             </tr>
             {% for crop in crops %}
             <tr>
@@ -77,11 +77,11 @@
                 <th>Doba růstu</th>
                 <th>Délka života</th>
                 <th>Cena mláděte</th>
-                <th>Cena dospělého kusu</th>
-                <th>Druh potravy</th>
+                <th>Cena dospělce</th>
                 <th>Spotřeba</th>
-                <th>Produkt</th>
+                <th>Druh potravy</th>
                 <th>Cena produkce jedince</th>
+                <th>Produkt</th>
             </tr>
             {% for ls in livestock %}
             <tr>
@@ -90,10 +90,10 @@
                 <td>{{ ls.life_time }}</td>
                 <td><span class="ls-buy-price-{{ ls.id }}">-</span></td>
                 <td><span class="ls-sell-price-{{ ls.id }}">-</span></td>
-                <td>{{ ls.consumption_type.name }}</td>
                 <td>{{ ls.consumption }}</td>
-                <td>{{ ls.product_name }}</td>
+                <td>{{ ls.consumption_type.name }}</td>
                 <td><span class="ls-product-price-{{ ls.id }}">-</span></td>
+                <td>{{ ls.product_name }}</td>
             </tr>
             {% endfor %}
         </table>
