@@ -245,7 +245,7 @@ def game_trade(request, round_id):
         elif trade_type == 'sell':
             total_price = crop.current_price_sell * count
             by_age = TeamCropHistory.objects.filter(tick=last_tick, crop=crop.crop,
-                                                    user=request.user, age__lte=crop.crop.rotting_time).order_by('-age')
+                                                    user=request.user, age__lte=crop.crop.rotting_time).order_by('age')
             rest = count
             pos = 0
             while rest > 0:
@@ -262,7 +262,7 @@ def game_trade(request, round_id):
             crop.save()
             return HttpResponse("Obchod uskutečněn.")
         else:
-            return HttpResponseNotFound(request)
+            return HttpResponseBadRequest('Neznámý typ obchodu.')
     elif prod_type == 'ls':
         ls = LivestockMarketHistory.objects.filter(livestock=prod_id).select_related('livestock').last()
         if ls is None:
@@ -293,7 +293,7 @@ def game_trade(request, round_id):
                                               f'Již jste porazili {user_state.slaughtered} kusů.')
 
             by_age = TeamLivestockHistory.objects.filter(tick=last_tick, livestock=ls.livestock, user=request.user,
-                                                    age__lte=ls.livestock.life_time).order_by('-age')
+                                                    age__lte=ls.livestock.life_time).order_by('age')
             rest = count
             pos = 0
             while rest > 0:
@@ -306,26 +306,25 @@ def game_trade(request, round_id):
             TeamLivestockHistory.objects.bulk_update(by_age, ['amount'])
             user_state.money += total_price
             user_state.slaughtered += count
+            user_state.save()
             ls.amount_sold += count
             ls.save()
             return HttpResponse("Obchod uskutečněn.")
         elif trade_type == 'kill':
-            by_age = TeamLivestockHistory.objects.filter(tick=last_tick, livestock=ls.livestock, user=request.user).order_by('-age')
+            by_age = TeamLivestockHistory.objects.filter(tick=last_tick, livestock=ls.livestock, user=request.user).order_by('age')
             rest = count
-            pos = 0
-            while rest > 0:
-                if pos >= len(by_age):
+            for pos in range(len(by_age)):
+                if rest <= 0:
                     break
                 a = min(by_age[pos].amount, rest)
                 by_age[pos].amount -= a
                 rest -= a
-                pos += 1
             TeamLivestockHistory.objects.bulk_update(by_age, ['amount'])
             return HttpResponse("Zvířata utracena.")
         else:
-            return HttpResponseNotFound("Neznámá operace")
+            return HttpResponseBadRequest('Neznámý druh obchodu.')
     else:
-        return HttpResponseNotFound("Neznámý typ zboží")
+        return HttpResponseBadRequest("Neznámý typ zboží.")
 
 
 @login_required
