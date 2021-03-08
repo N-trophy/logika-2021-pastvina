@@ -22,9 +22,11 @@
 </section>
 
 <section class="dark">
-    {% for contrib in contribs %}
-        {% include "pastvina/parts/contrib.html" %}
-    {% endfor %}
+    <div class="horizontal-container">
+        {% for contrib in contribs %}
+            {% include "pastvina/parts/contrib.html" %}
+        {% endfor %}
+    </div>
 </section>
 
 

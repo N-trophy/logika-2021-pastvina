@@ -263,7 +263,7 @@ a {
     text-decoration: inherit;
 }
 
-.game-type-container {
+.horizontal-container {
     display: flex;
     flex-wrap: wrap;
     max-width: 1200px;
@@ -273,7 +273,7 @@ a {
     align-items: stretch;
 }
 
-.game-type-container > div {
+.horizontal-container > div {
     flex: 1;
     width: auto;
     height: auto;
@@ -290,6 +290,8 @@ a {
 
 .vertical-container > div {
     flex: 1;
+    width: auto;
+    height: auto;
 }
 
 .game-wrapper {
@@ -570,6 +572,10 @@ footer span a i {
 .game-header {
     background: rgb(60, 60, 60);
     background: linear-gradient(150deg, rgba(70, 80, 60, 255) 0%, rgba(20, 30, 10, 255) 100%);
-    padding: 10px 40px;
+    padding: 5px 20px;
     overflow: auto;
+}
+
+.game-header > div {
+    margin: 5px 20px;
 }
