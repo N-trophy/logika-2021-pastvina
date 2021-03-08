@@ -263,6 +263,13 @@ a {
     text-decoration: inherit;
 }
 
+.horizontal-apart {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
 .horizontal-container {
     display: flex;
     flex-wrap: wrap;
@@ -398,15 +405,16 @@ nav {
     opacity: 85%;
     display: block;
     z-index: 2;
-    height: 60px;
+    height: auto;
     top: 0;
-    width: 92%;
-    padding: 40px 4% 20px 4%;
+    width: 96%;
+    padding: 10px 2% 10px 2%;
 }
 
 nav a {
     text-decoration: none;
-    margin-right: 40px;
+    padding: 10px;
+    margin: 20px;
     vertical-align: middle;
     line-height: 1;
     color: inherit;
@@ -414,8 +422,17 @@ nav a {
 
 nav .logo {
     font-size: 40px;
-    margin-right: 100px;
+    margin: 20px;
+    margin-right: 60px;
     line-height: 1;
+}
+
+.nav-container {
+    display: flex;
+    flex-wrap: wrap;
+    height: auto;
+    justify-content: stretch;
+    align-items: center;
 }
 
 
@@ -566,15 +583,25 @@ footer span a i {
     position: fixed;
     top: 0;
     width: 100%;
+    padding-left: 0!;
+    padding-right: 0!;
+    margin-left: 0!;
+    margin-right: 0!;
     z-index: 3;
 }
 
+#game-header {
+    display: flex;
+}
+
 .game-header {
+    flex: 1;
     background: rgb(60, 60, 60);
     background: linear-gradient(150deg, rgba(70, 80, 60, 255) 0%, rgba(20, 30, 10, 255) 100%);
     padding: 5px 20px;
     overflow: auto;
 }
+
 
 .game-header > div {
     margin: 5px 20px;
