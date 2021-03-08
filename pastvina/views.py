@@ -9,7 +9,6 @@ from django.utils import timezone
 
 from pastvina.models import Contribution, Crop, Livestock, TeamHistory, LivestockMarketHistory, \
     TeamLivestockHistory, CropMarketHistory, TeamCropHistory, Round, Tick
-from pastvina.templatetags.extras import markdown_to_html
 
 
 @login_required
@@ -352,9 +351,3 @@ def handler_logout(request):
     """
     logout(request)
     return redirect('/')
-
-
-def handler_markdown_to_html(request):
-    text = request.body.decode('utf-8')
-    html = markdown_to_html(text)
-    return HttpResponse(html)

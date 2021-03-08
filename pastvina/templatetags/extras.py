@@ -48,22 +48,6 @@ def latex_to_html(text):
     return proc.communicate(macros + text)[0]
 
 
-@register.filter
-def markdown_to_html(text):
-    """
-    Transforms the input markdown text into html.
-
-    :param text: markdown text
-    :return: respective html code
-    """
-
-    macros = "\\newcommand{\\uv}[1]{``#1''}\n"
-    proc = Popen(["pandoc", "-f", "markdown", "-t", "html", "--html-q-tags", "--mathjax"],
-                            stdin=PIPE, stdout=PIPE, encoding='utf8')
-    return proc.communicate(macros + text)[0]
-
-
-@register.filter
 def time_from_now(time):
     """
 

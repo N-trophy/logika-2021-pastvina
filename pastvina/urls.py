@@ -10,7 +10,6 @@ urlpatterns = [
     path('login/', views.page_login, name='login'),
     path('logout/', views.handler_logout, name='logout'),
 
-    path('api/md_to_html', views.handler_markdown_to_html, name='md_to_html'),
     path('favicon.ico', RedirectView.as_view(url='/static/pastvina/img/logo.png')),
 
     path('rules/', views.page_rules, name='rules'),

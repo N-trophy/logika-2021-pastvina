@@ -13,6 +13,6 @@
         @{{ contrib.author.username }}
         {% endif %} {{ contrib.updated }}
     </h2>
-    <p>{{ contrib.text | markdown_to_html | safe }}</p>
+    <p>{{ contrib.text | safe }}</p>
 </article>
 </div>
