@@ -546,21 +546,25 @@ form.center .button {
 
 footer {
     position: relative;
-    padding: 0 40px;
+    padding: 20px;
     text-align: center;
     overflow: hidden;
     color: #383838;
 }
 
 footer span {
-    margin-left: 40px;
-    margin-right: 40px;
+    flex: 1;
+    margin: 10px;
+    flex-basis: 160px;
 }
 
-footer span a i {
-    margin-right: 5px;
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    height: auto;
+    justify-content: center;
+    align-items: center;
 }
-
 
 /* control panel */
 
