@@ -42,7 +42,8 @@ var cropAgeCharts = new Object();
 var livestockAgeCharts = new Object();
 var cropSellTime = new Object();
 var livestockSellTime = new Object();
-var livestockMaxSell = Infinity;
+var livestockSellLimit = Infinity;
+var currentlySold = 0;
 
 function updateCharts(updateData) {
     console.log(updateData);
@@ -50,7 +51,9 @@ function updateCharts(updateData) {
         location.reload();
     }
 
+    currentlySold = updateData.slaughtered;
     $("#game-money").text(updateData.money);
+    $(".ls-sell-limit").text(livestockSellLimit - currentlySold);
     if (updateData.time > Date.now()) {
         timeOfNextUpdate = updateData.time;
         showTime = true;
@@ -89,7 +92,7 @@ function updateCharts(updateData) {
         ageChart.update();
 
         let maxBuy = Math.floor(updateData.money/ls.buy);
-        let maxSell = Math.min(livestockMaxSell, ls.by_age.slice(0, livestockSellTime[ls.id]).reduce((a, b) => a + b, 0));
+        let maxSell = Math.min(livestockSellLimit - currentlySold, ls.by_age.slice(0, livestockSellTime[ls.id]).reduce((a, b) => a + b, 0));
         let maxKill = ls.by_age.reduce((a, b) => a + b, 0);
         $("#buy-ls-count-" + ls.id).attr({ "max": maxBuy });
         $("#sell-ls-count-" + ls.id).attr({ "max": maxSell });

@@ -113,7 +113,7 @@
             <div class="quarter brick">
                 <div class="brick-inputs">
                     <input id="sell-ls-count-{{ls.id}}" class="full-width input setter" type="number" value=0 min="0">
-                    <button class="full-width buy-sell-button setter" onclick="requestTrade('sell', 'ls', {{ls.id}}, document.getElementById('sell-ls-count-{{ls.id}}').value)">Porazit a prodat (max {{round.livestock_slaughter_limit}} ks)</button>
+                    <button class="full-width buy-sell-button setter" onclick="requestTrade('sell', 'ls', {{ls.id}}, document.getElementById('sell-ls-count-{{ls.id}}').value)">Porazit a prodat (max <span class="ls-sell-limit">{{round.livestock_slaughter_limit}}</span> ks)</button>
                 <div class="brick-inputs">
                 </div>
                     <input id="kill-ls-count-{{ls.id}}" class="full-width input setter" type="number" value=0 min="0">
@@ -132,10 +132,7 @@
     {% for ls in livestock %}
     livestockSellTime[{{ ls.id }}] = {{ ls.life_time }};
     {% endfor %}
-    livestockMaxSell = {{round.livestock_slaughter_limit}};
-    {% comment %}
-    // TODO if livestock slaughter limit changes between rounds, it needs to be changeable
-    {% endcomment %}
+    livestockSellLimit = {{round.livestock_slaughter_limit}};
 
     setInterval(updateTimeToNextTick, 1000);
 </script>

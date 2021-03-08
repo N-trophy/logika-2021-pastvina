@@ -177,7 +177,7 @@ class TeamHistory(models.Model):
     tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo')
     user = models.ForeignKey(User, on_delete=models.RESTRICT, null=False, verbose_name='tým')
 
-    slaughtered = models.PositiveIntegerField('poraženo zvířat', default=0)
+    slaughtered = models.PositiveIntegerField('prodáno zvířat', default=0)
     money = models.IntegerField('peníze')
 
 

@@ -132,6 +132,7 @@ def game_update(request, round_id):
     team_history = TeamHistory.objects.filter(tick=tick, user=request.user).last()
     if team_history:
         money = team_history.money
+        slaughtered = team_history.slaughtered
     livestock = LivestockMarketHistory.objects.filter(tick=tick).select_related('livestock').all()
     team_livestock = TeamLivestockHistory.objects.filter(tick=tick, user=request.user).values(
         'livestock',
@@ -179,6 +180,7 @@ def game_update(request, round_id):
         "tick_index": tick.index,
         "time": int(tick.start.timestamp() * 1000) + round_.period * 10000,
         "money": money,
+        "slaughtered": slaughtered,
         "livestock": list(livestock_data.values()),
         "crops": list(crops_data.values()),
         "reload_time": reload_time,
