@@ -59,6 +59,7 @@ section {
     margin: 0;
     display: inline-block;
     max-width: 1200px;
+    overflow: auto;
 }
 
 .brick {
@@ -339,17 +340,10 @@ form input {
 
 .table-all tr {
     border-bottom: 1px solid #ddd;
-}
-
-.w3-striped tbody tr:nth-child(even) {
-    background-color: #f1f1f1;
-}
-
-.table-all tr:nth-child(odd) {
     background-color: #fff;
 }
 
-.table-all tr:nth-child(even) {
+.striped tbody tr:nth-child(odd) {
     background-color: #f1f1f1;
 }
 
@@ -489,12 +483,10 @@ section h2 {
     margin-right: 10px;
 }
 
-.about {
-    width: 46%;
-    padding: 50px 2%;
+.about-section {
+    padding: 50px 10%;
     text-align: left;
-    display: inline-block;
-    vertical-align: middle;
+    display: block;
     color: #383838;
 }
 

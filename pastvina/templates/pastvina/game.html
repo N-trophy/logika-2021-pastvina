@@ -27,7 +27,8 @@
 <section class="padding-small light">
     <h2>Přehled plodin</h2>
     <div class="container centered">
-        <table class="table-all">
+        <table class="table-all striped">
+        <thead>
             <tr>
                 <th>Název</th>
                 <th>Doba růstu</th>
@@ -35,6 +36,8 @@
                 <th>Cena sazenice</th>
                 <th>Cena plodiny</th>
             </tr>
+        </thead>
+        <tbody>
             {% for crop in crops %}
             <tr>
                 <td>{{ crop.name }}</td>
@@ -44,6 +47,7 @@
                 <td><span class="crop-sell-price-{{ crop.id }}">-</span></td>
             </tr>
             {% endfor %}
+        </tbody>
         </table>
     </div>
 </section>
@@ -71,7 +75,8 @@
 <section class="padding-small light">
     <h2>Přehled dobytka</h2>
     <div class="container centered">
-        <table class="table-all">
+        <table class="table-all striped">
+        <thead>
             <tr>
                 <th>Název</th>
                 <th>Doba růstu</th>
@@ -83,6 +88,8 @@
                 <th>Cena produkce jedince</th>
                 <th>Produkt</th>
             </tr>
+        </thead>
+        <tbody>
             {% for ls in livestock %}
             <tr>
                 <td>{{ ls.name }}</td>
@@ -96,6 +103,7 @@
                 <td>{{ ls.product_name }}</td>
             </tr>
             {% endfor %}
+        </tbody>
         </table>
     </div>
 </section>
