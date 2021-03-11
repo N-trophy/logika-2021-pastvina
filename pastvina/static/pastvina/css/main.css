@@ -278,6 +278,7 @@ a {
     height: auto;
     justify-content: stretch;
     align-items: stretch;
+    margin: auto;
 }
 
 .horizontal-container > div {
