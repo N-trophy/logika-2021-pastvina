@@ -10,7 +10,7 @@
     <h1>{{ contrib.name }}</h1>
     <h2>
         {% if contrib.author %}
-        @{{ contrib.author.username }}
+        @{{ contrib.author.first_name }}
         {% endif %} {{ contrib.updated }}
     </h2>
     <p>{{ contrib.text | safe }}</p>
