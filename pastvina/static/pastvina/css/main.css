@@ -56,22 +56,9 @@ section {
 .container {
     width: 100%;
     padding: 0;
-    margin: 0;
-    display: inline-block;
+    margin: 5px auto;
     max-width: 1200px;
     overflow: auto;
-}
-
-.brick {
-    margin: auto;
-    padding: 0;
-    display: inline-block;
-    min-height: 10px;
-    float: left;
-}
-
-.container .brick {
-    height: 294px;
 }
 
 .half {
@@ -88,11 +75,6 @@ section {
 
 .quarter {
     width: 24.999%;
-}
-
-.brick-inputs {
-    width: 90%;
-    padding: 25px 15px 0px 15px;
 }
 
 .rules {
@@ -177,7 +159,6 @@ article .labels span.orange {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    height: 30px;
     padding: 5px;
     border-radius: 5px;
 }
@@ -375,6 +356,31 @@ form input {
 
 /* =========== CHART ========= */
 
+.control-box {
+    border: solid black 1px;
+    padding: 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background-color: #f1f1f1;
+    display: flex;
+}
+
+.trade-inputs {
+    flex-basis: 300px;
+    padding: 25px 10px;
+    min-width: 120px;
+}
+
+.trade-inputs > div {
+    padding: 5px;
+}
+
+.age-chart {
+    width: 600px;
+    overflow: auto;
+    flex-shrink: 0;
+}
 
 /* =========== MESSAGES ========= */
 
@@ -565,18 +571,6 @@ footer span {
     justify-content: center;
     align-items: center;
 }
-
-/* control panel */
-
-.control-box {
-    border: solid black 1px;
-    padding: 10px;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    background-color: #f1f1f1;
-}
-
 
 /* =========== STICKY HEADER =========== */
 
