@@ -26,7 +26,7 @@
 
 <section class="padding-small light">
     <h2>Přehled plodin</h2>
-    <div class="container centered">
+    <div class="container">
         <table class="table-all striped">
         <thead>
             <tr>
@@ -54,7 +54,7 @@
 
 <section class="padding-small light">
         {% for crop in crops %}
-        <div class="container centered control-box">
+        <div class="container control-box">
             <div class="quarter brick">
                 <div class="brick-inputs">
                     <input id="buy-crop-count-{{crop.id}}" class="full-width input setter" type="number" value=0 min="0">
@@ -74,7 +74,7 @@
 
 <section class="padding-small light">
     <h2>Přehled dobytka</h2>
-    <div class="container centered">
+    <div class="container">
         <table class="table-all striped">
         <thead>
             <tr>
@@ -110,7 +110,7 @@
 
 <section class="padding-small light">
         {% for ls in livestock %}
-        <div class="container centered control-box">
+        <div class="container control-box">
             <div class="quarter brick">
                 <div class="brick-inputs">
                     <input id="buy-ls-count-{{ls.id}}" class="full-width input setter" type="number" value=0 min="0">
