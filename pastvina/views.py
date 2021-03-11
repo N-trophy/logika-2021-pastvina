@@ -129,6 +129,8 @@ def game_update(request, round_id):
         return HttpResponseNotFound("V daném kole neexistuje iterace")
 
     team_history = TeamHistory.objects.filter(tick=tick, user=request.user).last()
+    money = None
+    slaughtered = None
     if team_history:
         money = team_history.money
         slaughtered = team_history.slaughtered

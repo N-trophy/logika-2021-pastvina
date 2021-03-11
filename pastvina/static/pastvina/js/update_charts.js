@@ -25,8 +25,8 @@ function requestUpdateCharts() {
     $.getJSON("update", function(update_data) {
         updateCharts(update_data);
     })
-    .fail(function(){
-        console.log("Could not update chart data");
+    .fail(function(error){
+        console.log("Nebylo možné obnovit data.\n" + error.responseText);
     });
 }
 
@@ -47,7 +47,7 @@ var currentlySold = 0;
 
 function updateCharts(updateData) {
     console.log(updateData);
-    if (updateData.reload_time && updateData.reload_time > loadTime) {
+    if (updateData.reload_time && updateData.reload_time > loadTime && updateData.reload_time < Date.now()) {
         location.reload();
     }
 
