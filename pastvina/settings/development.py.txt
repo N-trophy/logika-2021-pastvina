@@ -16,6 +16,9 @@ DATABASES = {
         'NAME': 'xxx',
         'USER': 'xxx',
         'PASSWORD': 'xxx',
+        'OPTIONS': {
+            'isolation_level': 'serializable',
+        }
     }
 }
 
