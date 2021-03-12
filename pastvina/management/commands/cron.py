@@ -5,14 +5,14 @@ Run it manully to make single tisk.
 """
 from django.core.management import BaseCommand
 from django.db import transaction
+from django.utils import timezone
 
 from pastvina.models import Round, Tick
-from django.utils import timezone
+from ._round import new as new_round
+from ._tick import new as new_tick
 
 
 def rounds_update() -> None:
-    from ._round import new as new_round
-
     current_time = timezone.now()
     for round_ in Round.objects.all():
         if round_.is_running() and not Tick.objects.filter(round=round_).exists():
@@ -23,9 +23,6 @@ def rounds_update() -> None:
 
 
 def ticks_update() -> None:
-    from pastvina.models import Round
-    from ._tick import new as new_tick
-
     current_time = timezone.now()
     for round_ in Round.objects.all():
         if not round_.is_running():
