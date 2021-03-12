@@ -1,6 +1,6 @@
 """
 This script is run each 10 s on production server by systemd timer:
-cat pastvina/cron/main.py | ./manage.py shell --settings=...
+./manage.py cron
 Run it manully to make single tisk.
 """
 from django.core.management import BaseCommand
