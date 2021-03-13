@@ -33,7 +33,7 @@ class Round(models.Model):
     id = models.AutoField(primary_key=True)
     start = models.DateTimeField('start')
     reload_time = models.DateTimeField('obnovení dat', null=True, blank=True)
-    is_test = models.BooleanField('testovací')
+    is_test = models.BooleanField('testovací', default=False, blank=True)
     ticks = models.IntegerField('počet minikol')
     period = models.IntegerField('délka minikola v 10s')
 
