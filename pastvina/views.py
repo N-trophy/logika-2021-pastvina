@@ -74,14 +74,12 @@ def page_game_overview(request):
     """
     Renders the game overview page from template.
     """
-    test_round_id = 1 # Can be set to None
-
-    real_rounds = Round.objects.exclude(id=test_round_id).all()
-    test_round = Round.objects.filter(id=test_round_id).last()
+    real_rounds = Round.objects.filter(is_test=True).all()
+    test_rounds = Round.objects.filter(is_test=False).all()
 
     context = {
         'real_rounds': real_rounds,
-        'test_round': test_round,
+        'test_rounds': test_rounds,
     }
 
     return render(request, 'pastvina/game_overview.html', context)
@@ -173,9 +171,6 @@ def game_update(request, round_id):
         if crops_data[tcrop['crop']]:
             crops_data[tcrop['crop']]['by_age'][tcrop['age']] = tcrop['amount']
 
-    # TODO Set reload time
-    reload_time = int(round_.start.timestamp() * 1000)
-
     data = {
         "tick_id": tick.id,
         "tick_index": tick.index,
@@ -184,7 +179,7 @@ def game_update(request, round_id):
         "slaughtered": slaughtered,
         "livestock": list(livestock_data.values()),
         "crops": list(crops_data.values()),
-        "reload_time": reload_time,
+        "reload_time": int(round_.reload_time.timestamp() * 1000),
     }
 
     return JsonResponse(data)
