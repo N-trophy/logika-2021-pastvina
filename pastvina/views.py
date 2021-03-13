@@ -74,8 +74,8 @@ def page_game_overview(request):
     """
     Renders the game overview page from template.
     """
-    real_rounds = Round.objects.filter(is_test=True).all()
-    test_rounds = Round.objects.filter(is_test=False).all()
+    real_rounds = Round.objects.filter(is_test=False).all()
+    test_rounds = Round.objects.filter(is_test=True).all()
 
     context = {
         'real_rounds': real_rounds,
