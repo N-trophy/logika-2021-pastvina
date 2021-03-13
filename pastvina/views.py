@@ -147,7 +147,7 @@ def game_update(request, round_id):
             'buy': ls.current_price_buy,
             'sell': ls.current_price_sell,
             'product_price': ls.product_current_price,
-            'by_age': [0 for _ in range(ls.livestock.life_time + ls.livestock.growth_time + 1)],
+            'by_age': [0 for _ in range(ls.livestock.life_time + ls.livestock.growth_time)],
         }
 
     for tls in team_livestock:

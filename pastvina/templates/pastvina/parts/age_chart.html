@@ -1,3 +1,5 @@
+{% load extras %}
+
 <div class="age-chart">
     <canvas id="{{chart_type}}-{{ id }}"></canvas>
 </div>
@@ -13,7 +15,6 @@
             {% for ls in ''|center:growth_time %}
                 "týden růstu {{ forloop.revcounter }}",
             {% endfor %}
-            "týden 0",
             {% for ls in ''|center:life_time %}
                 {% if chart_type == 'livestock' %}
                 "týden života {{ forloop.counter }}",
@@ -28,8 +29,15 @@
                 {% else %}
                 label: 'produkce {{name_genitive}} dle stáří',
                 {% endif %}
-                backgroundColor: '{{ color }}',
-                data: [0]
+                data: [0],
+                backgroundColor: [
+                    {% for ls in ''|center:growth_time %}
+                        "{{color}}",
+                    {% endfor %}
+                    {% for ls in ''|center:life_time %}
+                        "{{color | add_red}}",
+                    {% endfor %}
+                ],
             }]
         },
         options: {

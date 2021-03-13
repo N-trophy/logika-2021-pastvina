@@ -74,3 +74,15 @@ def timedelta_to_days_str(interval):
     if days >= 5:
         word = "dnů"
     return "{0} {1}".format(interval.days, word)
+
+
+@register.filter
+def add_red(hex_code):
+    int_code = int(hex_code[1:7], 16)
+    r = (int_code >> 16)
+    g = (int_code >> 8) % 256
+    b = int_code % 256
+    r = min(255, r + 30)
+    g = max(0, int(g - 30))
+    b = max(0, int(b - 30))
+    return f"#{hex((r << 16) + (g << 8) + b)[2:]}"
