@@ -72,6 +72,7 @@ def new(tick: Tick, new_tick: Tick) -> None:
     TeamLivestockHistory.objects.bulk_create(apply_aging(team_livestock, new_tick))
 
     for team_state in team_states.values():
+        team_state.slaughtered = 0
         if team_cons_and_prod[team_state.user.id]['cons'] <= team_state.money:
             team_state.money -= team_cons_and_prod[team_state.user.id]['cons']
             team_state.money += team_cons_and_prod[team_state.user.id]['prod']
