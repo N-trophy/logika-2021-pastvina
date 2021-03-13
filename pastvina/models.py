@@ -32,6 +32,8 @@ class Round(models.Model):
 
     id = models.AutoField(primary_key=True)
     start = models.DateTimeField('start')
+    reload_time = models.DateTimeField('obnovení dat', null=True, blank=True)
+    is_test = models.BooleanField('testovací')
     ticks = models.IntegerField('počet minikol')
     period = models.IntegerField('délka minikola v 10s')
 
@@ -122,7 +124,7 @@ class Livestock(models.Model):
     growth_time = models.IntegerField('čas růstu')
     life_time = models.IntegerField('čas života')
 
-    consumption = models.FloatField("spotřeba")
+    consumption = models.IntegerField("spotřeba")
     consumption_type = models.ForeignKey(Crop, on_delete=models.RESTRICT, null=False, verbose_name='krmivo')
 
     color = ColorField(verbose_name='barva', default='#aaaaaa', format='hexa')
