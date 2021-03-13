@@ -20,8 +20,11 @@ def cpy_to_next_tick(arr, new_tick):
     return arr
 
 
-def update_prices(arr, price_field, amount_field, coef_to_price):
+def update_prices(arr, price_field, amount_field, memory_coef, coef_to_price):
     s = reduce(lambda x, y: x + abs(getattr(y, amount_field)), arr, 0)
+
+    for a in arr:
+        setattr(a, amount_field, getattr(a, amount_field) / (memory_coef + 1))
 
     vals = [exp(- 1 - getattr(a, amount_field) / (s + 1)) for a in arr]
     exp_s = sum(vals)
@@ -75,23 +78,25 @@ def new(tick: Tick, new_tick: Tick) -> None:
 
     TeamHistory.objects.bulk_create(cpy_to_next_tick([team_state for team_state in team_states.values()], new_tick))
 
+    memory_coef = 2
+
     next_crops_states = cpy_to_next_tick(crops_states.values(), new_tick)
-    update_prices(next_crops_states, 'current_price_sell', 'amount_sold',
+    update_prices(next_crops_states, 'current_price_sell', 'amount_sold', memory_coef,
                   lambda a, coef: a.crop.base_price_sell * coef)
-    update_prices(next_crops_states, 'current_price_buy', 'amount_sold',
+    update_prices(next_crops_states, 'current_price_buy', 'amount_sold', memory_coef,
                   lambda a, coef: a.crop.base_price_buy * coef)
     for crop in next_crops_states:
-        crop.amount_sold *= 0.7
+        crop.amount_sold *= memory_coef
     CropMarketHistory.objects.bulk_create(next_crops_states)
 
     next_livestock_states = cpy_to_next_tick(livestock_states.values(), new_tick)
-    update_prices(next_livestock_states, 'current_price_sell', 'amount_sold',
+    update_prices(next_livestock_states, 'current_price_sell', 'amount_sold', memory_coef,
                   lambda a, coef: a.livestock.base_price_sell * coef)
-    update_prices(next_livestock_states, 'current_price_buy', 'amount_sold',
+    update_prices(next_livestock_states, 'current_price_buy', 'amount_sold', memory_coef,
                   lambda a, coef: a.livestock.base_price_buy * coef)
-    update_prices(next_livestock_states, 'product_current_price', 'product_amount_sold',
+    update_prices(next_livestock_states, 'product_current_price', 'product_amount_sold', memory_coef,
                   lambda a, coef: a.livestock.product_price * coef)
     for ls in next_livestock_states:
-        ls.amount_sold *= 0.7
-        ls.product_amount_sold *= 0.7
+        ls.amount_sold *= memory_coef
+        ls.product_amount_sold *= memory_coef
     LivestockMarketHistory.objects.bulk_create(next_livestock_states)

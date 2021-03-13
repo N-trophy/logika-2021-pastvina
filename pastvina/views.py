@@ -240,6 +240,8 @@ def game_trade(request, round_id):
             )
             c.amount += count
             c.save()
+            crop.amount_sold -= total_price
+            crop.save()
             user_state.money -= total_price
             user_state.save()
             return HttpResponse("Obchod uskutečněn.")
@@ -259,7 +261,7 @@ def game_trade(request, round_id):
             TeamCropHistory.objects.bulk_update(by_age, ['amount'])
             user_state.money += total_price
             user_state.save()
-            crop.amount_sold += count
+            crop.amount_sold += total_price
             crop.save()
             return HttpResponse("Obchod uskutečněn.")
         else:
@@ -285,6 +287,8 @@ def game_trade(request, round_id):
             c.save()
             user_state.money -= total_price
             user_state.save()
+            ls.amount_sold -= total_price
+            ls.save()
             return HttpResponse("Obchod uskutečněn.")
         elif trade_type == 'sell':
             total_price = ls.current_price_sell * count
@@ -308,7 +312,7 @@ def game_trade(request, round_id):
             user_state.money += total_price
             user_state.slaughtered += count
             user_state.save()
-            ls.amount_sold += count
+            ls.amount_sold += total_price
             ls.save()
             return HttpResponse("Obchod uskutečněn.")
         elif trade_type == 'kill':
