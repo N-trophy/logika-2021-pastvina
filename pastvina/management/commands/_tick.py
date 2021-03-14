@@ -35,8 +35,8 @@ def new(tick: Tick, new_tick: Tick) -> None:
     team_consumptions = {team_state.user_id : 0 for team_state in team_states.values()}
     team_livestock = TeamLivestockHistory.objects.filter(tick=tick)
     for tls in team_livestock:
-        livestock = tls.livestock_states[tls.livestock_id].livestock
-        crop_state = crops_states[livestock.consumtion_type_id]
+        livestock = livestock_states[tls.livestock_id].livestock
+        crop_state = crops_states[livestock.consumption_type_id]
         team_consumptions[tls.user_id] += tls.amount * crop_state.current_price_sell * livestock.consumption
 
     """filter ids of the teams whose livestock will survive"""
