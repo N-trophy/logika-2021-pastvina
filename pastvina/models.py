@@ -186,7 +186,6 @@ class TeamHistory(models.Model):
     user = models.ForeignKey(User, on_delete=models.RESTRICT, verbose_name='tým')
 
     slaughtered = models.PositiveIntegerField('prodáno zvířat', default=0)
-    stock_size = models.PositiveIntegerField('velikost zásob', default=0)
     money = models.PositiveIntegerField('peníze')
 
 # TODO: check (this function does not even work)

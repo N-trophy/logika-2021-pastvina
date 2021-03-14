@@ -111,7 +111,6 @@ class TeamHistoryAdmin(admin.ModelAdmin):
         'tick',
         'user',
         'money',
-        'stock_size',
         'slaughtered',
         ]
 

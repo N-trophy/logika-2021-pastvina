@@ -32,29 +32,29 @@ def new(tick: Tick, new_tick: Tick) -> None:
                         .objects.filter(tick=tick).select_related('livestock')}
     team_states = {team_state.user_id: team_state for team_state in TeamHistory.objects.filter(tick=tick)}
 
-    team_consumptions = {team_state.user_id : 0 for team_state in team_states.values()}
-    team_livestock = TeamLivestockHistory.objects.filter(tick=tick)
-    for tls in team_livestock:
-        livestock = livestock_states[tls.livestock_id].livestock
-        crop_state = crops_states[livestock.consumption_type_id]
-        team_consumptions[tls.user_id] += tls.amount * crop_state.current_price_sell * livestock.consumption
-
-    """filter ids of the teams whose livestock will survive"""
-    surviving_teams = [team_states[team_id] for team_id in team_states.keys()
-                       if team_consumptions[team_id] <= team_states[team_id].money]
-
-    """update teams money by their total consumption"""
-    for team_state in surviving_teams:
-        team_state.money -= team_consumptions[team_state.user_id]
-
-    """get livestock of those teams who survived"""
-    team_livestock = TeamLivestockHistory.objects.filter(tick=tick, user__in=[team_state.user_id
-                                                                              for team_state in surviving_teams])
-
     """reset team state"""
     for team_state in team_states.values():
         team_state.stock_size = 0
         team_state.slaughtered = 0
+        team_state.total_consumption = 0
+
+    team_livestock = TeamLivestockHistory.objects.filter(tick=tick)
+    for tls in team_livestock:
+        livestock = livestock_states[tls.livestock_id].livestock
+        crop_state = crops_states[livestock.consumption_type_id]
+        team_states[tls.user_id].total_consumption += tls.amount * crop_state.current_price_sell * livestock.consumption
+
+    """filter ids of the teams whose livestock will survive"""
+    surviving_teams = [team_states[team_id] for team_id in team_states.keys()
+                       if team_states[team_id].total_consumption <= team_states[team_id].money]
+
+    """update teams money by their total consumption"""
+    for team_state in surviving_teams:
+        team_state.money -= team_states[team_state.user_id].total_consumption
+
+    """get livestock of those teams who survived"""
+    team_livestock = TeamLivestockHistory.objects.filter(tick=tick, user__in=[team_state.user_id
+                                                                              for team_state in surviving_teams])
 
     """
     apply production on mature animals (increase team money and the sales counter of the product)
