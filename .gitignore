@@ -1,6 +1,6 @@
 .idea
 db.sqlite3
 **/__pycache__
-pastvina/storage
-storage
+pastvina/static/colorfield
+pastvina/static/admin
 venv
