@@ -7,54 +7,120 @@ from django.contrib import admin
 
 @admin.register(Contribution)
 class ContributionAdmin(admin.ModelAdmin):
-    list_display = ['name', 'published', 'author']
-
-    formfield_overrides = {
-        models.TextField: {'widget': widgets.MarkdownTextField}
-    }
-
-
-@admin.register(Crop)
-class CropAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'base_price_buy', 'base_price_sell', 'growth_time', 'rotting_time', 'color']
-
-
-@admin.register(Livestock)
-class CropAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'base_price_buy', 'base_price_sell', 'growth_time', 'color']
+    list_display = [
+        'name',
+        'published',
+        'public_from',
+        'author',
+        ]
 
 
 @admin.register(Round)
 class RoundAdmin(admin.ModelAdmin):
-    list_display = ['id', 'start', 'ticks', 'period', 'crop_storage_size', 'livestock_slaughter_limit', 'start_money']
+    list_display = [
+        'id',
+        'start',
+        'reload_time',
+        'is_test',
+        'ticks',
+        'period',
+        'start_money',
+        'crop_storage_size',
+        'livestock_slaughter_limit',
+        ]
 
 
 @admin.register(Tick)
-class RoundAdmin(admin.ModelAdmin):
-    list_display = ['id', 'index', 'round']
+class TickAdmin(admin.ModelAdmin):
+    list_display = [
+        'id',
+        'index',
+        'round',
+        'start',
+        ]
 
 
-@admin.register(TeamCropHistory)
-class CromHistoryAdmin(admin.ModelAdmin):
-    list_display = ['tick', 'user', 'crop', 'age', 'amount']
+@admin.register(Crop)
+class CropAdmin(admin.ModelAdmin):
+    list_display = [
+        'id',
+        'name',
+        'growth_time',
+        'rotting_time',
+        'base_price_buy',
+        'base_price_sell',
+        'color',
+        ]
 
 
-@admin.register(TeamLivestockHistory)
-class TeamLivestockHistoryAdmin(admin.ModelAdmin):
-    list_display = ['tick', 'user', 'livestock', 'age', 'amount']
-
-
-@admin.register(TeamHistory)
-class TeamHistoryAdmin(admin.ModelAdmin):
-    list_display = ['tick', 'user', 'money']
+@admin.register(Livestock)
+class LivestockAdmin(admin.ModelAdmin):
+    list_display = [
+        'id',
+        'name',
+        'growth_time',
+        'life_time',
+        'base_price_buy',
+        'base_price_sell',
+        'product_name',
+        'product_price',
+        'consumption_type',
+        'consumption',
+        'color',
+        ]
 
 
 @admin.register(CropMarketHistory)
 class CropMarketHistoryAdmin(admin.ModelAdmin):
-    list_display = ['tick', 'crop', 'amount_sold', 'current_price_buy', 'current_price_sell']
+    list_display = [
+        'tick',
+        'crop',
+        'current_price_buy',
+        'current_price_sell',
+        'amount_sold',
+        ]
 
 
 @admin.register(LivestockMarketHistory)
 class LivestockMarketHistoryADmin(admin.ModelAdmin):
-    list_display = ['tick', 'livestock', 'amount_sold', 'current_price_buy',
-                    'current_price_sell', 'product_amount_sold', 'product_current_price']
+    list_display = [
+        'tick',
+        'livestock',
+        'current_price_buy',
+        'current_price_sell',
+        'amount_sold',
+        'product_current_price',
+        'product_amount_sold',
+        ]
+
+
+@admin.register(TeamHistory)
+class TeamHistoryAdmin(admin.ModelAdmin):
+    list_display = [
+        'tick',
+        'user',
+        'money',
+        'slaughtered',
+        ]
+
+
+@admin.register(TeamCropHistory)
+class TeamCropHistoryAdmin(admin.ModelAdmin):
+    list_display = [
+        'tick',
+        'user',
+        'crop',
+        'age',
+        'amount',
+        ]
+
+
+@admin.register(TeamLivestockHistory)
+class TeamLivestockHistoryAdmin(admin.ModelAdmin):
+    list_display = [
+        'tick',
+        'user',
+        'livestock',
+        'age',
+        'amount',
+        ]
