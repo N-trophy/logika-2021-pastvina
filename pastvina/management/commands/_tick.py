@@ -5,14 +5,6 @@ from pastvina.models import Round, Tick, Livestock, Crop, TeamCropHistory, TeamL
     LivestockMarketHistory, TeamHistory
 
 
-def apply_aging(arr, new_tick):
-    for a in arr:
-        a.pk = None
-        a.age -= 1
-        a.tick = new_tick
-    return [a for a in arr if a.age > 0]
-
-
 def cpy_to_next_tick(arr, new_tick):
     for a in arr:
         a.pk = None
@@ -20,84 +12,132 @@ def cpy_to_next_tick(arr, new_tick):
     return arr
 
 
-def update_prices(arr, price_field, amount_field, memory_coef, coef_to_price):
-    s = reduce(lambda x, y: x + abs(getattr(y, amount_field)), arr, 0)
+def update_prices(dict, current_price_field, amount_sold_field, coef_to_price):
+    s = reduce(lambda x, y: x + abs(getattr(y, amount_sold_field)), dict.values(), 0)
 
-    for a in arr:
-        setattr(a, amount_field, getattr(a, amount_field) / (memory_coef + 1))
-
-    vals = [exp(- 1 - getattr(a, amount_field) / (s + 1)) for a in arr]
+    vals = [exp(- 1 - getattr(a, amount_sold_field) / (s + 1)) for a in dict.values()]
     exp_s = sum(vals)
-    coefs = [len(arr) * v / exp_s for v in vals]
+    coefs = [len(dict.values()) * v / exp_s for v in vals]
 
-    for i, a in enumerate(arr):
-        setattr(a, price_field, coef_to_price(a, coefs[i]))
+    for i, a in enumerate(dict.values()):
+        setattr(a, current_price_field, coef_to_price(a, coefs[i]))
 
 
 def new(tick: Tick, new_tick: Tick) -> None:
-    crops_states = {crop.crop.id: crop for crop in CropMarketHistory.objects.filter(tick=tick).select_related('crop')}
-    livestock_states = {ls.livestock.id: ls for ls in LivestockMarketHistory.objects.filter(tick=tick).select_related('livestock')}
+    """get previous states of market and teams"""
 
-    team_states = {team.user.id: team for team in TeamHistory.objects.filter(tick=tick)}
-    team_cons_and_prod = {key: {'cons': 0, 'prod': 0} for key in team_states.keys()}
-    team_crop_capacity = {key: tick.round.crop_storage_size for key in team_states.keys()}
+    crops_states = {crop_state.crop_id: crop_state for crop_state in CropMarketHistory
+                    .objects.filter(tick=tick).select_related('crop')}
+    livestock_states = {ls_state.livestock_id: ls_state for ls_state in LivestockMarketHistory
+                        .objects.filter(tick=tick).select_related('livestock')}
+    team_states = {team_state.user_id: team_state for team_state in TeamHistory.objects.filter(tick=tick)}
 
-    team_crops = TeamCropHistory.objects.filter(tick=tick).order_by('-age')
-    team_crops = apply_aging(team_crops, new_tick)
-    team_crops_in_storage = []
-    for crop in team_crops:
-        if crop.age < crops_states[crop.crop.id].crop.rotting_time:
-            amount_stored = min(team_crop_capacity[crop.user.id], crop.amount)
-            crop.amount = amount_stored
-            team_crop_capacity[crop.user.id] -= amount_stored
+    """filter ids of the teams whose livestock will survive"""
+    surviving_teams = [team_state for team_state in team_states.values()
+                       if team_state.total_consumption <= team_state.money]
 
-        team_crops_in_storage.append(crop)
+    """update teams money by their total consumption"""
+    for team_state in surviving_teams:
+        team_state.money -= team_state.total_consumption
 
-    TeamCropHistory.objects.bulk_create(team_crops_in_storage)
+    """get livestock of those teams who survived"""
+    team_livestock = TeamLivestockHistory.objects.filter(tick=tick, user__in=[team_state.user_id
+                                                                              for team_state in surviving_teams])
 
-    team_livestock = TeamLivestockHistory.objects.filter(tick=tick)
-
-    for tls in team_livestock:
-        livestock_kind = livestock_states[tls.livestock.id]
-        crop_kind = crops_states[livestock_kind.livestock.consumption_type.id]
-
-        cons = tls.amount * livestock_kind.livestock.consumption * crop_kind.current_price_buy
-        team_cons_and_prod[tls.user.id]['cons'] += cons
-
-        if tls.age < tls.livestock.life_time:
-            prod = tls.amount * livestock_kind.product_current_price
-            team_cons_and_prod[tls.user.id]['prod'] += prod
-
-    team_livestock = [tls for tls in team_livestock if team_cons_and_prod[tls.user.id]['cons'] <= team_states[tls.user.id].money]
-    TeamLivestockHistory.objects.bulk_create(apply_aging(team_livestock, new_tick))
-
+    """reset team state"""
     for team_state in team_states.values():
+        team_state.total_consumption = 0
+        team_state.stock_size = 0
         team_state.slaughtered = 0
-        if team_cons_and_prod[team_state.user.id]['cons'] <= team_state.money:
-            team_state.money -= team_cons_and_prod[team_state.user.id]['cons']
-            team_state.money += team_cons_and_prod[team_state.user.id]['prod']
 
-    TeamHistory.objects.bulk_create(cpy_to_next_tick([team_state for team_state in team_states.values()], new_tick))
+    """
+    apply production on mature animals (increase team money and the sales counter of the product)
+    apply aging on all animals
+    """
+    for tls in team_livestock:
+        ls_state = livestock_states[tls.livestock_id]
+        team_state = team_states[tls.user_id]
+        consumption_crop_state = crops_states[ls_state.livestock.consumption_type_id]
 
-    memory_coef = 2
+        if tls.age <= ls_state.livestock.life_time:
+            prod = ls_state.product_current_price * tls.amount
+            ls_state.product_amount_sold += prod
+            team_state.money += prod
 
-    next_crops_states = cpy_to_next_tick(crops_states.values(), new_tick)
-    update_prices(next_crops_states, 'current_price_sell', 'amount_sold', memory_coef,
-                  lambda a, coef: a.crop.base_price_sell * coef)
-    update_prices(next_crops_states, 'current_price_buy', 'amount_sold', memory_coef,
-                  lambda a, coef: a.crop.base_price_buy * coef)
-    for crop in next_crops_states:
-        crop.amount_sold *= memory_coef
-    CropMarketHistory.objects.bulk_create(next_crops_states)
+        cons = tls.amount * consumption_crop_state.current_price_sell * ls_state.livestock.consumption
+        consumption_crop_state.amount_sold -= cons
 
-    next_livestock_states = cpy_to_next_tick(livestock_states.values(), new_tick)
-    update_prices(next_livestock_states, 'current_price_sell', 'amount_sold', memory_coef,
-                  lambda a, coef: a.livestock.base_price_sell * coef)
-    update_prices(next_livestock_states, 'current_price_buy', 'amount_sold', memory_coef,
-                  lambda a, coef: a.livestock.base_price_buy * coef)
-    update_prices(next_livestock_states, 'product_current_price', 'product_amount_sold', memory_coef,
-                  lambda a, coef: a.livestock.product_price * coef)
-    for ls in next_livestock_states:
-        ls.amount_sold *= memory_coef
-        ls.product_amount_sold *= memory_coef
-    LivestockMarketHistory.objects.bulk_create(next_livestock_states)
+        tls.age -= 1
+
+    """remove dead animals"""
+    team_livestock = [tls for tls in team_livestock if tls.age > 0]
+
+    TeamLivestockHistory.objects.bulk_create(cpy_to_next_tick(team_livestock, new_tick))
+
+    memory = 2
+
+    """
+    update livestock prices
+    amount_sold contains <amount in last previous step> * <memory> + <amount sold in current tick>
+    -> needs to be normalized by (1 + memory)
+    """
+
+    for ls_state in livestock_states.values():
+        ls_state.amount_sold /= memory + 1
+        ls_state.product_amount_sold /= memory + 1
+    update_prices(livestock_states, 'current_price_sell', 'amount_sold',
+                  lambda a, c: a.livestock.base_price_sell * c)
+    update_prices(livestock_states, 'current_price_buy', 'amount_sold',
+                  lambda a, c: a.livestock.base_price_buy * c)
+    update_prices(livestock_states, 'product_current_price', 'product_amount_sold',
+                  lambda a, c: a.livestock.product_price * c)
+    for ls_state in livestock_states.values():
+        ls_state.amount_sold *= memory
+        ls_state.product_amount_sold *= memory
+
+    LivestockMarketHistory.objects.bulk_create(cpy_to_next_tick([ls_state for ls_state in livestock_states.values()],
+                                                                new_tick))
+    """
+    update crop prices
+    amount_sold contains <amount in last previous step> * <memory> + <amount sold in current tick>
+    -> needs to be normalized by (1 + memory)
+    """
+
+    for crop_state in crops_states.values():
+        crop_state.amount_sold /= memory + 1
+    update_prices(crops_states, 'current_price_sell', 'amount_sold',
+                  lambda a, c: a.crop.base_price_sell * c)
+    update_prices(crops_states, 'current_price_buy', 'amount_sold',
+                  lambda a, c: a.crop.base_price_buy * c)
+
+    CropMarketHistory.objects.bulk_create(cpy_to_next_tick([crop_state for crop_state in crops_states.values()],
+                                                           new_tick))
+    for crop_state in crops_states.values():
+        crop_state.amount_sold *= memory
+
+    """update team total consumption"""
+    for tls in team_livestock:
+        ls_state = livestock_states[tls.livestock_id]
+        team_state = team_states[tls.user_id]
+        consumption_crop_state = crops_states[ls_state.livestock.consumption_type_id]
+
+        cons = tls.amount * consumption_crop_state.current_price_sell * tls.livestock.consumption
+        team_state.total_consumption += cons
+
+    """get crop, apply aging and remove a stock surplus"""
+    storage_size = tick.round.crop_storage_size
+    team_crops = TeamCropHistory.objects.filter(tick=tick).order_by('-age')
+    for tc in team_crops:
+        crop = crops_states[tc.crop_id].crop
+        team_state = team_states[tc.user_id]
+        tc.age -= 1
+        if 0 < tc.age <= crop.rotting_time:
+            team_state.stock_size += tc.amount
+            surplus = max(0, team_state.stock_size - storage_size)
+            team_state.stock_size -= surplus
+            tc.amount -= surplus
+    team_crops = [tc for tc in team_crops if tc.amount > 0 and tc.age > 0]
+
+    TeamCropHistory.objects.bulk_create(cpy_to_next_tick(team_crops, new_tick))
+    TeamHistory.objects.bulk_create(cpy_to_next_tick([team_state for team_state in team_states.values()],
+                                                     new_tick))

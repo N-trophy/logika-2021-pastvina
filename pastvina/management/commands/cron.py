@@ -12,6 +12,7 @@ from ._round import new as new_round
 from ._tick import new as new_tick
 
 
+@transaction.atomic
 def rounds_update() -> None:
     current_time = timezone.now()
     for round_ in Round.objects.all():
@@ -22,11 +23,12 @@ def rounds_update() -> None:
             new_round(round_, t)
 
 
+@transaction.atomic
 def ticks_update() -> None:
     current_time = timezone.now()
     for round_ in Round.objects.all():
-        if not round_.is_running():
-            continue
+        # if not round_.is_running():
+        #     continue
         last_tick = Tick.objects.filter(round=round_).last()
         if last_tick is None:
             continue
@@ -42,7 +44,6 @@ def ticks_update() -> None:
 class Command(BaseCommand):
     help = 'Runs one iteration of updates.'
 
-    @transaction.atomic
     def handle(self, *args, **options):
         rounds_update()
         ticks_update()
