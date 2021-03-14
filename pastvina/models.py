@@ -2,7 +2,7 @@ from colorfield.fields import ColorField
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
-from django.db.models import Q
+from django.db.models import Q, Index
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from os import path, rename
@@ -62,6 +62,8 @@ class Tick(models.Model):
         verbose_name = 'tick'
         verbose_name_plural = 'ticky'
         unique_together = (('round', 'index'),)
+
+        indexes = [Index(fields=['round', 'index'])]
 
     id = models.AutoField(primary_key=True)
     index = models.PositiveIntegerField('index')
@@ -141,6 +143,8 @@ class CropMarketHistory(models.Model):
         verbose_name_plural = 'plodiny - historie obchodů'
         unique_together = (('tick', 'crop'),)
 
+        indexes = [Index(fields=['tick', 'crop'])]
+
     id = models.AutoField(primary_key=True)
     tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo')
     crop = models.ForeignKey(Crop, on_delete=models.RESTRICT, verbose_name='plodina')
@@ -158,6 +162,8 @@ class LivestockMarketHistory(models.Model):
         verbose_name = 'dobytek - historie obchodu'
         verbose_name_plural = 'dobytek - historie obchodů'
         unique_together = (('tick', 'livestock'),)
+
+        indexes = [Index(fields=['tick', 'livestock'])]
 
     id = models.AutoField(primary_key=True)
     tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo')
@@ -181,6 +187,8 @@ class TeamHistory(models.Model):
         verbose_name_plural = 'historie herních parametrů týmů'
         unique_together = (('tick', 'user'),)
 
+        indexes = [Index(fields=['tick', 'user'])]
+
     id = models.AutoField(primary_key=True)
     tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo')
     user = models.ForeignKey(User, on_delete=models.RESTRICT, verbose_name='tým')
@@ -203,6 +211,8 @@ class TeamCropActionHistory(models.Model):
         verbose_name_plural = 'plodiny - historie akcí týmů'
         unique_together = (('tick', 'user', 'crop'),)
 
+        indexes = [Index(fields=['tick', 'user', 'crop'])]
+
     id = models.AutoField(primary_key=True)
     tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo')
     user = models.ForeignKey(User, on_delete=models.RESTRICT, verbose_name='tým')
@@ -217,6 +227,8 @@ class TeamLivestockActionHistory(models.Model):
         verbose_name = 'dobytek - historie akcí týmu'
         verbose_name_plural = 'dobytek - historie akcí týmů'
         unique_together = (('tick', 'user', 'livestock'),)
+
+        indexes = [Index(fields=['tick', 'user', 'livestock'])]
 
     id = models.AutoField(primary_key=True)
     tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo')
@@ -234,6 +246,8 @@ class TeamCropHistory(models.Model):
         verbose_name_plural = 'plodiny - historie množství týmů podle stáří'
         unique_together = (('tick', 'user', 'crop', 'age'),)
 
+        indexes = [Index(fields=['tick', 'user', 'crop'])]
+
     id = models.AutoField(primary_key=True)
     tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo')
     user = models.ForeignKey(User, on_delete=models.RESTRICT, verbose_name='tým')
@@ -248,6 +262,8 @@ class TeamLivestockHistory(models.Model):
         verbose_name = 'dobytek - historie množství týmu podle stáří'
         verbose_name_plural = 'dobytek - historie množství týmů podle stáří'
         unique_together = (('tick', 'user', 'livestock', 'age'),)
+
+        indexes = [Index(fields=['tick', 'user', 'livestock'])]
 
     id = models.AutoField(primary_key=True)
     tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo')
