@@ -99,16 +99,14 @@ button[disabled], .button[disabled]:hover, .button[disabled]:active{
     z-index: 99;
     border: none;
     outline: none;
-    background-color: red;
-    color: white;
     cursor: pointer;
     padding: 15px;
     border-radius: 10px;
-    font-size: 18px;
+    font-size: large;
 }
 
 #top-button:hover {
-    background-color: #555;
+    background: rgb(60, 60, 60);
 }
 
 h1 {
