@@ -283,7 +283,7 @@ def game_trade_livestock(trade_type, count, prod_id, last_tick, user_state):
             user_state.save()
         return response
     elif trade_type == 'kill' or trade_type == 'kill_youngest':
-        by_age = TeamLivestockHistory.objects.filter(tick=last_tick, livestock=ls, user=request.user) \
+        by_age = TeamLivestockHistory.objects.filter(tick=last_tick, livestock=ls, user=user_state.user) \
             .order_by('age' if trade_type == 'kill' else '-age')
         rest = count
         for pos in range(len(by_age)):
