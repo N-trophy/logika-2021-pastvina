@@ -111,9 +111,9 @@ class TeamHistoryAdmin(admin.ModelAdmin):
         'tick',
         'user',
         'money',
+        'stock_size',
         'slaughtered',
         'total_consumption',
-        'stock_size',
         ]
 
     list_filter = [

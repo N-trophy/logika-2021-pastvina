@@ -33,10 +33,7 @@ class Command(BaseCommand):
             except User.DoesNotExist:
                 raise CommandError('User "%s" does not exist.' % username)
 
-            try:
-                user_stats = TeamHistory.objects.get(user=user, tick=tick)
-            except TeamHistory.DoesNotExist:
-                raise CommandError('Team history for "%s" does not exist. Try adding it manually.' % username)
+            user_stats, _ = TeamHistory.objects.get_or_create(user=user, tick=tick, defaults={'money': 0})
 
             # user_stats.money += options['amount']
             # user_stats.save()
