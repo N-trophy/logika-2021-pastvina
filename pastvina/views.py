@@ -5,6 +5,7 @@ from django.db import transaction
 from django.db.models import Sum, F
 from django.http import HttpResponseForbidden, HttpResponse, HttpResponseBadRequest, JsonResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 
 from pastvina.models import Contribution, Crop, Livestock, TeamHistory, LivestockMarketHistory, \
@@ -219,7 +220,9 @@ def game_trade(request, round_id):
     if tick_id != last_tick.id:
         return HttpResponseBadRequest("Nákup uskutečněn v již uplynulé iteraci.")
 
-    user_state = TeamHistory.objects.get(tick=last_tick, user=request.user)
+    user_state = TeamHistory.objects.filter(tick=last_tick, user=request.user).last()
+    if user_state is None:
+        return HttpResponseBadRequest("Nebylo možné nalézt data teamu.")
 
     if prod_type == 'crop':
         crop = CropMarketHistory.objects.filter(crop=prod_id, tick=last_tick).select_related('crop').last()

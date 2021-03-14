@@ -70,14 +70,14 @@
                 </div>
                 <div>
                     <input id="buy-crop-count-{{crop.id}}" class="full-width" type="number" value=0 min="0">
-                    <button class="full-width" onclick="requestTrade('buy', 'crop', {{crop.id}}, document.getElementById('buy-crop-count-{{crop.id}}').value)">Koupit (max&nbsp;<span id="crop-buy-limit-{{crop.id}}">-</span>)</button>
+                    <button class="full-width" onclick="requestTrade('buy', 'crop', {{crop.id}}, document.getElementById('buy-crop-count-{{crop.id}}').value)">Koupit (max&nbsp;<span id="crop-buy-limit-{{crop.id}}">-&nbsp;</span>)</button>
                 </div>
             </div>
             {% include "pastvina/parts/age_chart.html" with chart_type="crop" color=crop.color name=crop.name name_genitive=crop.name_genitive id=crop.id growth_time=crop.growth_time life_time=crop.rotting_time %}
             <div class="trade-inputs">
                 <div>
                     <input id="sell-crop-count-{{crop.id}}" class="full-width" type="number" value=0 min="0">
-                    <button class="full-width" onclick="requestTrade('sell', 'crop', {{crop.id}}, document.getElementById('sell-crop-count-{{crop.id}}').value)">Prodat (max&nbsp;<span id="crop-sell-limit-{{crop.id}}">-</span>)</button>
+                    <button class="full-width" onclick="requestTrade('sell', 'crop', {{crop.id}}, document.getElementById('sell-crop-count-{{crop.id}}').value)">Prodat (max&nbsp;<span id="crop-sell-limit-{{crop.id}}">-&nbsp;</span>)</button>
                 </div>
             </div>
         </div>
@@ -138,18 +138,18 @@
                 </div>
                 <div>
                     <input id="buy-ls-count-{{ls.id}}" class="full-width" type="number" value=0 min="0">
-                    <button class="full-width" onclick="requestTrade('buy', 'ls', {{ls.id}}, document.getElementById('buy-ls-count-{{ls.id}}').value)">Koupit (max&nbsp;<span id="ls-buy-limit-{{ls.id}}">-</span>)</button>
+                    <button class="full-width" onclick="requestTrade('buy', 'ls', {{ls.id}}, document.getElementById('buy-ls-count-{{ls.id}}').value)">Koupit (max&nbsp;<span id="ls-buy-limit-{{ls.id}}">-&nbsp;</span>)</button>
                 </div>
             </div>
             {% include "pastvina/parts/age_chart.html" with chart_type="livestock" color=ls.color name=ls.name name_genitive=ls.name_genitive id=ls.id growth_time=ls.growth_time life_time=ls.life_time %}
             <div class="trade-inputs">
                 <div>
                     <input id="sell-ls-count-{{ls.id}}" class="full-width" type="number" value=0 min="0">
-                    <button class="full-width" onclick="requestTrade('sell', 'ls', {{ls.id}}, document.getElementById('sell-ls-count-{{ls.id}}').value)">Porazit a&nbsp;prodat (max&nbsp;<span id="ls-sell-limit-{{ls.id}}">{{round.livestock_slaughter_limit}}</span>)</button>
+                    <button class="full-width" onclick="requestTrade('sell', 'ls', {{ls.id}}, document.getElementById('sell-ls-count-{{ls.id}}').value)">Porazit&nbsp;a&nbsp;prodat (max&nbsp;<span id="ls-sell-limit-{{ls.id}}">{{round.livestock_slaughter_limit}}</span>)</button>
                 </div>
                 <div>
                     <input id="kill-ls-count-{{ls.id}}" class="full-width" type="number" value=0 min="0">
-                    <button class="full-width" onclick="requestTrade('kill', 'ls', {{ls.id}}, document.getElementById('kill-ls-count-{{ls.id}}').value)">Utratit (max&nbsp;<span id="ls-kill-limit-{{ls.id}}">-</span>)</button>
+                    <button class="full-width" onclick="requestTrade('kill', 'ls', {{ls.id}}, document.getElementById('kill-ls-count-{{ls.id}}').value)">Utratit (max&nbsp;<span id="ls-kill-limit-{{ls.id}}">-&nbsp;</span>)</button>
                 </div>
             </div>
         </div>
