@@ -45,14 +45,14 @@
     <div class="vertical-container">
         {% for round in test_rounds %}
         <div class="game-wrapper">
-            <a class="game-ref" href="{% url 'statistics' round.id %}">
+            <a class="game-ref" href="{% url 'round_stats' round.id %}">
                 <h3 style="margin:4px">Testovací kolo{% if test_rounds|length > 1 %} {{forloop.counter}}{% endif %}</h3>
             </a>
         </div>
         {% endfor %}
         {% for round in real_rounds %}
         <div class="game-wrapper">
-            <a class="game-ref" href="{% url 'statistics' round.id %}">
+            <a class="game-ref" href="{% url 'round_stats' round.id %}">
                 <h3 style="margin:4px">Kolo {{forloop.counter}}</h3>
             </a>
         </div>
