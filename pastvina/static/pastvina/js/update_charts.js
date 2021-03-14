@@ -50,8 +50,8 @@ function getItemById(arr, id) {
 
 var cropAgeCharts = new Object();
 var livestockAgeCharts = new Object();
-var cropSellTime = new Object();
-var livestockSellTime = new Object();
+var cropRottingTime = new Object();
+var livestockLifeTime = new Object();
 var livestockConsumption = new Object();
 var livestockSellLimit = Infinity;
 var cropStorageSize = Infinity;
@@ -65,7 +65,6 @@ function updateCharts(updateData) {
     let currentlySold = updateData.slaughtered;
     $("#game-money").text((updateData.money === null) ? "-" : updateData.money);
     $("#ls-sold-amount").text(currentlySold);
-    $(".ls-sell-limit").text(livestockSellLimit - currentlySold);
     if (updateData.time > Date.now()) {
         timeOfNextUpdate = updateData.time;
         showTime = true;
@@ -88,14 +87,16 @@ function updateCharts(updateData) {
         ageChart.update();
 
         let maxBuy = Math.floor(updateData.money/crop.buy);
-        let growing = crop.by_age.slice(cropSellTime[crop.id]).reduce((a, b) => a + b, 0);
-        let rotting = crop.by_age.slice(0, cropSellTime[crop.id]).reduce((a, b) => a + b, 0);
+        let growing = crop.by_age.slice(cropRottingTime[crop.id]).reduce((a, b) => a + b, 0);
+        let rotting = crop.by_age.slice(0, cropRottingTime[crop.id]).reduce((a, b) => a + b, 0);
         cropRottingTotal += rotting;
-        if (cropSellTime[crop.id] < crop.by_age.length) {
-            nextTickNewRotting += crop.by_age[cropSellTime[crop.id]];
+        if (cropRottingTime[crop.id] < crop.by_age.length) {
+            nextTickNewRotting += crop.by_age[cropRottingTime[crop.id]];
         }
         $("#crop-growing-amount-" + crop.id).text(growing);
         $("#crop-rotting-amount-" + crop.id).text(rotting);
+        $("#crop-buy-limit-" + crop.id).text(maxBuy);
+        $("#crop-sell-limit-" + crop.id).text(rotting);
         $("#buy-crop-count-" + crop.id).attr({ "max": maxBuy });
         $("#sell-crop-count-" + crop.id).attr({ "max": rotting });
     }
@@ -118,16 +119,20 @@ function updateCharts(updateData) {
         ageChart.update();
 
         let maxBuy = Math.floor(updateData.money/ls.buy);
-        let baby = ls.by_age.slice(livestockSellTime[ls.id]).reduce((a, b) => a + b, 0);
-        let adult = ls.by_age.slice(0, livestockSellTime[ls.id]).reduce((a, b) => a + b, 0);
+        let baby = ls.by_age.slice(livestockLifeTime[ls.id]).reduce((a, b) => a + b, 0);
+        let adult = ls.by_age.slice(0, livestockLifeTime[ls.id]).reduce((a, b) => a + b, 0);
+        let maxSell = Math.min(adult, livestockSellLimit - currentlySold);
         let consumptionCrop = getItemById(updateData.crops, livestockConsumption[ls.id].crop_id);
         if (consumptionCrop) {
             tickConsumption += (baby + adult) * livestockConsumption[ls.id].amount * consumptionCrop.sell;
         }
         $("#ls-baby-amount-" + ls.id).text(baby);
         $("#ls-adult-amount-" + ls.id).text(adult);
+        $("#ls-buy-limit-" + ls.id).text(maxBuy);
+        $("#ls-sell-limit-" + ls.id).text(maxSell);
+        $("#ls-kill-limit-" + ls.id).text(baby + adult);
         $("#buy-ls-count-" + ls.id).attr({ "max": maxBuy });
-        $("#sell-ls-count-" + ls.id).attr({ "max": Math.min(adult, livestockSellLimit - currentlySold) });
+        $("#sell-ls-count-" + ls.id).attr({ "max": maxSell });
         $("#kill-ls-count-" + ls.id).attr({ "max": baby + adult });
     }
     $("#consumption-money").text(tickConsumption);
