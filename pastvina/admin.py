@@ -112,7 +112,14 @@ class TeamHistoryAdmin(admin.ModelAdmin):
         'user',
         'money',
         'slaughtered',
+        'total_consumption',
+        'stock_size',
         ]
+
+    list_filter = [
+        'tick__round',
+        'user'
+    ]
 
 
 @admin.register(TeamCropHistory)
