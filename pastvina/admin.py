@@ -52,21 +52,20 @@ class CropAdmin(admin.ModelAdmin):
         'color',
         ]
 
-
 @admin.register(Livestock)
 class LivestockAdmin(admin.ModelAdmin):
     list_display = [
         'id',
         'name',
-        'growth_time',
-        'life_time',
         'base_price_buy',
         'base_price_sell',
+        'growth_time',
+        'life_time',
+        'color',
         'product_name',
         'product_price',
         'consumption_type',
         'consumption',
-        'color',
         ]
 
 
@@ -80,9 +79,15 @@ class CropMarketHistoryAdmin(admin.ModelAdmin):
         'amount_sold',
         ]
 
+    list_filter = [
+        'tick__round',
+        'crop',
+        'tick__index',
+        ]
+
 
 @admin.register(LivestockMarketHistory)
-class LivestockMarketHistoryADmin(admin.ModelAdmin):
+class LivestockMarketHistoryAdmin(admin.ModelAdmin):
     list_display = [
         'tick',
         'livestock',
@@ -91,6 +96,12 @@ class LivestockMarketHistoryADmin(admin.ModelAdmin):
         'amount_sold',
         'product_current_price',
         'product_amount_sold',
+        ]
+
+    list_filter = [
+        'tick__round',
+        'livestock',
+        'tick__index',
         ]
 
 
@@ -114,6 +125,13 @@ class TeamCropHistoryAdmin(admin.ModelAdmin):
         'amount',
         ]
 
+    list_filter = [
+        'tick__round',
+        'user',
+        'crop',
+        'tick__index',
+        ]
+
 
 @admin.register(TeamLivestockHistory)
 class TeamLivestockHistoryAdmin(admin.ModelAdmin):
@@ -123,4 +141,11 @@ class TeamLivestockHistoryAdmin(admin.ModelAdmin):
         'livestock',
         'age',
         'amount',
+        ]
+
+    list_filter = [
+        'tick__round',
+        'user',
+        'livestock',
+        'tick__index',
         ]
