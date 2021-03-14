@@ -1,9 +1,6 @@
 function requestTrade(tradeType, prodType, prodId, count) {
     if (count <= 0) {
-        console.log("Trade amount is <= 0: " + count);
-    }
-    if (count == 0) {
-        alert("Nelze obchodovat nulové množství.");
+        alert("Nelze obchodovat nekladné množství.");
         return;
     }
     if (tradeType != 'buy' && tradeType != 'sell' && tradeType != 'kill') {
@@ -13,14 +10,27 @@ function requestTrade(tradeType, prodType, prodId, count) {
         console.log('Unknown prod type: "' + prodType + '" (expected crop/ls)');
     }
 
+    let buttonElem = $('#' + tradeType + '-' + prodType + '-button-' + prodId);
+    buttonElem.prop('disabled', true);
+
     $.get("trade", { 'tick_id': tickId, 'trade_type': tradeType, 'prod_type': prodType, 'prod_id': prodId, 'count': count })
     .done(function(data) {
         requestUpdateCharts();
         console.log(data);
         // alert(data);
     })
-    .fail(function(error) {
-        console.log(error.responseText);
-        alert("Obchod neproběhl.\n" + error.responseText);
+    .fail(function(error, textStatus) {
+        buttonElem.prop('disabled', false);
+        let userErrorText = "";
+        if (textStatus == "timeout") {
+            userErrorText = "Server neodpověděl včas.";
+        } else if (error.responseText) {
+            userErrorText = error.responseText;
+        } else {
+            userErrorText = "Neznámá chyba."
+            console.log(textStatus);
+            console.log(error);
+        }
+        alert("Obchod neproběhl.\n" + userErrorText);
     });
 }

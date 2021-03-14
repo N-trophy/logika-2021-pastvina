@@ -1,5 +1,3 @@
-$.ajaxSetup({timeout:1000});
-
 var tickId = 0;
 var timeOfNextUpdate = Date.now();
 var showTime = false;
@@ -27,8 +25,18 @@ function requestUpdateCharts() {
     $.getJSON("update", function(update_data) {
         updateCharts(update_data);
     })
-    .fail(function(error){
-        console.log("Nebylo možné obnovit data.\n" + error.responseText);
+    .fail(function(error, textStatus) {
+        let userErrorText = "";
+        if (textStatus == "timeout") {
+            userErrorText = "Server neodpověděl včas.";
+        } else if (error.responseText) {
+            userErrorText = error.responseText;
+        } else {
+            userErrorText = "Neznámá chyba."
+            console.log(textStatus);
+            console.log(error);
+        }
+        console.log("Nebylo možné obnovit data.\n" + userErrorText);
     });
 }
 

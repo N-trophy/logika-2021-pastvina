@@ -222,7 +222,7 @@ def game_trade(request, round_id):
         return HttpResponseBadRequest("Nelze obchodovat záporné množství.")
 
     if tick_id != last_tick.id:
-        return HttpResponseBadRequest("Nákup uskutečněn v již uplynulé iteraci.")
+        return HttpResponseBadRequest("Již nastala další iterace.")
 
     user_state = TeamHistory.objects.filter(tick=last_tick, user=request.user).last()
     if user_state is None:
