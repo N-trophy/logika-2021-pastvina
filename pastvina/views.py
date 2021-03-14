@@ -171,6 +171,11 @@ def game_update(request, round_id):
         if crops_data[tcrop['crop']]:
             crops_data[tcrop['crop']]['by_age'][tcrop['age']] = tcrop['amount']
 
+    if round_.reload_time:
+        reload_time = int(max(round_.start, round_.reload_time).timestamp() * 1000)
+    else:
+        reload_time = int(tick.start.timestamp() * 1000)
+
     data = {
         "tick_id": tick.id,
         "tick_index": tick.index,
@@ -179,7 +184,7 @@ def game_update(request, round_id):
         "slaughtered": slaughtered,
         "livestock": list(livestock_data.values()),
         "crops": list(crops_data.values()),
-        "reload_time": int(round_.reload_time.timestamp() * 1000),
+        "reload_time": reload_time,
     }
 
     return JsonResponse(data)
