@@ -35,8 +35,8 @@ class Command(BaseCommand):
 
             user_stats, _ = TeamHistory.objects.get_or_create(user=user, tick=tick, defaults={'money': 0})
 
-            # user_stats.money += options['amount']
-            # user_stats.save()
+            user_stats.money += options['amount']
+            user_stats.save()
 
             self.stdout.write(self.style.SUCCESS(f'Amount {options["amount"]} was added to {username} successfully'
                                                  f' (tick {tick}).'))
