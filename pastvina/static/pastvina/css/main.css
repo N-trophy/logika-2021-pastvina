@@ -23,7 +23,6 @@ input {
 button{
     display: inline-block;
     *display: inline;
-    zoom: 1;
     padding: 8px;
     cursor: pointer;
     border: 1px solid #bbb;

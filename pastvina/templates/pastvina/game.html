@@ -139,6 +139,9 @@
 
     {% for ls in livestock %}
     livestockSellTime[{{ ls.id }}] = {{ ls.life_time }};
+    livestockConsumption[{{ ls.id }}] = Object();
+    livestockConsumption[{{ ls.id }}].crop_id = {{ ls.consumption_type.id }};
+    livestockConsumption[{{ ls.id }}].ammount = {{ ls.consumption }};
     {% endfor %}
     livestockSellLimit = {{round.livestock_slaughter_limit}};
     cropStorageSize = {{ round.crop_storage_size }};
