@@ -27,8 +27,8 @@ def rounds_update() -> None:
 def ticks_update() -> None:
     current_time = timezone.now()
     for round_ in Round.objects.all():
-        # if not round_.is_running():
-        #     continue
+        if not round_.is_running():
+            continue
         last_tick = Tick.objects.filter(round=round_).last()
         if last_tick is None:
             continue
