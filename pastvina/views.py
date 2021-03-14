@@ -120,7 +120,7 @@ def game_update(request, round_id):
     Returns a json to update the game state
     """
     round_ = Round.objects.filter(id=round_id).last()
-    tick = Tick.objects.filter(round=round_).last()
+    tick = Tick.objects.filter(round=round_).order_by('index').last()
 
     if round_ is None:
         return HttpResponseNotFound("Neexistuje kolo s daným id")
@@ -199,7 +199,7 @@ def game_update(request, round_id):
 @transaction.atomic
 def game_trade(request, round_id):
     round_ = Round.objects.filter(id=round_id).last()
-    last_tick = Tick.objects.filter(round=round_).last()
+    last_tick = Tick.objects.filter(round=round_).order_by('index').last()
     if round_ is None:
         return HttpResponseNotFound("Neexistuje kolo s daným id")
     if last_tick is None:
@@ -229,7 +229,7 @@ def game_trade(request, round_id):
         return HttpResponseBadRequest("Nebylo možné nalézt data teamu.")
 
     if prod_type == 'crop':
-        crop = CropMarketHistory.objects.filter(crop=prod_id, tick=last_tick).select_related('crop').last()
+        crop = CropMarketHistory.objects.filter(tick=last_tick, crop=prod_id).select_related('crop').last()
         if crop is None:
             return HttpResponseBadRequest(f"Plodina nenalezena. (tick {last_tick.index})")
 
@@ -274,7 +274,7 @@ def game_trade(request, round_id):
         else:
             return HttpResponseBadRequest('Neznámý typ obchodu.')
     elif prod_type == 'ls':
-        ls = LivestockMarketHistory.objects.filter(livestock=prod_id).select_related('livestock').last()
+        ls = LivestockMarketHistory.objects.filter(tick=last_tick, livestock=prod_id).select_related('livestock').last()
         if ls is None:
             return HttpResponseBadRequest(f"Dobytek nenalezen. (tick {last_tick.index})")
 
