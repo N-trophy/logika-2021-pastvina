@@ -46,7 +46,7 @@ def new(tick: Tick, new_tick: Tick) -> None:
     team_crops = apply_aging(team_crops, new_tick)
     team_crops_in_storage = []
     for crop in team_crops:
-        if crop.age <= crops_states[crop.crop.id].crop.rotting_time:
+        if crop.age < crops_states[crop.crop.id].crop.rotting_time:
             amount_stored = min(team_crop_capacity[crop.user.id], crop.amount)
             crop.amount = amount_stored
             team_crop_capacity[crop.user.id] -= amount_stored
@@ -64,7 +64,7 @@ def new(tick: Tick, new_tick: Tick) -> None:
         cons = tls.amount * livestock_kind.livestock.consumption * crop_kind.current_price_buy
         team_cons_and_prod[tls.user.id]['cons'] += cons
 
-        if tls.age <= tls.livestock.life_time:
+        if tls.age < tls.livestock.life_time:
             prod = tls.amount * livestock_kind.product_current_price
             team_cons_and_prod[tls.user.id]['prod'] += prod
 

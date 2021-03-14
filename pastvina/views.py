@@ -164,7 +164,7 @@ def game_update(request, round_id):
             'id': crop.crop.id,
             'buy': crop.current_price_buy,
             'sell': crop.current_price_sell,
-            'by_age': [0 for _ in range(crop.crop.rotting_time + crop.crop.growth_time + 1)],
+            'by_age': [0 for _ in range(crop.crop.rotting_time + crop.crop.growth_time)],
         }
 
     for tcrop in team_crops:
@@ -230,7 +230,7 @@ def game_trade(request, round_id):
             total_price = crop.current_price_buy * count
             if total_price > user_state.money:
                 return HttpResponseBadRequest('Nemáte dostatek peněz.')
-            max_age = crop.crop.growth_time + crop.crop.rotting_time
+            max_age = crop.crop.growth_time + crop.crop.rotting_time - 1
             c, _ = TeamCropHistory.objects.get_or_create(
                 tick=last_tick,
                 user=request.user,
@@ -248,7 +248,7 @@ def game_trade(request, round_id):
         elif trade_type == 'sell':
             total_price = crop.current_price_sell * count
             by_age = TeamCropHistory.objects.filter(tick=last_tick, crop=crop.crop,
-                                                    user=request.user, age__lte=crop.crop.rotting_time).order_by('age')
+                                                    user=request.user, age__lt=crop.crop.rotting_time).order_by('age')
             rest = count
             pos = 0
             while rest > 0:
@@ -275,7 +275,7 @@ def game_trade(request, round_id):
             total_price = ls.current_price_buy * count
             if total_price > user_state.money:
                 return HttpResponseBadRequest('Nemáte dostatek peněz.')
-            max_age = ls.livestock.growth_time + ls.livestock.life_time
+            max_age = ls.livestock.growth_time + ls.livestock.life_time - 1
             c, _ = TeamLivestockHistory.objects.get_or_create(
                 tick=last_tick,
                 user=request.user,
@@ -298,7 +298,7 @@ def game_trade(request, round_id):
                                               f'Již jste porazili {user_state.slaughtered} kusů.')
 
             by_age = TeamLivestockHistory.objects.filter(tick=last_tick, livestock=ls.livestock, user=request.user,
-                                                    age__lte=ls.livestock.life_time).order_by('age')
+                                                    age__lt=ls.livestock.life_time).order_by('age')
             rest = count
             pos = 0
             while rest > 0:

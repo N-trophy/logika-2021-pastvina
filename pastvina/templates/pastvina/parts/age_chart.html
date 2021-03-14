@@ -13,7 +13,7 @@
         data: {
             labels: [
             {% for ls in ''|center:growth_time %}
-                "týden růstu {{ forloop.revcounter }}",
+                "týden růstu {{ forloop.counter }}",
             {% endfor %}
             {% for ls in ''|center:life_time %}
                 {% if chart_type == 'livestock' %}
