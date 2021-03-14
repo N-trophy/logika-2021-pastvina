@@ -137,8 +137,8 @@ class CropMarketHistory(models.Model):
     Contains data related to the <crop> market at <each tick> of <each round>
     """
     class Meta:
-        verbose_name = 'historie obchodu (plodiny)'
-        verbose_name_plural = 'historie obchodů (plodiny)'
+        verbose_name = 'plodiny - historie obchodu'
+        verbose_name_plural = 'plodiny - historie obchodů'
         unique_together = (('tick', 'crop'),)
 
     id = models.AutoField(primary_key=True)
@@ -155,8 +155,8 @@ class LivestockMarketHistory(models.Model):
     Contains data related to the <livestock> market at <each tick> of <each round>
     """
     class Meta:
-        verbose_name = 'historie obchodu (dobytek)'
-        verbose_name_plural = 'historie obchodů (dobytek)'
+        verbose_name = 'dobytek - historie obchodu'
+        verbose_name_plural = 'dobytek - historie obchodů'
         unique_together = (('tick', 'livestock'),)
 
     id = models.AutoField(primary_key=True)
@@ -190,11 +190,49 @@ class TeamHistory(models.Model):
     money = models.PositiveIntegerField('peníze')
     total_consumption = models.PositiveIntegerField('celková spotřeba zvířat', default=0)
 
+    def get_ls_sold_total(self) -> int:
+        ls_actions = TeamLivestockActionHistory.objects.filter(tick=tick, user=user).all()
+        sold = 0
+        for ls_action in ls_actions:
+            sold += ls_action.sold
+        return sold
+
+
+class TeamCropActionHistory(models.Model):
+    class Meta:
+        verbose_name = 'plodiny - historie akcí týmu'
+        verbose_name_plural = 'plodiny - historie akcí týmů'
+        unique_together = (('tick', 'user', 'crop'),)
+
+    id = models.AutoField(primary_key=True)
+    tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo')
+    user = models.ForeignKey(User, on_delete=models.RESTRICT, verbose_name='tým')
+    crop = models.ForeignKey(Crop, on_delete=models.RESTRICT, verbose_name='plodina')
+
+    bought = models.PositiveIntegerField('koupeno', default=0)
+    sold = models.PositiveIntegerField('množství', default=0)
+
+
+class TeamLivestockActionHistory(models.Model):
+    class Meta:
+        verbose_name = 'dobytek - historie akcí týmu'
+        verbose_name_plural = 'dobytek - historie akcí týmů'
+        unique_together = (('tick', 'user', 'livestock'),)
+
+    id = models.AutoField(primary_key=True)
+    tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo')
+    user = models.ForeignKey(User, on_delete=models.RESTRICT, verbose_name='tým')
+    livestock = models.ForeignKey(Livestock, on_delete=models.RESTRICT, verbose_name='dobytek')
+
+    bought = models.PositiveIntegerField('koupeno', default=0)
+    sold = models.PositiveIntegerField('prodáno', default=0)
+    killed = models.PositiveIntegerField('zabito', default=0)
+
 
 class TeamCropHistory(models.Model):
     class Meta:
-        verbose_name = 'historie herních parametrů týmu (plodiny)'
-        verbose_name_plural = 'historie herních parametrů týmů (plodiny)'
+        verbose_name = 'plodiny - historie množství týmu podle stáří'
+        verbose_name_plural = 'plodiny - historie množství týmů podle stáří'
         unique_together = (('tick', 'user', 'crop', 'age'),)
 
     id = models.AutoField(primary_key=True)
@@ -208,8 +246,8 @@ class TeamCropHistory(models.Model):
 
 class TeamLivestockHistory(models.Model):
     class Meta:
-        verbose_name = 'historie herních parametrů týmu (dobytek)'
-        verbose_name_plural = 'historie herních parametrů týmů (dobytek)'
+        verbose_name = 'dobytek - historie množství týmu podle stáří'
+        verbose_name_plural = 'dobytek - historie množství týmů podle stáří'
         unique_together = (('tick', 'user', 'livestock', 'age'),)
 
     id = models.AutoField(primary_key=True)

@@ -8,8 +8,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 
-from pastvina.models import Contribution, Crop, Livestock, TeamHistory, LivestockMarketHistory, \
-    TeamLivestockHistory, CropMarketHistory, TeamCropHistory, Round, Tick
+from pastvina.models import Contribution, Round, Tick, Crop, Livestock, CropMarketHistory, LivestockMarketHistory, \
+    TeamHistory, TeamCropActionHistory, TeamLivestockActionHistory, TeamCropHistory, TeamLivestockHistory
 
 
 @login_required

@@ -122,6 +122,29 @@ class TeamHistoryAdmin(admin.ModelAdmin):
     ]
 
 
+@admin.register(TeamCropActionHistory)
+class TeamCropActionHistoryAdmin(admin.ModelAdmin):
+    list_display = [
+        'tick',
+        'user',
+        'crop',
+        'bought',
+        'sold',
+        ]
+
+
+@admin.register(TeamLivestockActionHistory)
+class TeamLivestockActionHistoryAdmin(admin.ModelAdmin):
+    list_display = [
+        'tick',
+        'user',
+        'livestock',
+        'bought',
+        'sold',
+        'killed',
+        ]
+
+
 @admin.register(TeamCropHistory)
 class TeamCropHistoryAdmin(admin.ModelAdmin):
     list_display = [
