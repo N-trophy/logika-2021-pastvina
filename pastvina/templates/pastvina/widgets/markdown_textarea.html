@@ -27,22 +27,9 @@ var simplemde = new SimpleMDE({
         element: document.getElementById("{{ widget.attrs.id }}"),
         forceSync: true,
         spellChecker: false,
-        previewRender: function(plainText, preview) {
-            $.ajax({
-                type: "POST",
-                url: "{% url 'md_to_html' %}",
-                data: plainText,
-                contentType: false,
-                processData: false,
-                headers: { "X-CSRFToken": getCookie('csrftoken') },
-                success: function(response){
-                    preview.innerHTML = response;
-                },
-                dataType: "text"
-            });
-
-		    return "Loading...";
-	    },
+        previewRender: function(plainText) {
+                return plainText;
+        },
     });
 </script>
 </p>

@@ -19,7 +19,7 @@ class Contribution(models.Model):
     text = models.TextField('text novinky')
     author = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='autor')
     published = models.BooleanField('publikováno', default=False, blank=True)
-    public_from = models.DateTimeField('publikováno od', null=True, blank=True)
+    public_from = models.DateTimeField('veřejné od', default=timezone.now, blank=True)
 
 
 class Round(models.Model):

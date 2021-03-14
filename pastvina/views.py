@@ -23,7 +23,7 @@ def page_index(request):
     :param request: HTTP request
     :return: HTTP response
     """
-    contribs = Contribution.objects.filter(published=True).order_by('-public_from')[:5]
+    contribs = Contribution.objects.filter(published=True).filter(public_from__lte=timezone.now()).order_by('-public_from')[:5]
     return render(request, 'pastvina/index.html', {
         'contribs': contribs,
         'navbar_absolute_pos': True,
