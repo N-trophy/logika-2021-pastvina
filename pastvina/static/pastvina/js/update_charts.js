@@ -52,14 +52,18 @@ function updateCharts(updateData) {
     }
 
     currentlySold = updateData.slaughtered;
-    $("#game-money").text(updateData.money);
+    $("#game-money").text((updateData.money === null) ? "-" : updateData.money);
     $(".ls-sell-limit").text(livestockSellLimit - currentlySold);
     if (updateData.time > Date.now()) {
         timeOfNextUpdate = updateData.time;
         showTime = true;
+        updateTimeToNextTick();
     }
     tickId = updateData.tick_id;
+    $("#tick-index").text((updateData.tick_index === null) ? "-" : updateData.tick_index)
 
+    let crop_rotting_ammount = 0;
+    let next_tick_new_rotting = 0;
     for (crop of updateData.crops) {
         $(".crop-buy-price-" + crop.id).text(crop.buy);
         $(".crop-sell-price-" + crop.id).text(crop.sell);
@@ -74,9 +78,15 @@ function updateCharts(updateData) {
 
         let maxBuy = Math.floor(updateData.money/crop.buy);
         let maxSell = crop.by_age.slice(0, cropSellTime[crop.id]).reduce((a, b) => a + b, 0);
+        crop_rotting_ammount += maxSell;
+        if (cropSellTime[crop.id] < crop.by_age.length) {
+            next_tick_new_rotting += crop.by_age[cropSellTime[crop.id]];
+        }
         $("#buy-crop-count-" + crop.id).attr({ "max": maxBuy });
         $("#sell-crop-count-" + crop.id).attr({ "max": maxSell });
     }
+    $("#crop-rotting-amount").text(crop_rotting_ammount);
+    $("#next-tick-new-rotting").text(next_tick_new_rotting);
 
     for (ls of updateData.livestock) {
         $(".ls-buy-price-" + ls.id).text(ls.buy);

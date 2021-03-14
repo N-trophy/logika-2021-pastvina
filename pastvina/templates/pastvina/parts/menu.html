@@ -8,7 +8,7 @@
 <nav class="dark-color">
 {% endif %}
 <div class="horizontal-apart">
-    <div class="nav-container">
+    <div class="horizontal-packed-container">
     <a href="/" class="logo">N-trophy 2021 finále</a>
 
     <a href="{% url 'game_overview' %}">Hry</a>
@@ -16,7 +16,7 @@
     <a href="{% url 'rules' %}">Pravidla</a>
 
     </div>
-    <div class="nav-container">
+    <div class="horizontal-packed-container">
     {% if user.is_superuser %}
         <a href="{% url 'admin:index' %}">Admin</a>
     {% endif %}

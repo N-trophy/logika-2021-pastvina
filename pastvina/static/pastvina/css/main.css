@@ -326,6 +326,18 @@ a {
     align-items: stretch;
 }
 
+.horizontal-packed-container {
+    display: flex;
+    flex-wrap: wrap;
+    height: auto;
+    justify-content: stretch;
+    align-items: center;
+}
+
+.horizontal-packed-container > div {
+    margin: 5px 10px;
+}
+
 .horizontal-container {
     display: flex;
     flex-wrap: wrap;
@@ -512,14 +524,6 @@ nav .logo {
     line-height: 1;
 }
 
-.nav-container {
-    display: flex;
-    flex-wrap: wrap;
-    height: auto;
-    justify-content: stretch;
-    align-items: center;
-}
-
 
 /* =========== LANDING =========== */
 
@@ -663,11 +667,11 @@ footer span {
 
 .game-header {
     flex: 1;
-    padding: 5px 20px;
+    padding: 5px 10px;
     overflow: auto;
 }
 
 
 .game-header > div {
-    margin: 5px 20px;
+    margin: 0px 20px;
 }
