@@ -145,7 +145,7 @@
             <div class="trade-inputs">
                 <div>
                     <input id="sell-ls-count-{{ls.id}}" class="full-width" type="number" value=0 min="0">
-                    <button id="sell-ls-button-{{ls.id}}" class="full-width" onclick="requestTrade('sell', 'ls', {{ls.id}}, document.getElementById('sell-ls-count-{{ls.id}}').value)">Porazit&nbsp;a&nbsp;prodat (max&nbsp;<span id="ls-sell-limit-{{ls.id}}">{{round.livestock_slaughter_limit}}</span>)</button>
+                    <button id="sell-ls-button-{{ls.id}}" class="full-width" onclick="requestTrade('sell', 'ls', {{ls.id}}, document.getElementById('sell-ls-count-{{ls.id}}').value)">Prodat (max&nbsp;<span id="ls-sell-limit-{{ls.id}}">{{round.livestock_slaughter_limit}}</span>)</button>
                 </div>
                 <div>
                     <input id="kill-ls-count-{{ls.id}}" class="full-width" type="number" value=0 min="0">
