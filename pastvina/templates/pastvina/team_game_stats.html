@@ -1,0 +1,84 @@
+{% extends "pastvina/base.html" %}
+{% load extras %}
+
+{% block title %} Přehled kol {% endblock%}
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+<section class="padding-small light stats-menu">
+    <a href="#my-stats">
+        <h2>Moje statistiky</h2>
+    </a>
+    <div class="round-link-container">
+    {% for round in test_rounds %}
+        <a href="#test_round_{{ forloop.counter }}">
+            <h3 class="round-link">Testovací kolo{% if test_rounds|length > 1 %} {{forloop.counter}}{% endif %}</h3>
+        </a>
+    {% endfor %}
+    </div>
+    <div class="round-link-container">
+    {% for round in real_rounds %}
+        <a href="#round_{{ forloop.counter }}">
+            <h3 class="round-link">Kolo {{forloop.counter}}</h3>
+        </a>
+    {% endfor %}
+    </div>
+</section>
+
+<section class="padding-small dark stats-menu">
+    <h2>Statistiky všech</h2>
+    <div class="round-link-container">
+        {% for round in test_rounds %}
+            <a href="{% url 'statistics' round.id %}">
+                <h3 class="round-link">Testovací kolo{% if test_rounds|length > 1 %} {{forloop.counter}}{% endif %}</h3>
+            </a>
+        {% endfor %}
+        </div>
+        <div class="round-link-container">
+        {% for round in real_rounds %}
+            <a href="{% url 'statistics' round.id %}">
+                <h3 class="round-link">Kolo {{forloop.counter}}</h3>
+            </a>
+        {% endfor %}
+        </div>
+</section>
+
+<div class="green" style="padding-top: 30px;">
+    <section class="padding-small light" id="my-stats">
+        <h1>Moje statistiky</h1>
+    </section>
+</div>
+
+<section class="statistics light-color">
+    <div class="vertical-container padding-small">
+        
+        <div class="test-rounds-stats">
+        {% for round in test_rounds %}
+        <div class="game-wrapper stats-wrapper">
+            <a href="{% url 'statistics' round.id %}" id="test_round_{{ forloop.counter }}">
+                <h2 style="margin-bottom:4px">Testovací kolo{% if test_rounds|length > 1 %} {{forloop.counter}}{% endif %}</h2>
+            </a>
+            <div class="container">
+                {% include "pastvina/parts/stats_tables.html" %}               
+            </div>
+        </div>
+        {% endfor %}
+        </div>
+
+        {% for round in real_rounds %}
+        <div class="game-wrapper stats-wrapper">
+            <a class="game-stats-ref" href="{% url 'statistics' round.id %}" id="round_{{ forloop.counter }}">
+                <h2 style="margin-bottom:4px">Kolo {{forloop.counter}}</h2>
+            </a>
+            <div class="container">
+                {% include "pastvina/parts/stats_tables.html" %}               
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

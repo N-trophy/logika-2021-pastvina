@@ -5,11 +5,12 @@
 {% else %}
 <nav class="dark-color">
 {% endif %}
-<div class="horizontal-apart">
+<div class="horizontal-apart"  id="nav-menu">
     <div class="horizontal-packed-container">
     <a href="/" class="logo">N-trophy 2021 finále</a>
 
     <a href="{% url 'game_overview' %}">Přehled kol</a>
+    <a href="{% url 'team_game_stats' %}">Statistiky</a>
 
     <a href="{% url 'rules' %}">Pravidla</a>
 
@@ -27,3 +28,7 @@
     </div>
 </div>
 </nav>
+
+<a href="#nav-menu" id="top-button" color="blue" title="Go to top">
+    <i class="fas fa-arrow-up"></i>
+</a>

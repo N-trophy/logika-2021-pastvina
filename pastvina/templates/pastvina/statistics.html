@@ -1,0 +1,67 @@
+{% extends "pastvina/base.html" %}
+{% load extras %}
+
+{% block title %} Přehled kol {% endblock%}
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+<section class="padding-small light" id="my-stats">
+    <h1>Statistiky kola {{ real_rounds.0.id }}</h1>
+</section>
+
+<section>
+    <div class="container" style="margin-bottom: 35px;">
+        <table class="table-all striped">
+            <thead>
+                <tr>
+                    <th>Jméno týmu</th>
+                    <th>Vyděláno celkem</th>
+                    <th>Vyděláno průměrně za kolo</th>
+                    <th>Utraceno celkem</th>
+                    <th>Utraceno průměrně za kolo</th>
+                    <th>Uskladněno celkem</th>
+                    <th>Uskladněno průměrně za kolo</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <!-- for team in teams -->
+                <tr>
+                    <th>Jmeno_tymu<!--team.name--></th>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+
+                </tr>
+                <!-- endfor -->
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- for team in teams -->
+
+<section class="statistics light-color">
+    <div class="vertical-container padding-small">
+        
+        <div class="test-rounds-stats">
+            <div class="game-wrapper stats-wrapper">
+            <h2 style="margin-bottom:4px">Tým {{ real_rounds.0.id }} <!-- team.name --></h2> 
+            <div class="container">
+                {% include "pastvina/parts/stats_tables.html" %}               
+            </div>
+        </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- endfor -->
+
+{% endblock %}

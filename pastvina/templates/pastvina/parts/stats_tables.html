@@ -1,0 +1,93 @@
+<h3>Celkové statistiky</h3>
+    <table class="table-all striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Vyděláno</th>
+                <th>Utraceno</th>
+                <th>Uskladněno</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Celkem</th>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+
+            </tr>
+            <tr>
+                <th>Průměrně za kolo</th>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Plodiny</h3>
+    <table class="table-all striped">
+        <thead>
+            <tr>
+                <th>Název</th>
+                <th>Prodané kusy</th>
+                <th>Celkem prodáno za</th>
+
+                <th>Dorostlé rostliny</th>
+                <th>Nakoupené sazeničky</th>
+                <th>Celkem nakoupeno za</th>
+                <th>Celkem uskladněno</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for crop in crops %}
+            <tr>
+                <td>{{ crop.name }}</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Dobytek</h3>
+    <table class="table-all striped">
+        <thead>
+            <tr>
+                <th>Název</th>
+
+                <th>Dorostlí jedinci</th>
+                <th>Utracené kusy</th>
+                <th>Prodané kusy</th>
+                <th>Celkem prodáno za</th> 
+
+                <th>Nakoupená mláďata</th>
+                <th>Celkem nakoupeno za</th>
+                
+                <th>Spotřebováno na krmení</th>
+                <th>Vyprodukováno</th>
+                <th>Vyděláno z produktů</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ls in livestock %}
+            <tr>
+                <td>{{ ls.name }}</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>

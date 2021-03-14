@@ -65,7 +65,7 @@ def page_login(request):
 @login_required
 def page_rules(request):
     """
-    Page with rules.
+    Renders the page with rules.
     """
     return render(request, 'pastvina/rules.html', {})
 
@@ -84,6 +84,68 @@ def page_game_overview(request):
     }
 
     return render(request, 'pastvina/game_overview.html', context)
+
+
+@login_required
+def statistics(request):
+    """
+    Renders the statistics of the chosen game.
+    """
+    real_rounds = Round.objects.filter(is_test=False).all()
+    test_rounds = Round.objects.filter(is_test=True).all()
+    crops = Crop.objects.all()
+    livestock = Livestock.objects.all()
+    
+    context = {
+        'real_rounds': real_rounds,
+        'test_rounds': test_rounds,
+        'crops': crops,
+        'livestock': livestock,
+    }
+
+    return render(request, 'pastvina/statistics.html', context)
+
+
+
+"""TODO: remove"""
+@login_required
+def test_s(request):
+    """
+    testovací stránka na statistiky, bude smazána
+    """
+    real_rounds = Round.objects.filter(is_test=False).all()
+    test_rounds = Round.objects.filter(is_test=True).all()
+    crops = Crop.objects.all()
+    livestock = Livestock.objects.all()
+    
+    context = {
+        'real_rounds': real_rounds,
+        'test_rounds': test_rounds,
+        'crops': crops,
+        'livestock': livestock,
+    }
+
+    return render(request, 'pastvina/statistics.html', context)
+
+
+@login_required
+def page_team_game_stats(request):
+    """
+    Renders the teams game statistics page.
+    """
+    real_rounds = Round.objects.filter(is_test=False).all()
+    test_rounds = Round.objects.filter(is_test=True).all()
+    crops = Crop.objects.all()
+    livestock = Livestock.objects.all()
+    
+    context = {
+        'real_rounds': real_rounds,
+        'test_rounds': test_rounds,
+        'crops': crops,
+        'livestock': livestock,
+    }
+
+    return render(request, 'pastvina/team_game_stats.html', context)
 
 
 @login_required
