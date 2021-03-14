@@ -143,7 +143,7 @@
     livestockConsumption[{{ ls.id }}].crop_id = {{ ls.consumption_type.id }};
     livestockConsumption[{{ ls.id }}].ammount = {{ ls.consumption }};
     {% endfor %}
-    livestockSellLimit = {{round.livestock_slaughter_limit}};
+    livestockSellLimit = {{ round.livestock_slaughter_limit }};
     cropStorageSize = {{ round.crop_storage_size }};
 
     setInterval(updateTimeToNextTick, 1000);

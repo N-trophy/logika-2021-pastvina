@@ -64,6 +64,7 @@ function updateCharts(updateData) {
 
     let currentlySold = updateData.slaughtered;
     $("#game-money").text((updateData.money === null) ? "-" : updateData.money);
+    $("#ls-sold-amount").text(currentlySold);
     $(".ls-sell-limit").text(livestockSellLimit - currentlySold);
     if (updateData.time > Date.now()) {
         timeOfNextUpdate = updateData.time;
