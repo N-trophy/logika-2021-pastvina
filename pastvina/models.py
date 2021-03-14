@@ -188,14 +188,14 @@ class TeamHistory(models.Model):
     slaughtered = models.PositiveIntegerField('prodáno zvířat', default=0)
     stock_size = models.PositiveIntegerField('velikost zásob', default=0)
     money = models.PositiveIntegerField('peníze')
-    total_consumption = models.PositiveIntegerField('celková spotřeba zvířat', default=0)
 
-    def get_ls_sold_total(self) -> int:
-        ls_actions = TeamLivestockActionHistory.objects.filter(tick=tick, user=user).all()
-        sold = 0
-        for ls_action in ls_actions:
-            sold += ls_action.sold
-        return sold
+# TODO: check (this function does not even work)
+    # def get_ls_sold_total(self) -> int:
+    #     ls_actions = TeamLivestockActionHistory.objects.filter(tick=tick, user=user).all()
+    #     sold = 0
+    #     for ls_action in ls_actions:
+    #         sold += ls_action.sold
+    #     return sold
 
 
 class TeamCropActionHistory(models.Model):

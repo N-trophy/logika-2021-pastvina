@@ -113,7 +113,6 @@ class TeamHistoryAdmin(admin.ModelAdmin):
         'money',
         'stock_size',
         'slaughtered',
-        'total_consumption',
         ]
 
     list_filter = [

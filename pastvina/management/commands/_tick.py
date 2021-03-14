@@ -32,13 +32,20 @@ def new(tick: Tick, new_tick: Tick) -> None:
                         .objects.filter(tick=tick).select_related('livestock')}
     team_states = {team_state.user_id: team_state for team_state in TeamHistory.objects.filter(tick=tick)}
 
+    team_consumptions = {team_state.user_id : 0 for team_state in team_states.values()}
+    team_livestock = TeamLivestockHistory.objects.filter(tick=tick)
+    for tls in team_livestock:
+        livestock = tls.livestock_states[tls.livestock_id].livestock
+        crop_state = crops_states[livestock.consumtion_type_id]
+        team_consumptions[tls.user_id] += tls.amount * crop_state.current_price_sell * livestock.consumption
+
     """filter ids of the teams whose livestock will survive"""
-    surviving_teams = [team_state for team_state in team_states.values()
-                       if team_state.total_consumption <= team_state.money]
+    surviving_teams = [team_states[team_id] for team_id in team_states.keys()
+                       if team_consumptions[team_id] <= team_states[team_id].money]
 
     """update teams money by their total consumption"""
     for team_state in surviving_teams:
-        team_state.money -= team_state.total_consumption
+        team_state.money -= team_consumptions[team_state.user_id]
 
     """get livestock of those teams who survived"""
     team_livestock = TeamLivestockHistory.objects.filter(tick=tick, user__in=[team_state.user_id
@@ -46,7 +53,6 @@ def new(tick: Tick, new_tick: Tick) -> None:
 
     """reset team state"""
     for team_state in team_states.values():
-        team_state.total_consumption = 0
         team_state.stock_size = 0
         team_state.slaughtered = 0
 
@@ -114,15 +120,6 @@ def new(tick: Tick, new_tick: Tick) -> None:
                                                            new_tick))
     for crop_state in crops_states.values():
         crop_state.amount_sold *= memory
-
-    """update team total consumption"""
-    for tls in team_livestock:
-        ls_state = livestock_states[tls.livestock_id]
-        team_state = team_states[tls.user_id]
-        consumption_crop_state = crops_states[ls_state.livestock.consumption_type_id]
-
-        cons = tls.amount * consumption_crop_state.current_price_sell * tls.livestock.consumption
-        team_state.total_consumption += cons
 
     """get crop, apply aging and remove a stock surplus"""
     storage_size = tick.round.crop_storage_size
