@@ -34,11 +34,11 @@ class Round(models.Model):
     start = models.DateTimeField('start')
     reload_time = models.DateTimeField('obnovení dat', null=True, blank=True)
     is_test = models.BooleanField('testovací', default=False, blank=True)
-    ticks = models.IntegerField('počet minikol')
-    period = models.IntegerField('délka minikola v 10s')
+    ticks = models.PositiveIntegerField('počet minikol')
+    period = models.PositiveIntegerField('délka minikola v 10s')
 
-    crop_storage_size = models.IntegerField('velikost skladu')
-    livestock_slaughter_limit = models.IntegerField('limit porážení')
+    crop_storage_size = models.PositiveIntegerField('velikost skladu')
+    livestock_slaughter_limit = models.PositiveIntegerField('limit porážení')
 
     start_money = models.PositiveIntegerField('počáteční peníze')
 
@@ -47,15 +47,13 @@ class Round(models.Model):
 
     __str__ = __repr__
 
-    def last_tick_time(self) -> datetime:
-        """Time of last tick which should happen"""
-        return self.start + timedelta(seconds=self.ticks * self.period * 10)
-
     def is_running(self) -> bool:
-        return self.start <= timezone.now() <= self.last_tick_time()
-
-    # def current_tick(self) -> int:
-    #     return int((datetime.now()-self.start).total_seconds() + 1) // (10 * self.period)
+        if self.start > timezone.now():
+            return False
+        last_tick = Tick.objects.filter(round=self).order_by('index').last()
+        if last_tick is None:
+            return True
+        return last_tick.index < self.ticks
 
 
 class Tick(models.Model):
@@ -66,11 +64,10 @@ class Tick(models.Model):
         unique_together = (('round', 'index'),)
 
     id = models.AutoField(primary_key=True)
-    index = models.IntegerField('index')
-    round = models.ForeignKey(Round, on_delete=models.RESTRICT, null=False, verbose_name='kolo')
+    index = models.PositiveIntegerField('index')
+    round = models.ForeignKey(Round, on_delete=models.RESTRICT, verbose_name='kolo')
 
-    # Just helpers
-    start = models.DateTimeField('start')
+    start = models.DateTimeField('start', default=timezone.now)
 
     def __str__(self):
         return "tick {0} ({1})".format(self.index, self.round)
@@ -91,8 +88,8 @@ class Crop(models.Model):
     base_price_buy = models.IntegerField('základní nákupní cena')
     base_price_sell = models.IntegerField('základní prodejní cena')
 
-    growth_time = models.IntegerField('čas růstu')
-    rotting_time = models.IntegerField('čas kažení')
+    growth_time = models.PositiveIntegerField('čas růstu')
+    rotting_time = models.PositiveIntegerField('čas kažení')
 
     color = ColorField(verbose_name='barva', default='#aaaaaa', format='hexa')
 
@@ -117,15 +114,15 @@ class Livestock(models.Model):
     base_price_buy = models.IntegerField('základní nákupní cena')
     base_price_sell = models.IntegerField('základní prodejní cena')
 
-    product_name = models.CharField('jméno produktu', max_length=30, null=True, blank=True)
-    product_name_genitive = models.CharField('jméno produktu (druhý pád)', max_length=30, null=True, blank=True)
+    product_name = models.CharField('jméno produktu', max_length=30)
+    product_name_genitive = models.CharField('jméno produktu (druhý pád)', max_length=30)
     product_price = models.IntegerField('základní cena produktu')
 
-    growth_time = models.IntegerField('čas růstu')
-    life_time = models.IntegerField('čas života')
+    growth_time = models.PositiveIntegerField('čas růstu')
+    life_time = models.PositiveIntegerField('čas života')
 
-    consumption = models.IntegerField("spotřeba")
-    consumption_type = models.ForeignKey(Crop, on_delete=models.RESTRICT, null=False, verbose_name='krmivo')
+    consumption = models.PositiveIntegerField("spotřeba")
+    consumption_type = models.ForeignKey(Crop, on_delete=models.RESTRICT, verbose_name='krmivo')
 
     color = ColorField(verbose_name='barva', default='#aaaaaa', format='hexa')
 
@@ -143,11 +140,11 @@ class TeamCropHistory(models.Model):
 
     id = models.AutoField(primary_key=True)
     tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo')
-    user = models.ForeignKey(User, on_delete=models.RESTRICT, null=False, verbose_name='tým')
-    crop = models.ForeignKey(Crop, on_delete=models.RESTRICT, null=False, verbose_name='plodina')
-    age = models.IntegerField('čas do zkažení produktu')
+    user = models.ForeignKey(User, on_delete=models.RESTRICT, verbose_name='tým')
+    crop = models.ForeignKey(Crop, on_delete=models.RESTRICT, verbose_name='plodina')
+    age = models.PositiveIntegerField('čas do zkažení produktu')
 
-    amount = models.IntegerField('množství')
+    amount = models.PositiveIntegerField('množství', default=0)
 
 
 class TeamLivestockHistory(models.Model):
@@ -158,11 +155,11 @@ class TeamLivestockHistory(models.Model):
 
     id = models.AutoField(primary_key=True)
     tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo')
-    user = models.ForeignKey(User, on_delete=models.RESTRICT, null=False, verbose_name='tým')
-    livestock = models.ForeignKey(Livestock, on_delete=models.RESTRICT, null=False, verbose_name='dobytek')
-    age = models.IntegerField('čas do smrti dobytka')
+    user = models.ForeignKey(User, on_delete=models.RESTRICT, verbose_name='tým')
+    livestock = models.ForeignKey(Livestock, on_delete=models.RESTRICT, verbose_name='dobytek')
+    age = models.PositiveIntegerField('čas do smrti dobytka')
 
-    amount = models.IntegerField('množství', default=0)
+    amount = models.PositiveIntegerField('množství', default=0)
 
 
 class TeamHistory(models.Model):
@@ -177,10 +174,10 @@ class TeamHistory(models.Model):
 
     id = models.AutoField(primary_key=True)
     tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo')
-    user = models.ForeignKey(User, on_delete=models.RESTRICT, null=False, verbose_name='tým')
+    user = models.ForeignKey(User, on_delete=models.RESTRICT, verbose_name='tým')
 
     slaughtered = models.PositiveIntegerField('prodáno zvířat', default=0)
-    money = models.IntegerField('peníze')
+    money = models.PositiveIntegerField('peníze')
 
 
 class CropMarketHistory(models.Model):
@@ -194,9 +191,9 @@ class CropMarketHistory(models.Model):
 
     id = models.AutoField(primary_key=True)
     tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo')
-    crop = models.ForeignKey(Crop, on_delete=models.RESTRICT, null=False, verbose_name='plodina')
+    crop = models.ForeignKey(Crop, on_delete=models.RESTRICT, verbose_name='plodina')
 
-    amount_sold = models.IntegerField('prodané množství')
+    amount_sold = models.IntegerField('prodané množství', default=0)
     current_price_buy = models.PositiveIntegerField('nákupní cena')
     current_price_sell = models.PositiveIntegerField('prodejní cena')
 
@@ -212,11 +209,11 @@ class LivestockMarketHistory(models.Model):
 
     id = models.AutoField(primary_key=True)
     tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo')
-    livestock = models.ForeignKey(Livestock, on_delete=models.RESTRICT, null=False, verbose_name='dobytek')
+    livestock = models.ForeignKey(Livestock, on_delete=models.RESTRICT, verbose_name='dobytek')
 
-    amount_sold = models.IntegerField('prodané množství zvířete')
+    amount_sold = models.IntegerField('prodané množství zvířete', default=0)
     current_price_buy = models.PositiveIntegerField('nákupní cena zvířete')
     current_price_sell = models.PositiveIntegerField('prodejní cena zvířete')
 
-    product_amount_sold = models.IntegerField('prodané množství produktu')
+    product_amount_sold = models.IntegerField('prodané množství produktu', default=0)
     product_current_price = models.PositiveIntegerField('aktuální cena produktu')
