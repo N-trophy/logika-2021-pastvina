@@ -9,7 +9,7 @@
 
 {% block content %}
 <section class="padding-small light" id="my-stats">
-    <h1>Statistiky kola {{ real_rounds.0.id }}</h1>
+    <h1>Statistiky kola {{ round.id }}</h1>
 </section>
 
 <section>
@@ -51,7 +51,7 @@
     <div class="vertical-container padding-small">
         <div class="test-rounds-stats">
             <div class="game-wrapper stats-wrapper">
-            <h2 style="margin-bottom:4px">Tým {{ real_rounds.0.id }} <!-- team.name --></h2>
+            <h2 style="margin-bottom:4px">Tým <!-- team.name --></h2>
             <div class="container">
                 {% include "pastvina/parts/stats_tables.html" %}
             </div>
