@@ -12,7 +12,12 @@
     var gameHeaderPlaceholder = document.getElementById("game-header-placeholder");
 
     gameHeaderPlaceholder.style.height = $('#game-header').height() + "px";
-    var gameHeaderOffset = gameHeader.offsetTop;
+    var gameHeaderOffset = Math.max(gameHeader.offsetTop, gameHeaderPlaceholder.offsetTop);
+
+    window.onresize = function() {
+        gameHeaderPlaceholder.style.height = $('#game-header').height() + "px";
+        gameHeaderOffset = Math.max(gameHeader.offsetTop, gameHeaderPlaceholder.offsetTop);
+    };
 
     function checkGameHeaderPos() {
         if (window.pageYOffset > gameHeaderOffset) {
