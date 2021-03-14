@@ -22,11 +22,11 @@
     {% endif %}
         {% if user.is_authenticated %}
         {% comment %}
-        <a class="button" href="{% url 'account' %}">{{ request.user.contestant }}</a>
+        <a href="{% url 'account' %}">{{ request.user.contestant }}</a>
         {% endcomment %}
         <a href="{% url 'logout' %}">Odhlásit se</a>
     {% else %}
-        <a class="button" href="{% url 'login' %}" data-modal="#login-form">Přihlaš se</a>
+        <a class="login-button" href="{% url 'login' %}" data-modal="#login-form">Přihlaš se</a>
     {% endif %}
     </div>
 </div>
