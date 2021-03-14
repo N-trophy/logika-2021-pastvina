@@ -25,9 +25,9 @@
             ],
             datasets: [{
                 {% if chart_type == 'livestock' %}
-                label: 'chov {{name_genitive}} dle stáří',
+                label: '{{name_genitive}} dle stáří',
                 {% else %}
-                label: 'produkce {{name_genitive}} dle stáří',
+                label: '{{name_genitive}} dle stáří',
                 {% endif %}
                 data: [0],
                 backgroundColor: [
@@ -56,6 +56,8 @@
                             {% endif %}
                         },
                         ticks: {
+                            min: 0,
+                            max: 10,
                             stepSize: 1
                         }
                     }

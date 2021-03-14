@@ -69,6 +69,7 @@ function updateCharts(updateData) {
         timeOfNextUpdate = updateData.time;
         showTime = true;
     }
+    let isNewTick = tickId != updateData.tick_id;
     tickId = updateData.tick_id;
     $("#tick-index").text((updateData.tick_index === null) ? "-" : updateData.tick_index)
 
@@ -84,6 +85,12 @@ function updateCharts(updateData) {
         //     ageChart.data.labels[i] = "týden " + i;
         // }
         ageChart.data.datasets[0].data = getReversedData(crop.by_age, ageChart.data.labels.length);
+        let options = ageChart.options.scales.yAxes[0].ticks;
+        if (isNewTick) {
+            options.max = Math.max(10, ...crop.by_age);
+        } else if (crop.by_age.length > 0) {
+            options.max = Math.max(options.max, crop.by_age[crop.by_age.length - 1]);
+        }
         ageChart.update();
 
         let maxBuy = Math.floor(updateData.money/crop.buy);
@@ -116,6 +123,12 @@ function updateCharts(updateData) {
         //     ageChart.data.labels[i] = "týden " + i;
         // }
         ageChart.data.datasets[0].data = getReversedData(ls.by_age, ageChart.data.labels.length);
+        let options = ageChart.options.scales.yAxes[0].ticks;
+        if (isNewTick) {
+            options.max = Math.max(10, ...ls.by_age);
+        } else if (ls.by_age.length > 0) {
+            options.max = Math.max(options.max, ls.by_age[ls.by_age.length - 1]);
+        }
         ageChart.update();
 
         let maxBuy = Math.floor(updateData.money/ls.buy);

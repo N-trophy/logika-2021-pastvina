@@ -150,8 +150,10 @@ def game_update(request, round_id):
         }
 
     for tls in team_livestock:
-        if livestock_data[tls['livestock']]:
-            livestock_data[tls['livestock']]['by_age'][tls['age']] = tls['amount']
+        tls_data = livestock_data[tls['livestock']]
+        if tls_data:
+            if tls['age'] < len(tls_data['by_age']):
+                tls_data['by_age'][tls['age']] = tls['amount']
 
     crops = CropMarketHistory.objects.filter(tick=tick).select_related('crop').all()
     team_crops = TeamCropHistory.objects.filter(tick=tick, user=request.user).values(
@@ -169,8 +171,10 @@ def game_update(request, round_id):
         }
 
     for tcrop in team_crops:
-        if crops_data[tcrop['crop']]:
-            crops_data[tcrop['crop']]['by_age'][tcrop['age']] = tcrop['amount']
+        tcrop_data = crops_data[tcrop['crop']]
+        if tcrop_data:
+            if tcrop['age'] < len(tcrop_data['by_age']):
+                tcrop_data['by_age'][tcrop['age']] = tcrop['amount']
 
     if round_.reload_time:
         reload_time = int(max(round_.start, round_.reload_time).timestamp() * 1000)
