@@ -57,6 +57,18 @@
         <div class="container control-box">
             <div class="trade-inputs">
                 <div>
+                    <table class="table-amounts">
+                        <tr>
+                            <td>Roustoucí</th>
+                            <td><span id="crop-growing-amount-{{crop.id}}">0</span></td>
+                        </tr>
+                        <tr>
+                            <td>K&nbsp;prodeji</th>
+                            <td><span id="crop-rotting-amount-{{crop.id}}">0</span></td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
                     <input id="buy-crop-count-{{crop.id}}" class="full-width" type="number" value=0 min="0">
                     <button class="full-width" onclick="requestTrade('buy', 'crop', {{crop.id}}, document.getElementById('buy-crop-count-{{crop.id}}').value)">Koupit</button>
                 </div>
@@ -113,6 +125,18 @@
         <div class="container control-box">
             <div class="trade-inputs">
                 <div>
+                    <table class="table-amounts">
+                        <tr>
+                            <td>Mláďata</th>
+                            <td><span id="ls-baby-amount-{{ls.id}}">0</span></td>
+                        </tr>
+                        <tr>
+                            <td>Dospělci</th>
+                            <td><span id="ls-adult-amount-{{ls.id}}">0</span></td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
                     <input id="buy-ls-count-{{ls.id}}" class="full-width" type="number" value=0 min="0">
                     <button class="full-width" onclick="requestTrade('buy', 'ls', {{ls.id}}, document.getElementById('buy-ls-count-{{ls.id}}').value)">Koupit</button>
                 </div>
@@ -141,7 +165,7 @@
     livestockSellTime[{{ ls.id }}] = {{ ls.life_time }};
     livestockConsumption[{{ ls.id }}] = Object();
     livestockConsumption[{{ ls.id }}].crop_id = {{ ls.consumption_type.id }};
-    livestockConsumption[{{ ls.id }}].ammount = {{ ls.consumption }};
+    livestockConsumption[{{ ls.id }}].amount = {{ ls.consumption }};
     {% endfor %}
     livestockSellLimit = {{ round.livestock_slaughter_limit }};
     cropStorageSize = {{ round.crop_storage_size }};

@@ -69,12 +69,11 @@ function updateCharts(updateData) {
     if (updateData.time > Date.now()) {
         timeOfNextUpdate = updateData.time;
         showTime = true;
-        updateTimeToNextTick();
     }
     tickId = updateData.tick_id;
     $("#tick-index").text((updateData.tick_index === null) ? "-" : updateData.tick_index)
 
-    let cropRottingAmmount = 0;
+    let cropRottingTotal = 0;
     let nextTickNewRotting = 0;
     for (crop of updateData.crops) {
         $(".crop-buy-price-" + crop.id).text(crop.buy);
@@ -89,17 +88,20 @@ function updateCharts(updateData) {
         ageChart.update();
 
         let maxBuy = Math.floor(updateData.money/crop.buy);
-        let maxSell = crop.by_age.slice(0, cropSellTime[crop.id]).reduce((a, b) => a + b, 0);
-        cropRottingAmmount += maxSell;
+        let growing = crop.by_age.slice(cropSellTime[crop.id]).reduce((a, b) => a + b, 0);
+        let rotting = crop.by_age.slice(0, cropSellTime[crop.id]).reduce((a, b) => a + b, 0);
+        cropRottingTotal += rotting;
         if (cropSellTime[crop.id] < crop.by_age.length) {
             nextTickNewRotting += crop.by_age[cropSellTime[crop.id]];
         }
+        $("#crop-growing-amount-" + crop.id).text(growing);
+        $("#crop-rotting-amount-" + crop.id).text(rotting);
         $("#buy-crop-count-" + crop.id).attr({ "max": maxBuy });
-        $("#sell-crop-count-" + crop.id).attr({ "max": maxSell });
+        $("#sell-crop-count-" + crop.id).attr({ "max": rotting });
     }
-    $("#crop-rotting-amount").text(cropRottingAmmount);
+    $("#crop-rotting-total").text(cropRottingTotal);
     $("#next-tick-new-rotting").text(nextTickNewRotting);
-    $("#next-tick-new-rotting").css("color", cropRottingAmmount + nextTickNewRotting > cropStorageSize ? "#ff2000" : "white");
+    $("#next-tick-new-rotting").css("color", cropRottingTotal + nextTickNewRotting > cropStorageSize ? "#ff2000" : "white");
 
     let tickConsumption = 0;
     for (ls of updateData.livestock) {
@@ -116,15 +118,17 @@ function updateCharts(updateData) {
         ageChart.update();
 
         let maxBuy = Math.floor(updateData.money/ls.buy);
-        let maxSell = Math.min(livestockSellLimit - currentlySold, ls.by_age.slice(0, livestockSellTime[ls.id]).reduce((a, b) => a + b, 0));
-        let maxKill = ls.by_age.reduce((a, b) => a + b, 0);
+        let baby = ls.by_age.slice(livestockSellTime[ls.id]).reduce((a, b) => a + b, 0);
+        let adult = ls.by_age.slice(0, livestockSellTime[ls.id]).reduce((a, b) => a + b, 0);
         let consumptionCrop = getItemById(updateData.crops, livestockConsumption[ls.id].crop_id);
         if (consumptionCrop) {
-            tickConsumption += maxKill * livestockConsumption[ls.id].ammount * consumptionCrop.sell;
+            tickConsumption += (baby + adult) * livestockConsumption[ls.id].amount * consumptionCrop.sell;
         }
+        $("#ls-baby-amount-" + ls.id).text(baby);
+        $("#ls-adult-amount-" + ls.id).text(adult);
         $("#buy-ls-count-" + ls.id).attr({ "max": maxBuy });
-        $("#sell-ls-count-" + ls.id).attr({ "max": maxSell });
-        $("#kill-ls-count-" + ls.id).attr({ "max": maxKill });
+        $("#sell-ls-count-" + ls.id).attr({ "max": Math.min(adult, livestockSellLimit - currentlySold) });
+        $("#kill-ls-count-" + ls.id).attr({ "max": baby + adult });
     }
     $("#consumption-money").text(tickConsumption);
     $("#consumption-money").css("color", tickConsumption > updateData.money ? "#ff2000" : "white");

@@ -1,6 +1,6 @@
 function requestTrade(tradeType, prodType, prodId, count) {
     if (count <= 0) {
-        console.log("Trade ammount is <= 0: " + count);
+        console.log("Trade amount is <= 0: " + count);
     }
     if (count == 0) {
         alert("Nelze obchodovat nulové množství.");

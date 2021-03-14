@@ -417,7 +417,7 @@ form input {
 .table-all th {
     padding: 10px 10px;
     display: table-cell;
-    text-align: left;
+    text-align: center;
     vertical-align: top;
 }
 
@@ -426,6 +426,29 @@ form input {
     padding-left: 16px;
 }
 
+
+.table-amounts {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    display: table;
+    color: #383838;
+    border: 1px solid #ccc;
+    font-size: smaller;
+}
+
+.table-amounts tr {
+    background-color: #fff;
+}
+
+.table-amounts td,
+.table-amounts th {
+    border: 1px solid #ddd;
+    padding: 10px 10px;
+    display: table-cell;
+    text-align: center;
+    vertical-align: top;
+}
 
 /* =========== CHART ========= */
 
@@ -447,6 +470,7 @@ form input {
 
 .trade-inputs > div {
     padding: 5px;
+    overflow: auto;
 }
 
 .trade-inputs input {
