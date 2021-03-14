@@ -141,6 +141,7 @@
     livestockSellTime[{{ ls.id }}] = {{ ls.life_time }};
     {% endfor %}
     livestockSellLimit = {{round.livestock_slaughter_limit}};
+    cropStorageSize = {{ round.crop_storage_size }};
 
     setInterval(updateTimeToNextTick, 1000);
 </script>

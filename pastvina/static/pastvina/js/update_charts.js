@@ -1,3 +1,5 @@
+$.ajaxSetup({timeout:1000});
+
 var tickId = 0;
 var timeOfNextUpdate = Date.now();
 var showTime = false;
@@ -43,7 +45,7 @@ var livestockAgeCharts = new Object();
 var cropSellTime = new Object();
 var livestockSellTime = new Object();
 var livestockSellLimit = Infinity;
-var currentlySold = 0;
+var cropStorageSize = Infinity;
 
 function updateCharts(updateData) {
     console.log(updateData);
@@ -51,7 +53,7 @@ function updateCharts(updateData) {
         location.reload();
     }
 
-    currentlySold = updateData.slaughtered;
+    let currentlySold = updateData.slaughtered;
     $("#game-money").text((updateData.money === null) ? "-" : updateData.money);
     $(".ls-sell-limit").text(livestockSellLimit - currentlySold);
     if (updateData.time > Date.now()) {
@@ -87,6 +89,7 @@ function updateCharts(updateData) {
     }
     $("#crop-rotting-amount").text(crop_rotting_ammount);
     $("#next-tick-new-rotting").text(next_tick_new_rotting);
+    $("#next-tick-new-rotting").css("color", crop_rotting_ammount + next_tick_new_rotting > cropStorageSize ? "#ff2000" : "white");
 
     for (ls of updateData.livestock) {
         $(".ls-buy-price-" + ls.id).text(ls.buy);
