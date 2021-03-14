@@ -17,7 +17,7 @@ urlpatterns = [
     path('game/', views.page_game_overview, name='game_overview'),
 
     # Chceme samostatnou stránku, kde budou vypsané všechny statistiky?
-    path('game/stats', views.page_team_game_stats, name='team_game_stats'), 
+    path('game/stats', views.page_team_game_stats, name='team_game_stats'),
 
     path('game/<int:round_id>/', views.page_game, name='game'),
     path('game/<int:round_id>/update', views.game_update, name='game_update'),

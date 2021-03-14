@@ -54,7 +54,6 @@
 
 <section class="statistics light-color">
     <div class="vertical-container padding-small">
-        
         <div class="test-rounds-stats">
         {% for round in test_rounds %}
         <div class="game-wrapper stats-wrapper">
@@ -62,7 +61,7 @@
                 <h2 style="margin-bottom:4px">Testovací kolo{% if test_rounds|length > 1 %} {{forloop.counter}}{% endif %}</h2>
             </a>
             <div class="container">
-                {% include "pastvina/parts/stats_tables.html" %}               
+                {% include "pastvina/parts/stats_tables.html" %}
             </div>
         </div>
         {% endfor %}
@@ -74,7 +73,7 @@
                 <h2 style="margin-bottom:4px">Kolo {{forloop.counter}}</h2>
             </a>
             <div class="container">
-                {% include "pastvina/parts/stats_tables.html" %}               
+                {% include "pastvina/parts/stats_tables.html" %}
             </div>
         </div>
         {% endfor %}

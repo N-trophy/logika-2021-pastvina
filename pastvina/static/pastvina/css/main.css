@@ -93,7 +93,6 @@ button[disabled], .button[disabled]:hover, .button[disabled]:active{
 }
 
 #top-button {
-    
     position: fixed;
     bottom: 20px;
     right: 40px;
@@ -417,8 +416,8 @@ a {
 }
 
 .round-link {
-    margin-bottom: 4px; 
-    display: inline-block; 
+    margin-bottom: 4px;
+    display: inline-block;
 }
 
 .round-link-container {

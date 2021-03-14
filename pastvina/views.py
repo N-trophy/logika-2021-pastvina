@@ -95,7 +95,7 @@ def statistics(request):
     test_rounds = Round.objects.filter(is_test=True).all()
     crops = Crop.objects.all()
     livestock = Livestock.objects.all()
-    
+
     context = {
         'real_rounds': real_rounds,
         'test_rounds': test_rounds,
@@ -117,7 +117,7 @@ def test_s(request):
     test_rounds = Round.objects.filter(is_test=True).all()
     crops = Crop.objects.all()
     livestock = Livestock.objects.all()
-    
+
     context = {
         'real_rounds': real_rounds,
         'test_rounds': test_rounds,
@@ -137,7 +137,7 @@ def page_team_game_stats(request):
     test_rounds = Round.objects.filter(is_test=True).all()
     crops = Crop.objects.all()
     livestock = Livestock.objects.all()
-    
+
     context = {
         'real_rounds': real_rounds,
         'test_rounds': test_rounds,
