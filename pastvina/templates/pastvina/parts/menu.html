@@ -1,7 +1,5 @@
 <!-- Navbar -->
 
-{% include "pastvina/parts/login-modal.html" %}
-
 {% if navbar_absolute_pos %}
 <nav class="absolute dark-color">
 {% else %}
@@ -20,13 +18,11 @@
     {% if user.is_superuser %}
         <a href="{% url 'admin:index' %}">Admin</a>
     {% endif %}
-        {% if user.is_authenticated %}
+    {% if user.is_authenticated %}
         {% comment %}
         <a href="{% url 'account' %}">{{ request.user.contestant }}</a>
         {% endcomment %}
         <a href="{% url 'logout' %}">Odhlásit se</a>
-    {% else %}
-        <a class="login-button" href="{% url 'login' %}" data-modal="#login-form">Přihlaš se</a>
     {% endif %}
     </div>
 </div>
