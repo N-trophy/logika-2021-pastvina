@@ -8,6 +8,7 @@ from django.core.files.storage import FileSystemStorage
 from os import path, rename
 from datetime import datetime, timedelta
 from django.utils import timezone
+from django.utils.timezone import localtime
 
 
 class Contribution(models.Model):
@@ -60,10 +61,10 @@ class Round(models.Model):
         return self.start + timedelta(seconds=(self.ticks+1) * self.period * 10)
 
     def start_nice_str(self) -> str:
-        return self.start.strftime('%d. %m. %Y %H:%M:%S')
+        return localtime(self.start).strftime('%d. %m. %Y %H:%M:%S')
 
     def end_nice_str(self) -> str:
-        return self.end().strftime('%d. %m. %Y %H:%M:%S')
+        return localtime(self.end()).strftime('%d. %m. %Y %H:%M:%S')
 
     def period_sec(self) -> int:
         return self.period*10
