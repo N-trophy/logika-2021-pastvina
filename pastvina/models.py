@@ -31,6 +31,7 @@ class Round(models.Model):
         verbose_name_plural = 'kola'
 
     id = models.AutoField(primary_key=True)
+    name = models.CharField('název', max_length=60)
     start = models.DateTimeField('start')
     reload_time = models.DateTimeField('obnovení dat', null=True, blank=True)
     is_test = models.BooleanField('testovací', default=False, blank=True)
