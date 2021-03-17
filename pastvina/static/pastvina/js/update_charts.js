@@ -110,7 +110,7 @@ function updateCharts(updateData) {
         }
         $("#crop-growing-amount-" + crop.id).text(growing);
         $("#crop-rotting-amount-" + crop.id).text(rotting);
-        $('.action-button').buttonElem.prop('disabled', false);
+        $('.action-button').prop('disabled', false);
         $("#crop-buy-limit-" + crop.id).text(maxBuy);
         $("#crop-sell-limit-" + crop.id).text(rotting);
         $("#buy-crop-count-" + crop.id).attr({ "max": maxBuy });
