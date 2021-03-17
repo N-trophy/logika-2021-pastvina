@@ -20,7 +20,7 @@ def update_prices(dict, current_price_field, amount_sold_field, coef_to_price):
     coefs = [len(dict.values()) * v / exp_s for v in vals]
 
     for i, a in enumerate(dict.values()):
-        setattr(a, current_price_field, coef_to_price(a, coefs[i]))
+        setattr(a, current_price_field, coef_to_price(a, 0.5 * (1 + coefs[i])))
 
 
 def new(tick: Tick, new_tick: Tick) -> None:
@@ -80,7 +80,7 @@ def new(tick: Tick, new_tick: Tick) -> None:
 
     TeamLivestockHistory.objects.bulk_create(cpy_to_next_tick(team_livestock, new_tick))
 
-    memory = 2
+    memory = 4
 
     """
     update livestock prices
