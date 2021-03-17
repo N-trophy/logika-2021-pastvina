@@ -86,3 +86,8 @@ def add_red(hex_code):
     g = max(0, int(g - 30))
     b = max(0, int(b - 30))
     return f"#{hex((r << 16) + (g << 8) + b)[2:]}"
+
+
+@register.simple_tag
+def crop_val_by_id(query, id, attr):
+    return getattr(query.filter(crop_id=id).first(), attr)

@@ -67,7 +67,7 @@ class Tick(models.Model):
 
     id = models.AutoField(primary_key=True)
     index = models.PositiveIntegerField('index')
-    round = models.ForeignKey(Round, on_delete=models.CASCADE, verbose_name='kolo')
+    round = models.ForeignKey(Round, on_delete=models.CASCADE, verbose_name='kolo', related_name='all_ticks')
 
     start = models.DateTimeField('start', default=timezone.now)
 
@@ -146,8 +146,8 @@ class CropMarketHistory(models.Model):
         indexes = [Index(fields=['tick', 'crop'])]
 
     id = models.AutoField(primary_key=True)
-    tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo')
-    crop = models.ForeignKey(Crop, on_delete=models.CASCADE, verbose_name='plodina')
+    tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo', related_name='crop_states')
+    crop = models.ForeignKey(Crop, on_delete=models.CASCADE, verbose_name='plodina', related_name='states')
 
     amount_sold = models.IntegerField('prodané množství', default=0)
     current_price_buy = models.PositiveIntegerField('nákupní cena')
@@ -166,8 +166,8 @@ class LivestockMarketHistory(models.Model):
         indexes = [Index(fields=['tick', 'livestock'])]
 
     id = models.AutoField(primary_key=True)
-    tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo')
-    livestock = models.ForeignKey(Livestock, on_delete=models.CASCADE, verbose_name='dobytek')
+    tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo', related_name='livestock_states')
+    livestock = models.ForeignKey(Livestock, on_delete=models.CASCADE, verbose_name='dobytek', related_name='states')
 
     amount_sold = models.IntegerField('prodané množství zvířete', default=0)
     current_price_buy = models.PositiveIntegerField('nákupní cena zvířete')

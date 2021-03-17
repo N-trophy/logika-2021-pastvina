@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.db.models import Sum, F
+from django.db.models import Sum, F, Prefetch
 from django.http import HttpResponseForbidden, HttpResponse, HttpResponseBadRequest, JsonResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
@@ -411,12 +411,34 @@ def statistics(request, round_id):
     """
     Renders the statistics page from template.
     """
-    round_ = Round.objects.filter(id=round_id).last()
+    round = Round.objects.filter(id=round_id).last()
+        # .prefetch_related('all_ticks')\
+        # .prefetch_related('all_ticks__crop_states')\
+        # .prefetch_related('all_ticks__livestock_states')\
+        # .values(Prefetch('all_ticks__crop_states__current_price_sell', to_attr))
 
-    if round_ is None:
+    if round is None:
         return HttpResponseNotFound("Dané kolo neexistuje")
 
-    return HttpResponseNotFound("Daná stránka zatím neexistuje")
+    crops = Crop.objects.prefetch_related(
+        Prefetch('states', CropMarketHistory.objects.filter(tick__round=round).order_by('tick'))
+    ).all()
+    livestock = Livestock.objects.prefetch_related(
+        Prefetch('states', LivestockMarketHistory.objects.filter(tick__round=round).order_by('tick'))
+    ).all()
+
+    # for tick in round.all_ticks.order_by('index').all():
+    #     for crop_state in tick.crop_states.all():
+    #         crop
+        # crop.data_prices = [tick.crop_states.filter(crop=crop).last() for tick in round.all_ticks.all()]
+
+    context = {
+        'ticks': round.all_ticks,
+        'crops': crops,
+        'livestock': livestock,
+    }
+
+    return render(request, 'pastvina/game_statistics.html', context)
 
 
 @login_required

@@ -1,0 +1,21 @@
+{% extends "pastvina/base.html" %}
+{% load extras %}
+
+{% block title %} Hra {% endblock%}
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+
+<section class="padding-small light">
+        <div class="container">
+            {% include "pastvina/parts/stat_chart.html" with type='crops' commodities=crops %}
+        </div>
+        <div class="container">
+            {% include "pastvina/parts/stat_chart.html" with type='livestock' commodities=livestock %}
+        </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,81 @@
+{% load extras %}
+
+<div class="">
+    <canvas id="{{type}}-stats-chart"></canvas>
+</div>
+
+
+<script>
+new Chart(
+    document.getElementById('{{type}}-stats-chart').getContext('2d'),
+    {
+        type: 'line',
+        data: {
+            labels: [
+            {% for tick in ticks.all %} {{tick.index}}, {% endfor %}
+            ],
+            datasets: [
+            {% for commodity in commodities %}
+            {
+                borderColor: '{{commodity.color}}',
+                fill: false,
+                lineTension: 0,
+                yAxisID: 'price',
+                cubicInterpolationMode: false,
+                label: 'cena {{commodity.name_genitive}}',
+                data: [{% for state in commodity.states.all %} {{state.current_price_sell}}, {% endfor %}],
+            },
+            {
+                borderColor: '{{commodity.color}}',
+                borderDash: [3,10],
+                fill: false,
+                lineTension: 0,
+                yAxisID: 'spent',
+                cubicInterpolationMode: false,
+                label: 'utraceno za {{commodity.name}}',
+                data: [{% for state in commodity.states.all %} {{state.amount_sold}}, {% endfor %}],
+            },
+            {% endfor %}
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                yAxes: [
+                    {
+                        id: 'price',
+                        scaleLabel: {
+                            beginAtZero: true,
+                            display: true,
+                            labelString: "cena",
+                        },
+                        ticks: {
+                            stepSize: 1
+                        }
+                    },
+                    {
+                        id: 'spent',
+                        scaleLabel: {
+                            beginAtZero: true,
+                            display: true,
+                            labelString: "utraceno",
+                        },
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                ],
+
+                xAxes: [
+                    {
+                        scaleLabel: {
+                            display: true,
+                            labelString: "iterace",
+                        },
+                    }
+                ],
+            },
+        }
+    }
+);
+</script>
