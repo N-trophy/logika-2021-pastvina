@@ -33,7 +33,7 @@ def ticks_update() -> None:
         if last_tick is None:
             continue
         delta = (current_time - last_tick.start).total_seconds()
-        if delta < 10 * round_.period:
+        if delta < (10*round_.period) - 2:  # 2 seconds = latency offset
             continue
         next_tick = Tick(round=round_, index=last_tick.index + 1, start=current_time)
         next_tick.save()
