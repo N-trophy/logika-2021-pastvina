@@ -36,8 +36,11 @@ class TickAdmin(admin.ModelAdmin):
         'id',
         'index',
         'round',
-        'start',
+        '_start',
         ]
+
+    def _start(self, obj):
+        return obj.start.strftime('%H:%M:%S.%f')
 
 
 @admin.register(Crop)
