@@ -9,34 +9,25 @@
 
 {% block content %}
 <section class="padding-small light">
-    <h1>Vítejte na pastvině</h1>
+    <h1>Hrát</h1>
 </section>
 
 <section class="padding-small light">
-    <h2>Přehled kol</h2>
     <div class="horizontal-container">
-        {% if test_rounds|length > 0 %}
         <div style="flex: 1;" class="vertical-container">
-            {% for round in test_rounds %}
+            {% for round in rounds %}
             <div class="game-wrapper">
-                <a class="game-ref test_game" href="{% url 'game' round.id %}">
-                    <h3>Testovací kolo{% if test_rounds|length > 1 %} {{forloop.counter}}{% endif %}</h3>
+                <a class="game-ref" href="{% url 'game' round.id %}">
+                    <h3>{{round.name}}</h3>
+                    <p>{{round.start_nice_str}} – {{round.end_nice_str}}</p>
+                    <p>Počet iterací: {{round.ticks}}</p>
+                    <p>Délka jedné iterace: {{round.period_sec}} s</p>
+                    <p>Maximální velikost skladu: {{round.crop_storage_size}}</p>
+                    <p>Limit porážení: {{round.livestock_slaughter_limit}}</p>
                 </a>
             </div>
             {% endfor %}
         </div>
-        {% endif %}
-        {% if real_rounds|length > 0 %}
-        <div style="flex: 2;" class="vertical-container">
-            {% for round in real_rounds %}
-            <div class="game-wrapper">
-                <a class="game-ref real_game" href="{% url 'game' round.id %}">
-                    <h3>Kolo {{forloop.counter}}</h3>
-                </a>
-            </div>
-            {% endfor %}
-        </div>
-        {% endif %}
     </div>
 </section>
 

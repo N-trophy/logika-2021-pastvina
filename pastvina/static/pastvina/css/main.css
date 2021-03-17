@@ -388,6 +388,8 @@ a {
 
 .game-wrapper {
     margin: 4px;
+    background-color: #e5e5e5;
+    padding: 10px;
 }
 
 .stats-wrapper {
@@ -398,15 +400,6 @@ a {
 
 .green {
     background-color: #90d43d;
-}
-
-.game-ref {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0px;
-    width: 100%;
-    height: 100%;
 }
 
 .vertical-container .test-rounds-stats {
@@ -429,15 +422,6 @@ a {
 .stats-menu {
     padding-bottom: 60px;
 }
-
-.test_game {
-    background-color: #e5e5e5;
-}
-
-.real_game {
-    background-color: #ff8686;
-}
-
 
 form input {
     padding: 5px;

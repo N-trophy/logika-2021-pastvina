@@ -56,6 +56,18 @@ class Round(models.Model):
             return True
         return last_tick.index < self.ticks
 
+    def end(self) -> datetime:
+        return self.start + timedelta(seconds=(self.ticks+1) * self.period * 10)
+
+    def start_nice_str(self) -> str:
+        return self.start.strftime('%d. %m. %Y %H:%M:%S')
+
+    def end_nice_str(self) -> str:
+        return self.end().strftime('%d. %m. %Y %H:%M:%S')
+
+    def period_sec(self) -> int:
+        return self.period*10
+
 
 class Tick(models.Model):
     """Tick is associated to round"""
