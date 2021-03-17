@@ -1,7 +1,7 @@
 {% extends "pastvina/base.html" %}
 {% load extras %}
 
-{% block title %} Přehled kol {% endblock%}
+{% block title %} Hrát {% endblock%}
 
 {% block head %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -41,7 +41,7 @@
 </section>
 
 <section class="statistics light-color">
-    <h2>Statistiky z odehraných kol:</h2>
+    <h2>Statistiky z odehraných kol</h2>
     <div class="vertical-container">
         {% for round in test_rounds %}
         <div class="game-wrapper">
