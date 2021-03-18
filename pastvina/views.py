@@ -457,7 +457,7 @@ def user_activate(request, username):
     user = User.objects.filter(username=username).last()
 
     if user is None:
-        return HttpResponseNotFound("Takvý uživatel neexistuje")
+        return HttpResponseNotFound("Takový uživatel neexistuje")
 
     if user.is_superuser and (not request.user or not request.user.is_superuser):
         return HttpResponseForbidden("Tohoto uživatele nelze změnit")
