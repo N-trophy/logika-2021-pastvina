@@ -3,6 +3,12 @@ from django.db import models
 from . import widgets
 from .models import *
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+
+
+UserAdmin.list_display = (
+    'username', 'email', 'first_name', 'last_name', 'is_active', 'is_superuser'
+)
 
 
 @admin.register(Contribution)
