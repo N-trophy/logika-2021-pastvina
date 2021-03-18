@@ -3,10 +3,12 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.db.models import Sum, F, Prefetch
+from django.contrib.auth.models import User
 from django.http import HttpResponseForbidden, HttpResponse, HttpResponseBadRequest, JsonResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
+from django.core.mail import send_mail
 
 from pastvina.models import Contribution, Round, Tick, Crop, Livestock, CropMarketHistory, LivestockMarketHistory, \
     TeamHistory, TeamCropActionHistory, TeamLivestockActionHistory, TeamCropHistory, TeamLivestockHistory
@@ -449,3 +451,34 @@ def handler_logout(request):
     """
     logout(request)
     return redirect('/')
+
+
+def user_activate(request, username):
+    user = User.objects.filter(username=username).last()
+
+    if user is None:
+        return HttpResponseNotFound("Takvý uživatel neexistuje")
+
+    if user.is_superuser and (not request.user or not request.user.is_superuser):
+        return HttpResponseForbidden("Tohoto uživatele nelze změnit")
+
+    if user.is_active:
+        return HttpResponseForbidden("Tento uživatel již byl aktivován.")
+
+    user.is_active = True
+    user.pwd = (User.objects.make_random_password(), )
+    user.set_password(user.pwd[0])
+    user.save()
+
+    send_mail(
+        f'[N-trophy 2021] Logika: přístupové údaje',
+        (f'Přístupové údaje k webu https://logika.ntrophy.cz/ pro tým {user.get_full_name()} '
+         f'jsou:\n\n  * login: {user.username} \n  * heslo: {user.pwd[0]}\n\nS pozdravem,\n'
+         f'tým logiky N-trophy'),
+        'logika@ntrophy.cz',
+        [user.email],
+    )
+
+    return render(request, 'pastvina/user_activate.html', {
+        'activated_user': user,
+    })

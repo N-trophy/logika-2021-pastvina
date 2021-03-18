@@ -12,6 +12,8 @@ urlpatterns = [
 
     path('favicon.ico', RedirectView.as_view(url='/static/pastvina/img/logo.png')),
 
+    path('user_activate/<str:username>', views.user_activate, name='activate'),
+
     path('rules/', views.page_rules, name='rules'),
 
     path('game/', views.page_game_overview, name='game_overview'),

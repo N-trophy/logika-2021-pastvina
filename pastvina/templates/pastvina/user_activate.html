@@ -1,0 +1,16 @@
+{% extends "pastvina/base.html" %}
+{% load extras %}
+
+{% block title %} Aktivace týmu {% endblock%}
+
+{% block content %}
+<section class="padding-small light">
+    <h1>Aktivace týmu</h1>
+</section>
+
+<section class="padding-small dark">
+    <p>Uživatel {{ activated_user.get_full_name }} (login id {{ activated_user.username }}) byl aktivován.</p>
+    <p>Na adresu {{ activated_user.email }} byly odeslány přihlašovací údaje.</p>
+</section>
+
+{% endblock %}
