@@ -67,7 +67,7 @@ var cropStorageSize = Infinity;
 function updateCharts(updateData) {
     console.log(updateData);
     if (updateData.reload_time && updateData.reload_time > loadTime && updateData.reload_time < Date.now()) {
-        //location.reload();
+        location.reload();
     }
 
     let currentlySold = updateData.slaughtered;
