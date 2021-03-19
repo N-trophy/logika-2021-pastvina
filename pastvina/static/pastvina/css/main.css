@@ -130,9 +130,9 @@ p {
     line-height: 1.4;
     font-weight: 600;
     margin: auto;
+    padding: 0 5px;
     max-width: 600px;
     text-align: justify;
-    margin-bottom: 10px;
 }
 
 .about-section ul {
