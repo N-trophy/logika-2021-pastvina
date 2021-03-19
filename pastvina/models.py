@@ -261,7 +261,7 @@ class TeamCropHistory(models.Model):
         verbose_name_plural = 'plodiny - historie množství týmů podle stáří'
         unique_together = (('tick', 'user', 'crop', 'age'),)
 
-        indexes = [Index(fields=['tick', 'user', 'crop'])]
+        indexes = [Index(fields=['tick', 'user', 'crop']), Index(fields=['crop'])]
 
     id = models.AutoField(primary_key=True)
     tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo')
@@ -278,7 +278,7 @@ class TeamLivestockHistory(models.Model):
         verbose_name_plural = 'dobytek - historie množství týmů podle stáří'
         unique_together = (('tick', 'user', 'livestock', 'age'),)
 
-        indexes = [Index(fields=['tick', 'user', 'livestock'])]
+        indexes = [Index(fields=['tick', 'user', 'livestock']), Index(fields=['livestock'])]
 
     id = models.AutoField(primary_key=True)
     tick = models.ForeignKey(Tick, on_delete=models.CASCADE, verbose_name='minikolo')
