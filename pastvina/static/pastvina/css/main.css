@@ -132,18 +132,8 @@ p {
     margin: 0 auto;
     max-width: 600px;
     text-align: left;
-    margin-bottom: 10px;
 }
 
-.about-section ul {
-    font-size: 1rem;
-    line-height: 1.4;
-    font-weight: 600;
-    margin: 0 auto;
-    max-width: 600px;
-    text-align: left;
-    margin-bottom: 10px;
-}
 
 section {
     position: relative;
@@ -253,10 +243,11 @@ article .labels span.orange {
 }
 
 .center {
-    /* position: absolute;
-    top: 200px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
     left: 0;
-    right: 0; */
+    right: 0;
     margin: auto;
     display: block;
     text-align: center;
@@ -267,7 +258,6 @@ article .labels span.orange {
     background-repeat: no-repeat;
     background-size: cover;
     padding: 0px !important;
-    color: white;
 }
 
 .intro {
