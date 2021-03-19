@@ -217,7 +217,7 @@ def game_update(request, round_id):
     if round_.reload_time:
         reload_time = int(max(round_.start, round_.reload_time).timestamp() * 1000)
     else:
-        reload_time = int(tick.start.timestamp() * 1000)
+        reload_time = int(round_.start.timestamp() * 1000)
 
     data = {
         "tick_id": tick.id,
