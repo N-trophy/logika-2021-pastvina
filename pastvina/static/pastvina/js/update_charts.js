@@ -121,6 +121,7 @@ function updateCharts(updateData) {
     $("#next-tick-new-rotting").css("color", cropRottingTotal + nextTickNewRotting > cropStorageSize ? "#ff2000" : "white");
 
     let tickConsumption = 0;
+    let tickProduction = 0;
     for (ls of updateData.livestock) {
         $(".ls-buy-price-" + ls.id).text(ls.buy);
         $(".ls-sell-price-" + ls.id).text(ls.sell);
@@ -148,6 +149,7 @@ function updateCharts(updateData) {
         if (consumptionCrop) {
             tickConsumption += (baby + adult) * livestockConsumption[ls.id].amount * consumptionCrop.sell;
         }
+        tickProduction += adult * ls.product_price;
         $("#ls-baby-amount-" + ls.id).text(baby);
         $("#ls-adult-amount-" + ls.id).text(adult);
         $("#ls-buy-limit-" + ls.id).text(maxBuy);
@@ -159,4 +161,5 @@ function updateCharts(updateData) {
     }
     $("#consumption-money").text(tickConsumption);
     $("#consumption-money").css("color", tickConsumption > updateData.money ? "#ff2000" : "white");
+    $("#production-money").text(tickProduction);
 }
