@@ -6,6 +6,54 @@
 {% block content %}
 <section class="padding-small light">
     <h1>Kontrola času</h1>
+
+    <script>
+        function pingServer() {
+            $.getJSON("ping", { 'request_time': Date.now() })
+            .done(function(data) {
+                let responseTime = Date.now();
+                data.response_time = responseTime;
+                console.log(data);
+                if (!updateResults(data.request_time, data.server_time, responseTime)) {
+                    alert("Nastala chyba při komunikaci se serverem se serverem.");
+                }
+            })
+            .fail(function(error, textStatus) {
+                let userErrorText = "";
+                if (textStatus == "timeout") {
+                    userErrorText = "Server neodpověděl včas.";
+                } else if (error.responseText) {
+                    userErrorText = error.responseText;
+                } else {
+                    userErrorText = "Neznámá chyba."
+                    console.log(textStatus);
+                    console.log(error);
+                }
+                alert("Nepodařilo se spojit se serverem.\n" + userErrorText);
+            });
+        }
+
+        function updateResults(requestTime, serverTime, responseTime) {
+            if (requestTime === null || serverTime === null || responseTime === null) {
+                return false;
+            }
+
+            let turnaroundTime = responseTime - requestTime;
+            if (turnaroundTime < 0) {
+                return false;
+            }
+            let clientServerTime = requestTime - serverTime;
+            let serverClientTime = serverTime - responseTime;
+
+            console.log("Turnaround time: " + (turnaroundTime / 1000) + " s");
+            console.log("Client-server time: " + (clientServerTime / 1000) + " s");
+            console.log("Server-client time: " + (serverClientTime / 1000) + " s");
+
+            return true;
+        }
+
+        $(pingServer);
+    </script>
 </section>
 
 {% endblock %}

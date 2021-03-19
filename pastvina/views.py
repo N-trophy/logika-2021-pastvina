@@ -71,6 +71,18 @@ def time_check(request):
     return render(request, 'pastvina/time_check.html', {})
 
 
+def time_check_ping(request):
+    """
+    Returns the time of request and server time.
+    """
+    data = {
+        "request_time": int(request.GET['request_time']),
+        "server_time": int(timezone.now().timestamp() * 1000),
+    }
+
+    return JsonResponse(data)
+
+
 @login_required
 def page_rules(request):
     """
