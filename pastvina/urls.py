@@ -6,19 +6,19 @@ from django.conf import settings
 from django.views.generic import RedirectView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('login/', views.page_login, name='login'),
-    path('logout/', views.handler_logout, name='logout'),
+    path('admin', admin.site.urls),
+    path('login', views.page_login, name='login'),
+    path('logout', views.handler_logout, name='logout'),
 
     path('favicon.ico', RedirectView.as_view(url='/static/pastvina/img/logo.png')),
 
     path('user_activate', views.user_activate, name='activate'),
 
-    path('rules/', views.page_rules, name='rules'),
+    path('rules', views.page_rules, name='rules'),
 
-    path('game/', views.page_game_overview, name='game_overview'),
+    path('game', views.page_game_overview, name='game_overview'),
 
-    path('game/<int:round_id>/', views.page_game, name='game'),
+    path('game/<int:round_id>', views.page_game, name='game'),
     path('game/<int:round_id>/update', views.game_update, name='game_update'),
     path('game/<int:round_id>/trade', views.game_trade, name='game_trade'),
     path('game/<int:round_id>/statistics', views.statistics, name='round_stats'),
