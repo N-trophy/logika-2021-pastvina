@@ -242,8 +242,8 @@ def game_buy(commodity_state, commodity, max_age, last_tick, user_state, count, 
     c.amount += count
     c.save()
 
-    commodity_state.amount_sold -= total_price
-    commodity_state.save()
+    # commodity_state.amount_sold -= total_price
+    # commodity_state.save()
     user_state.money -= total_price
     user_state.save()
     return HttpResponse("Obchod uskutečněn.")

@@ -93,8 +93,8 @@ def new(tick: Tick, new_tick: Tick) -> None:
         ls_state.product_amount_sold /= memory + 1
     update_prices(livestock_states, 'current_price_sell', 'amount_sold',
                   lambda a, c: a.livestock.base_price_sell * c)
-    update_prices(livestock_states, 'current_price_buy', 'amount_sold',
-                  lambda a, c: a.livestock.base_price_buy * c)
+    # update_prices(livestock_states, 'current_price_buy', 'amount_sold',
+    #               lambda a, c: a.livestock.base_price_buy * c)
     update_prices(livestock_states, 'product_current_price', 'product_amount_sold',
                   lambda a, c: a.livestock.product_price * c)
     for ls_state in livestock_states.values():
@@ -113,8 +113,8 @@ def new(tick: Tick, new_tick: Tick) -> None:
         crop_state.amount_sold /= memory + 1
     update_prices(crops_states, 'current_price_sell', 'amount_sold',
                   lambda a, c: a.crop.base_price_sell * c)
-    update_prices(crops_states, 'current_price_buy', 'amount_sold',
-                  lambda a, c: a.crop.base_price_buy * c)
+    # update_prices(crops_states, 'current_price_buy', 'amount_sold',
+    #               lambda a, c: a.crop.base_price_buy * c)
 
     CropMarketHistory.objects.bulk_create(cpy_to_next_tick([crop_state for crop_state in crops_states.values()],
                                                            new_tick))
