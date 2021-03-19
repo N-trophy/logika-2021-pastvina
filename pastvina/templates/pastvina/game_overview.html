@@ -1,7 +1,7 @@
 {% extends "pastvina/base.html" %}
 {% load extras %}
 
-{% block title %} Hrát {% endblock%}
+{% block title %} Hrát | Logika N-Trophy {% endblock%}
 
 {% block head %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -18,6 +18,7 @@
             {% for round in rounds %}
             <div class="game-wrapper">
                 <a class="game-ref" href="{% url 'game' round.id %}">
+                <div>
                     <h3>{{round.name}}</h3>
                     <p>{{round.start_nice_str}} – {{round.end_nice_str}}</p>
                     <p>Počet iterací: {{round.ticks}}</p>
@@ -25,6 +26,7 @@
                     <p>Počáteční peníze: {{round.start_money}}</p>
                     <p>Maximální velikost skladu: {{round.crop_storage_size}}</p>
                     <p>Limit porážení: {{round.livestock_slaughter_limit}}</p>
+                </div>
                 </a>
             </div>
             {% endfor %}
