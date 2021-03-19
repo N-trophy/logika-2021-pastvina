@@ -19,6 +19,9 @@
                     <p>Client-server time: <span id="clientserver-time">-</span>&nbsp;s</p>
                     <p>Server-client time: <span id="serverclient-time">-</span>&nbsp;s</p>
                 </div>
+                <div style="padding: 10px" class="vertical-container">
+                    <p id="time-check-error-msg" style="color: #ff2000; display: none;"></p>
+                </div>
             </div>
         </div>
     </div>
@@ -86,6 +89,18 @@
             $("#clientserver-time").css("color", clientServerTime < 0 ? "#ff2000" : "white");
             $("#serverclient-time").text(serverClientTime / 1000);
             $("#serverclient-time").css("color", serverClientTime < 0 ? "#ff2000" : "white");
+
+            let errorMsgElem = $("#time-check-error-msg");
+            if (clientServerTime < 0) {
+                errorMsgElem.css("display", "");
+                errorMsgElem.text("Vaše lokální hodiny jsou dopředu o " + (-clientServerTime / 1000) + " s");
+            } else if(serverClientTime < 0) {
+                errorMsgElem.css("display", "");
+                errorMsgElem.text("Vaše lokální hodiny jsou pozadu o " + (-serverClientTime / 1000) + " s");
+            } else {
+                errorMsgElem.css("display", "none");
+                errorMsgElem.text("");
+            }
 
             return true;
         }
