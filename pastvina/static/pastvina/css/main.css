@@ -129,7 +129,7 @@ p {
     font-size: 1rem;
     line-height: 1.4;
     font-weight: 600;
-    margin: 0 auto;
+    margin: auto;
     max-width: 600px;
     text-align: left;
     margin-bottom: 10px;
@@ -139,7 +139,7 @@ p {
     font-size: 1rem;
     line-height: 1.4;
     font-weight: 600;
-    margin: 0 auto;
+    margin: auto;
     max-width: 600px;
     text-align: left;
     margin-bottom: 10px;
@@ -223,7 +223,7 @@ article {
     background-color: white;
     color: #383838;
     padding: 40px;
-    margin: 0 auto 40px auto;
+    margin: 10px auto 40px auto;
     display: inline-block;
 }
 
