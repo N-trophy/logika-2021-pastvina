@@ -19,7 +19,6 @@
     {% endif %}
     {% if user.is_anonymous %}
         <a href="{% url 'login' %}">Login</a>
-        <a href="{% url 'activate' %}">Aktivace</a>
     {% endif %}
     {% if user.is_authenticated %}
         <div class="nav-item">
