@@ -85,24 +85,6 @@ def page_game_overview(request):
 
 
 @login_required
-def round_stats(request, round_id):
-    """
-    Renders the statistics of the chosen game.
-    """
-    round_ = Round.objects.filter(id=round_id).last()
-    crops = Crop.objects.all()
-    livestock = Livestock.objects.all()
-
-    context = {
-        'round': round_,
-        'crops': crops,
-        'livestock': livestock,
-    }
-
-    return render(request, 'pastvina/round_stats.html', context)
-
-
-@login_required
 def page_game(request, round_id):
     """
     Renders the game page from template.
