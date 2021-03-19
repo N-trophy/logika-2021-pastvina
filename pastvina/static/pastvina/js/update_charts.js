@@ -116,8 +116,10 @@ function updateCharts(updateData) {
         $("#crop-rotting-amount-" + crop.id).text(rotting);
         $("#crop-buy-limit-" + crop.id).text(maxBuy);
         $("#crop-sell-limit-" + crop.id).text(rotting);
-        $("#buy-crop-count-" + crop.id).attr({ "max": maxBuy });
-        $("#sell-crop-count-" + crop.id).attr({ "max": rotting });
+        $("#buy-crop-count-" + crop.id).attr("max", maxBuy);
+        $("#sell-crop-count-" + crop.id).attr("max", rotting);
+        $("#buy-crop-button-" + crop.id).attr("disabled", crop.bought != 0);
+        $("#sell-crop-button-" + crop.id).attr("disabled", crop.sold != 0);
     }
     $("#crop-rotting-total").text(cropRottingTotal);
     $("#next-tick-new-rotting").text(nextTickNewRotting);
@@ -158,9 +160,12 @@ function updateCharts(updateData) {
         $("#ls-buy-limit-" + ls.id).text(maxBuy);
         $("#ls-sell-limit-" + ls.id).text(maxSell);
         $("#ls-kill-limit-" + ls.id).text(baby + adult);
-        $("#buy-ls-count-" + ls.id).attr({ "max": maxBuy });
-        $("#sell-ls-count-" + ls.id).attr({ "max": maxSell });
-        $("#kill-ls-count-" + ls.id).attr({ "max": baby + adult });
+        $("#buy-ls-count-" + ls.id).attr("max", maxBuy);
+        $("#sell-ls-count-" + ls.id).attr("max", maxSell);
+        $("#kill-ls-count-" + ls.id).attr("max", baby + adult);
+        $("#buy-ls-button-" + ls.id).attr("disabled", ls.bought != 0);
+        $("#sell-ls-button-" + ls.id).attr("disabled", ls.sold != 0);
+        $("#kill-ls-button-" + ls.id).attr("disabled", ls.killed != 0);
     }
     $("#consumption-money").text(tickConsumption);
     $("#consumption-money").css("color", tickConsumption > updateData.money ? "#ff2000" : "white");
