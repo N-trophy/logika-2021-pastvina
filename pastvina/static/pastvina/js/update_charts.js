@@ -76,6 +76,7 @@ function updateCharts(updateData) {
     if (updateData.time > Date.now()) {
         timeOfNextUpdate = updateData.time;
         showTime = true;
+        updateTimeToNextTick();
     }
     let isNewTick = tickId != updateData.tick_id;
     tickId = updateData.tick_id;
