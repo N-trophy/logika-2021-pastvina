@@ -36,6 +36,7 @@ class Round(models.Model):
     start = models.DateTimeField('start')
     reload_time = models.DateTimeField('obnovení dat', null=True, blank=True)
     is_test = models.BooleanField('testovací', default=False, blank=True)
+    index = models.PositiveIntegerField('index', null=True, blank=True)
     ticks = models.PositiveIntegerField('počet minikol')
     period = models.PositiveIntegerField('délka minikola v 10s')
 
@@ -58,7 +59,7 @@ class Round(models.Model):
         return last_tick.index < self.ticks
 
     def end(self) -> datetime:
-        return self.start + timedelta(seconds=(self.ticks+1) * self.period * 10)
+        return self.start + timedelta(seconds=(self.ticks) * self.period * 10)
 
     def start_nice_str(self) -> str:
         return localtime(self.start).strftime('%d. %m. %Y %H:%M:%S')

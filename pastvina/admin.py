@@ -25,6 +25,7 @@ class ContributionAdmin(admin.ModelAdmin):
 class RoundAdmin(admin.ModelAdmin):
     list_display = [
         'id',
+        'index',
         'name',
         'start',
         'reload_time',

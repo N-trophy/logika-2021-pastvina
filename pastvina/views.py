@@ -78,7 +78,7 @@ def page_game_overview(request):
     Renders the game overview page from template.
     """
     context = {
-        'rounds': Round.objects.filter().all(),
+        'rounds': Round.objects.filter().order_by(F('index').asc(nulls_last=True), 'id').all(),
     }
 
     return render(request, 'pastvina/game_overview.html', context)
