@@ -5,12 +5,16 @@
 {% block content %}
     <section class="padding dark-color login">
         <form method="POST" action="" class="login center">
-	    {% csrf_token %}
+        {% csrf_token %}
             <h3 class="dark-text">Aktivace účtu</h3>
+
+            <p>Pro používání webu zajdete ID svého týmu, které najdete na stránce <code><a
+            href="http://ntrophy.cz/seznam-registrovanych-tymu/">http://ntrophy.cz/seznam-registrovanych-tymu/</a></code>.
+            Na e-mailovou adresu vašeho týmu přijdou přístupové údaje.</p>
 
             <p><input type="text" name="username" placeholder="id týmu"></p>
 
-            <p><button type="submit" class="login-button primary">Aktivuj svůj účet!</button></p>
+            <p><button type="submit" class="login-button primary">Aktivovat účet</button></p>
 
             {% if messages %}
             <ul class="messages">
