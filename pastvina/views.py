@@ -103,28 +103,6 @@ def round_stats(request, round_id):
 
 
 @login_required
-def team_stats(request):
-    """
-    Renders the teams game statistics page.
-    """
-    team = request.user
-    real_rounds = Round.objects.filter(is_test=False).all()
-    test_rounds = Round.objects.filter(is_test=True).all()
-    crops = Crop.objects.all()
-    livestock = Livestock.objects.all()
-
-    context = {
-        'team': team,
-        'real_rounds': real_rounds,
-        'test_rounds': test_rounds,
-        'crops': crops,
-        'livestock': livestock,
-    }
-
-    return render(request, 'pastvina/team_stats.html', context)
-
-
-@login_required
 def page_game(request, round_id):
     """
     Renders the game page from template.
