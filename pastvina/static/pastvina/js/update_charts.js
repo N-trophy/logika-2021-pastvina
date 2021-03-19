@@ -117,6 +117,7 @@ function updateCharts(updateData) {
         $("#crop-bought-amount-" + crop.id).text(crop.bought);
         $("#crop-sold-amount-" + crop.id).text(crop.sold);
         $("#crop-buy-limit-" + crop.id).text(maxBuy);
+        $("#crop-buy-limit-" + crop.id).css("color", maxBuy > cropStorageSize ? "#ff2000" : "");
         $("#crop-sell-limit-" + crop.id).text(rotting);
         $("#buy-crop-count-" + crop.id).attr("max", maxBuy);
         $("#sell-crop-count-" + crop.id).attr("max", rotting);
