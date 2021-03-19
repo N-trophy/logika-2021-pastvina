@@ -258,7 +258,7 @@ def game_trade_crop(trade_type, count, prod_id, last_tick, user_state):
     crop = crop_state.crop
 
     if trade_type == 'buy':
-        if lock.bought == 1:
+        if lock.bought != 0:
             return HttpResponseBadRequest("Tuto iteraci jste již nakoupili tuto komoditu.")
         get_or_create = lambda tick, user, crop, age: TeamCropHistory.objects.get_or_create(
             tick=tick, user=user, crop=crop, age=age,
@@ -266,16 +266,16 @@ def game_trade_crop(trade_type, count, prod_id, last_tick, user_state):
         response = game_buy(crop_state, crop, crop.growth_time + crop.rotting_time,
                         last_tick, user_state, count, get_or_create)
         if response.status_code == 200:
-            lock.bought = 1
+            lock.bought = count
             lock.save()
         return response
     elif trade_type == 'sell':
-        if lock.sold == 1:
+        if lock.sold != 0:
             return HttpResponseBadRequest("Tuto iteraci jste již prodali tuto komoditu.")
         response = game_sell(crop_state, crop.rotting_time, last_tick, user_state, count,
                          TeamCropHistory, TeamCropHistory.objects.filter(crop=crop))
         if response.status_code == 200:
-            lock.sold = 1
+            lock.sold = count
             lock.save()
         return response
     else:
@@ -293,7 +293,7 @@ def game_trade_livestock(trade_type, count, prod_id, last_tick, user_state):
     ls = ls_state.livestock
 
     if trade_type == 'buy':
-        if lock.bought == 1:
+        if lock.bought != 0:
             return HttpResponseBadRequest("Tuto iteraci jste již nakoupili tuto komoditu.")
         get_or_create = lambda tick, user, ls, age: TeamLivestockHistory.objects.get_or_create(
             tick=tick,
@@ -304,11 +304,11 @@ def game_trade_livestock(trade_type, count, prod_id, last_tick, user_state):
         response = game_buy(ls_state, ls, ls.growth_time + ls.life_time,
                         last_tick, user_state, count, get_or_create)
         if response.status_code == 200:
-            lock.bought = 1
+            lock.bought = count
             lock.save()
         return response
     elif trade_type == 'sell':
-        if lock.sold == 1:
+        if lock.sold != 0:
             return HttpResponseBadRequest("Tuto iteraci jste již prodali tuto komoditu.")
         if last_tick.round.livestock_slaughter_limit < user_state.slaughtered + count:
             return HttpResponseBadRequest(f'Příliš mnoho poražených zvířat.\n'
@@ -319,7 +319,7 @@ def game_trade_livestock(trade_type, count, prod_id, last_tick, user_state):
                              TeamLivestockHistory, TeamLivestockHistory.objects.filter(livestock=ls))
 
         if response.status_code == 200:
-            lock.sold = 1
+            lock.sold = count
             lock.save()
             user_state.slaughtered += count
             user_state.save()
