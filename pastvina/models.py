@@ -85,6 +85,7 @@ class Tick(models.Model):
     round = models.ForeignKey(Round, on_delete=models.CASCADE, verbose_name='kolo', related_name='all_ticks')
 
     start = models.DateTimeField('start', default=timezone.now)
+    computed = models.DateTimeField('start', default=timezone.now)
 
     def __str__(self):
         return "tick {0} ({1})".format(self.index, self.round)
