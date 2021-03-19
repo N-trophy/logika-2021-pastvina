@@ -79,7 +79,7 @@ button:active{
     box-shadow: 0 1px 1px rgba(0, 0, 0, .3) inset;
 }
 
-button[disabled], .button[disabled]:hover, .button[disabled]:active{
+button[disabled], button[disabled]:hover, button[disabled]:active{
     border-color: #eaeaea;
     background: #fafafa;
     cursor: default;
@@ -180,8 +180,25 @@ section {
 
 .index-button {
     padding: 20px;
-    margin: 0px 40px;
+    margin: 0px 20px;
     font-size: large;
+    font-weight: bolder;
+
+    padding: 15px 25px;
+    border: 3px solid #90d43d;
+    text-decoration: none;
+    color: #90d43d;
+    cursor: pointer;
+    border-radius: 5px;
+
+    display: flex;
+    align-items: center;
+}
+
+.index-button.inverted {
+    border: none;
+    background: linear-gradient(150deg, rgba(70, 80, 60, 255) 0%, rgba(20, 30, 10, 255) 100%);
+    color: white;
 }
 
 .rules {
