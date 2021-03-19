@@ -48,4 +48,4 @@ class Command(BaseCommand):
         start = timezone.now()
         rounds_update()
         ticks_update()
-        print(timezone.now()-start)
+        print(start, timezone.now()-start)
