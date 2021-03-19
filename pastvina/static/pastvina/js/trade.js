@@ -1,6 +1,11 @@
 function requestTrade(tradeType, prodType, prodId, count) {
     if (count <= 0) {
-        addMessage("error", "Nelze obchodovat nekladné množství.", true);
+        $.floatcard("Nelze obchodovat nekladné množství.",{
+                position: "left-bottom",
+                state: "error",
+                autoHide: true,
+                autoHideDelay: 3000,
+            });
         console.error("Nelze obchodovat nekladné množství.");
         return;
     }
@@ -25,7 +30,12 @@ function requestTrade(tradeType, prodType, prodId, count) {
     .done(function(data) {
         requestUpdateCharts();
         console.log(data);
-        addMessage("default", data, true);
+        $.floatcard(data,{
+                position: "left-bottom",
+                state: "default",
+                autoHide: true,
+                autoHideDelay: 3000,
+            });
     })
     .fail(function(error, textStatus) {
         buttonElem.prop('disabled', false);
@@ -40,6 +50,9 @@ function requestTrade(tradeType, prodType, prodId, count) {
             console.log(error);
         }
         console.error("Obchod neproběhl.\n" + userErrorText);
-        addMessage("error", "Obchod neproběhl.\n" + userErrorText);
+        $.floatcard("Obchod neproběhl.\n" + userErrorText,{
+                position: "left-bottom",
+                state: "error",
+            });
     });
 }

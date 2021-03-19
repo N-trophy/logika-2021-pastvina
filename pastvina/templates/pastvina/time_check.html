@@ -54,7 +54,10 @@
                 console.log(data);
                 if (!updateResults(data.request_time, data.server_time, responseTime)) {
                     console.error("Nastala chyba při komunikaci se serverem se serverem.");
-                    addMessage("error", "Nastala chyba při komunikaci se serverem se serverem.", true);
+                    $.floatcard("Nastala chyba při komunikaci se serverem se serverem.",{
+                            position: "left-bottom",
+                            state: "error",
+                        });
                 }
             })
             .fail(function(error, textStatus) {
@@ -69,7 +72,10 @@
                     console.log(error);
                 }
                 console.error("Nepodařilo se spojit se serverem.\n" + userErrorText);
-                addMessage("error", "Nepodařilo se spojit se serverem.\n" + userErrorText, true);
+                $.floatcard("Nepodařilo se spojit se serverem.\n" + userErrorText,{
+                        position: "left-bottom",
+                        state: "error",
+                    });
             });
         }
 

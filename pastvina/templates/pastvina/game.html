@@ -5,10 +5,8 @@
 {% block title %} {{ round.name }} | Logika N-Trophy {% endblock%}
 
 {% block head %}
-<link href="{% static "pastvina/css/jquery.floatcard.css" %}" rel="stylesheet">
 <script>var csrf_token="{{ csrf_token }}";</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="{% static "pastvina/js/jquery.floatcard.js" %}"></script>
 <script src="{% static "pastvina/js/update_charts.js" %}"></script>
 <script src="{% static "pastvina/js/trade.js" %}"></script>
 {% endblock %}
