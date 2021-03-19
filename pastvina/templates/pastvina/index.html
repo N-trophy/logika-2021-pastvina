@@ -10,7 +10,13 @@
 <section style="display: flex;" class="full-height full-width landing background">
     <div class="overlay"></div>
     <div class="center">
-    <h1>A s kým paseš kozy ty?</h1>
+        <div class="vertical-container">
+            <h1>A s kým paseš kozy ty?</h1>
+            <div class="horizontal-container padding-small">
+                <a href="{% url 'rules' %}" class="index-button">Přečíst pravidla</a>
+                <a href="{% url 'game_overview' %}" class="index-button">Začít hrát</a>
+            </div>
+        </div>
     </div>
 </section>
 

@@ -178,6 +178,12 @@ section {
     width: 24.999%;
 }
 
+.index-button {
+    padding: 20px;
+    margin: 0px 40px;
+    font-size: large;
+}
+
 .rules {
     text-align: left;
     max-width: 1200px;
