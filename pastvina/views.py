@@ -233,7 +233,6 @@ def game_sell(commodity_state, active_time, last_tick, user_state, count, klass,
     by_age = query.filter(tick=last_tick, user=user_state.user, age__lte=active_time).order_by('age')
     rest = count
     pos = 0
-    print(by_age)
     while rest > 0:
         if pos >= len(by_age):
             return HttpResponseBadRequest('Nemáte dostatek komodity na prodej.')
