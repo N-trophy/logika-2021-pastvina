@@ -3,6 +3,15 @@ var timeOfNextUpdate = Date.now();
 var showTime = false;
 var loadTime = Date.now();
 
+function addMessage(state, message, autoHide = false, timeout = 3000) {
+    $.floatcard(message,{
+        position: "left-bottom",
+        state: state,
+        autoHide: autoHide,
+        autoHideDelay: timeout,
+    });
+}
+
 function updateTimeToNextTick()
 {
     let millisToNextUpdate = timeOfNextUpdate - Date.now();

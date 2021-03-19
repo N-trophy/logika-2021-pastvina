@@ -1,6 +1,6 @@
 function requestTrade(tradeType, prodType, prodId, count) {
     if (count <= 0) {
-        alert("Nelze obchodovat nekladné množství.");
+        addMessage("error", "Nelze obchodovat nekladné množství.", true);
         console.error("Nelze obchodovat nekladné množství.");
         return;
     }
@@ -25,7 +25,7 @@ function requestTrade(tradeType, prodType, prodId, count) {
     .done(function(data) {
         requestUpdateCharts();
         console.log(data);
-        // alert(data);
+        addMessage("default", data, true);
     })
     .fail(function(error, textStatus) {
         buttonElem.prop('disabled', false);
@@ -40,6 +40,6 @@ function requestTrade(tradeType, prodType, prodId, count) {
             console.log(error);
         }
         console.error("Obchod neproběhl.\n" + userErrorText);
-        alert("Obchod neproběhl.\n" + userErrorText);
+        addMessage("error", "Obchod neproběhl.\n" + userErrorText);
     });
 }

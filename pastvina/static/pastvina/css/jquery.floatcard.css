@@ -1,0 +1,147 @@
+/*
+ * jQuery.floatcard - Floating message plugin
+ * 
+ * Copyright (c) 2019 Hisanori Kitagawa
+ * Under The MIT License
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:  
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.  
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+@charset "utf-8";
+/**
+ * ���b�Z�[�W��u���b�N�v�f���R���e���c��Ƀt���[�g�\�����鏈���̂��߂̃X�^�C���V�[�g�ł��B<br>
+ * <p>
+ * �\������t���[�g�v�f�̃X�^�C����ύX����ꍇ�́A���̃X�^�C���V�[�g�Œ�`�����X�^�C���N���X��ύX���܂��B<br>
+ * </p>
+ * 
+ * @author Kitagawa<br>
+ * 
+ *<!--
+ * �X�V��		�X�V��			�X�V���e
+ * 2019/05/06	Kitagawa		�V�K�쐬
+ *-->
+ */
+.ui-floatcard {
+	display: block;
+	position: absolute;
+	padding: 16px;
+	margin: 30px 40px;
+	padding: 0.3rem 0.3rem 0.3rem 0.6rem;
+	min-height: 1.0rem;
+	min-width: 1.0rem;
+	/*min-width: 30vw;*/
+	border-radius: 0.3rem;
+	transition: top 0.3s ease, bottom 0.3s ease, left 0.3s ease, right 0.3s ease;
+	-webkit-transition: top 0.3s ease, bottom 0.3s ease, left 0.3s ease, right 0.3s ease;
+	-moz-transition: top 0.3s ease, bottom 0.3s ease, left 0.3s ease, right 0.3s ease;
+	-o-transition: top 0.3s ease, bottom 0.3s ease, left 0.3s ease, right 0.3s ease;
+	display: flex;
+	align-items: stretch;
+	flex-direction: row-reverse;
+}
+
+.ui-floatcard-container {
+	display: block;
+	margin: 10px;
+	padding: 0;
+}
+
+.ui-floatcard-position-right-top {
+	right: 0;
+}
+
+.ui-floatcard-position-right-bottom {
+	right: 0;
+}
+
+.ui-floatcard-position-left-top {
+	left: 0;
+}
+
+.ui-floatcard-position-left-bottom {
+	left: 0;
+}
+
+.ui-floatcard-position-center-top {
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.ui-floatcard-position-center-bottom {
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.ui-floatcard-position-fill-top {
+	left: 0;
+	right: 0;
+}
+
+.ui-floatcard-position-fill-bottom {
+	left: 0;
+	right: 0;
+}
+
+.ui-floatcard-state-default {
+	background-color: #90d43d;
+	border: 1px solid rgb(70, 80, 60);
+	color: black;
+}
+
+.ui-floatcard-state-error {
+	background-color: #ff2000;
+	border: 1px solid black;
+	color: white;
+}
+
+.ui-floatcard-state-fatal {
+	background-color: #f7819f;
+	border: 1px solid #8a0829;
+	color: #3B0b17;
+}
+
+.ui-floatcard-state-warn {
+	background-color: #f5ecce;
+	border: 1px solid #f5da81;
+	color: #8a2908;
+}
+
+.ui-floatcard-state-info {
+	background-color: #e0ecf8;
+	border: 1px solid #81bef7;
+	color: #000;
+}
+.ui-floatcard-icon-close {
+	display: block;
+	/* position: absolute; */
+	right: 0;
+	margin: auto;
+	padding: 8px;
+	cursor: pointer;
+	fill: black;
+	line-height: 0.18rem;
+}
+
+.ui-floatcard-icon-close svg {
+	width: 1rem;
+	height: 1rem;
+}
+
+.ui-floatcard-icon-close:hover {
+	fill: white;
+}
