@@ -150,7 +150,7 @@ section {
     padding: 0 40px;
     font-size: 1rem;
     text-align: center;
-    overflow: hidden;
+    overflow: auto;
     color: #383838;
 }
 
@@ -244,12 +244,12 @@ article .labels span.orange {
 }
 
 .full-height {
-    height: 720px;
-    height: 100vh;
+    min-height: 720px;
+    min-height: 100vh;
 }
 
 .full-width {
-    width: 100%;
+    min-width: 100%;
 }
 
 .center {
@@ -268,6 +268,11 @@ article .labels span.orange {
     background-size: cover;
     padding: 0px !important;
     color: white;
+}
+
+.intro {
+    margin: 20px 40px;
+    margin-top: 80px;
 }
 
 .login-button {
@@ -573,7 +578,7 @@ nav {
     padding: 10px 2% 10px 2%;
 }
 
-nav a {
+nav a, .nav-item {
     text-decoration: none;
     padding: 10px;
     margin: 20px;
@@ -598,8 +603,8 @@ nav .logo {
 }
 
 .landing .overlay {
-    width: 100%;
-    height: 100%;
+    min-width: 100%;
+    min-height: 100%;
     position: absolute;
 }
 
@@ -610,7 +615,7 @@ nav .logo {
 }
 
 .landing .center {
-    height: 200px;
+    min-height: 200px;
     max-width: 800px;
 }
 
@@ -659,7 +664,7 @@ form.modal.login p {
 }
 
 .login form.center {
-    height: 250px;
+    min-height: 250px;
     max-width: 400px;
 }
 

@@ -18,7 +18,9 @@
         <a href="{% url 'admin:index' %}">Admin</a>
     {% endif %}
     {% if user.is_authenticated %}
-        {{ request.user.get_full_name }}
+        <div class="nav-item">
+            {{ request.user.get_full_name }}
+        </div>
         <a href="{% url 'logout' %}">Odhlásit se</a>
     {% endif %}
     </div>

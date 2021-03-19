@@ -8,8 +8,19 @@
 
 <!-- Úvod -->
 <section class="full-height full-width landing background">
-    <div class="overlay"></div>
-    <div class="center">
+    <div class="overlay">
+    <div id="menu-placeholder" style="height: 100px; margin: 10px;">
+        <script>
+            $(function() {
+                $("#menu-placeholder").height($("#nav-menu").height());
+
+                window.onresize = function() {
+                    $("#menu-placeholder").height($("#nav-menu").height());
+                };
+            });
+        </script>
+    </div>
+    <div class="intro">
     <p>Na následujících 90 minut se stáváte farmáři, pěstujete plodiny, chováte
     zvířata a snažíte se maximalizovat svůj zisk.</p>
 
@@ -47,6 +58,7 @@
     komodit. Po každé iteraci se uloží zaklikané změny a odešlou se k
     vyhodnocení. V návaznosti na tahu vás a vašich soupeřů se změní situace na
     trhu a upraví se ceny plodin a zvířat.</p>
+    </div>
     </div>
 </section>
 
