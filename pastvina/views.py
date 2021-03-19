@@ -75,8 +75,13 @@ def time_check_ping(request):
     """
     Returns the time of request and server time.
     """
+    try:
+        request_time = int(request.POST.get('request_time'))
+    except KeyError:
+        return HttpResponseBadRequest('Chybí čas požadavku')
+
     data = {
-        "request_time": int(request.GET['request_time']),
+        "request_time": request_time,
         "server_time": int(timezone.now().timestamp() * 1000),
     }
 
