@@ -114,6 +114,8 @@ function updateCharts(updateData) {
         }
         $("#crop-growing-amount-" + crop.id).text(growing);
         $("#crop-rotting-amount-" + crop.id).text(rotting);
+        $("#crop-bought-amount-" + crop.id).text(crop.bought);
+        $("#crop-sold-amount-" + crop.id).text(crop.sold);
         $("#crop-buy-limit-" + crop.id).text(maxBuy);
         $("#crop-sell-limit-" + crop.id).text(rotting);
         $("#buy-crop-count-" + crop.id).attr("max", maxBuy);
@@ -157,6 +159,9 @@ function updateCharts(updateData) {
         tickProduction += adult * ls.product_price;
         $("#ls-baby-amount-" + ls.id).text(baby);
         $("#ls-adult-amount-" + ls.id).text(adult);
+        $("#ls-bought-amount-" + ls.id).text(ls.bought);
+        $("#ls-sold-amount-" + ls.id).text(ls.sold);
+        $("#ls-killed-amount-" + ls.id).text(ls.killed);
         $("#ls-buy-limit-" + ls.id).text(maxBuy);
         $("#ls-sell-limit-" + ls.id).text(maxSell);
         $("#ls-kill-limit-" + ls.id).text(baby + adult);
