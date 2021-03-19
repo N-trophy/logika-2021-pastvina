@@ -22,7 +22,10 @@ function updateTimeToNextTick()
 }
 
 function requestUpdateCharts() {
-    $.getJSON("update", function(update_data) {
+    $.post("update", {
+        'csrfmiddlewaretoken': csrf_token,
+    }, "json")
+    .done(function(update_data) {
         updateCharts(update_data);
     })
     .fail(function(error, textStatus) {

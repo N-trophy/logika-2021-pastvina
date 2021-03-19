@@ -44,7 +44,10 @@
 
     <script>
         function pingServer() {
-            $.getJSON("ping", { 'request_time': Date.now() })
+            $.post("ping", {
+                'request_time': Date.now(),
+                'csrfmiddlewaretoken': csrf_token,
+            }, "json")
             .done(function(data) {
                 let responseTime = Date.now();
                 data.response_time = responseTime;
