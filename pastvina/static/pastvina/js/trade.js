@@ -1,13 +1,14 @@
 function requestTrade(tradeType, prodType, prodId, count) {
     if (count <= 0) {
         alert("Nelze obchodovat nekladné množství.");
+        console.error("Nelze obchodovat nekladné množství.");
         return;
     }
     if (tradeType != 'buy' && tradeType != 'sell' && tradeType != 'kill') {
-        console.log('Unknown type type: "' + tradeType + '" (expected buy/sell/kill)');
+        console.error('Unknown type type: "' + tradeType + '" (expected buy/sell/kill)');
     }
     if (prodType != 'crop' && prodType != 'ls') {
-        console.log('Unknown prod type: "' + prodType + '" (expected crop/ls)');
+        console.error('Unknown prod type: "' + prodType + '" (expected crop/ls)');
     }
 
     let buttonElem = $('#' + tradeType + '-' + prodType + '-button-' + prodId);
@@ -38,6 +39,7 @@ function requestTrade(tradeType, prodType, prodId, count) {
             console.log(textStatus);
             console.log(error);
         }
+        console.error("Obchod neproběhl.\n" + userErrorText);
         alert("Obchod neproběhl.\n" + userErrorText);
     });
 }

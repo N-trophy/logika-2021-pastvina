@@ -39,7 +39,7 @@ function requestUpdateCharts() {
             console.log(textStatus);
             console.log(error);
         }
-        console.log("Nebylo možné obnovit data.\n" + userErrorText);
+        console.error("Nebylo možné obnovit data.\n" + userErrorText);
     });
 }
 
