@@ -32,7 +32,7 @@
 
 <section class="statistics light-color">
     <h2>Statistiky z odehraných kol</h2>
-    <div class="vertical-container">
+    <div class="container vertical-container">
         {% for round in rounds %}
         <div class="game-wrapper">
             <a class="game-ref" href="{% url 'round_stats' round.id %}">
