@@ -156,6 +156,13 @@ def game_update(request, round_id):
         'age',
         'amount',
     )
+    team_livestock_actions = TeamLivestockActionHistory.objects.filter(tick=tick, user=request.user).values(
+        'livestock',
+        'bought',
+        'sold',
+        'killed',
+    )
+
     livestock_data = {}
     for ls in livestock:
         livestock_data[ls.livestock.id] = {
@@ -164,7 +171,17 @@ def game_update(request, round_id):
             'sell': ls.current_price_sell,
             'product_price': ls.product_current_price,
             'by_age': [0 for _ in range(ls.livestock.life_time + ls.livestock.growth_time)],
+            'bought': 0,
+            'sold': 0,
+            'killed': 0,
         }
+
+    for tls_action in team_livestock_actions:
+        ls_data = livestock_data[tls_action['livestock']]
+        if ls_data:
+            ls_data['bought'] = tls_action['bought']
+            ls_data['sold'] = tls_action['sold']
+            ls_data['killed'] = tls_action['killed']
 
     for tls in team_livestock:
         tls_data = livestock_data[tls['livestock']]
@@ -172,12 +189,19 @@ def game_update(request, round_id):
             if tls['age'] <= len(tls_data['by_age']):
                 tls_data['by_age'][tls['age']-1] = tls['amount']
 
+
     crops = CropMarketHistory.objects.filter(tick=tick).select_related('crop').all()
     team_crops = TeamCropHistory.objects.filter(tick=tick, user=request.user).values(
         'crop',
         'age',
         'amount',
     )
+    team_crop_actions = TeamCropActionHistory.objects.filter(tick=tick, user=request.user).values(
+        'crop',
+        'bought',
+        'sold',
+    )
+
     crops_data = {}
     for crop in crops:
         crops_data[crop.crop.id] = {
@@ -185,7 +209,15 @@ def game_update(request, round_id):
             'buy': crop.current_price_buy,
             'sell': crop.current_price_sell,
             'by_age': [0 for _ in range(crop.crop.rotting_time + crop.crop.growth_time)],
+            'bought': 0,
+            'sold': 0,
         }
+
+    for tcrop_action in team_crop_actions:
+        crop_data = crops_data[tcrop_action['crop']]
+        if crop_data:
+            crop_data['bought'] = tcrop_action['bought']
+            crop_data['sold'] = tcrop_action['sold']
 
     for tcrop in team_crops:
         tcrop_data = crops_data[tcrop['crop']]
