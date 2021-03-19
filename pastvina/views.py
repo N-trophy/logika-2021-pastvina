@@ -453,32 +453,40 @@ def handler_logout(request):
     return redirect('/')
 
 
-def user_activate(request, username):
-    user = User.objects.filter(username=username).last()
+def user_activate(request):
+    if request.method == 'POST':
+        username = request.POST.get('username', '')
+        user = User.objects.filter(username=username).last()
 
-    if user is None:
-        return HttpResponseNotFound("Takový uživatel neexistuje")
+        if user is None:
+            messages.error(request, "Takový uživatel neexistuje")
+            return render(request, 'pastvina/user_activate.html', {'navbar_absolute_pos': True})
 
-    if user.is_superuser and (not request.user or not request.user.is_superuser):
-        return HttpResponseForbidden("Tohoto uživatele nelze změnit")
+        if user.is_superuser and (not request.user or not request.user.is_superuser):
+            messages.error(request, "Tohoto uživatele nelze změnit")
+            return render(request, 'pastvina/user_activate.html', {'navbar_absolute_pos': True})
 
-    if user.is_active:
-        return HttpResponseForbidden("Tento uživatel již byl aktivován.")
+        if user.is_active:
+            messages.error(request, "Tento uživatel již byl aktivován.")
+            return render(request, 'pastvina/user_activate.html', {'navbar_absolute_pos': True})
 
-    user.is_active = True
-    user.pwd = (User.objects.make_random_password(), )
-    user.set_password(user.pwd[0])
-    user.save()
+        user.is_active = True
+        user.pwd = (User.objects.make_random_password(), )
+        user.set_password(user.pwd[0])
+        user.save()
 
-    send_mail(
-        f'[N-trophy 2021] Logika: přístupové údaje',
-        (f'Přístupové údaje k webu https://logika.ntrophy.cz/ pro tým {user.get_full_name()} '
-         f'jsou:\n\n  * login: {user.username} \n  * heslo: {user.pwd[0]}\n\nS pozdravem,\n'
-         f'tým logiky N-trophy'),
-        'logika@ntrophy.cz',
-        [user.email],
-    )
+        send_mail(
+            f'[N-trophy 2021] Logika: přístupové údaje',
+            (f'Přístupové údaje k webu https://logika.ntrophy.cz/ pro tým {user.get_full_name()} '
+             f'jsou:\n\n  * login: {user.username} \n  * heslo: {user.pwd[0]}\n\nS pozdravem,\n'
+             f'tým logiky N-trophy'),
+            'logika@ntrophy.cz',
+            [user.email],
+        )
 
-    return render(request, 'pastvina/user_activate.html', {
-        'activated_user': user,
-    })
+        messages.info(request, f"Uživatel { user.get_full_name() } (login id { user.username }) byl aktivován.")
+        messages.info(request, f"Na adresu { user.email } byly odeslány přihlašovací údaje.")
+
+        return render(request, 'pastvina/user_activate.html', {'navbar_absolute_pos': True})
+    else:
+        return render(request, "pastvina/user_activate.html", {'navbar_absolute_pos': True})
