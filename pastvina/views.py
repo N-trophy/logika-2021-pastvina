@@ -350,11 +350,11 @@ def game_trade_livestock(trade_type, count, prod_id, last_tick, user_state):
 def game_trade(request, round_id):
     """ DATA VALIDATION"""
     try:
-        tick_id = int(request.GET['tick_id'])
-        trade_type = request.GET['trade_type']
-        prod_type = request.GET['prod_type']
-        prod_id = int(request.GET['prod_id'])
-        count = int(request.GET['count'])
+        tick_id = int(request.POST['tick_id'])
+        trade_type = request.POST['trade_type']
+        prod_type = request.POST['prod_type']
+        prod_id = int(request.POST['prod_id'])
+        count = int(request.POST['count'])
     except KeyError:
         return HttpResponseBadRequest('Trade parameter missing')
 

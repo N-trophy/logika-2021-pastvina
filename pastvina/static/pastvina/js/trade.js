@@ -13,7 +13,14 @@ function requestTrade(tradeType, prodType, prodId, count) {
     let buttonElem = $('#' + tradeType + '-' + prodType + '-button-' + prodId);
     buttonElem.prop('disabled', true);
 
-    $.get("trade", { 'tick_id': tickId, 'trade_type': tradeType, 'prod_type': prodType, 'prod_id': prodId, 'count': count })
+    $.post("trade", {
+        'tick_id': tickId,
+        'trade_type': tradeType,
+        'prod_type': prodType,
+        'prod_id': prodId,
+        'count': count,
+        'csrfmiddlewaretoken': csrf_token,
+    })
     .done(function(data) {
         requestUpdateCharts();
         console.log(data);
