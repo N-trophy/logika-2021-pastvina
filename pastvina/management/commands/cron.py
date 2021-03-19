@@ -45,5 +45,7 @@ class Command(BaseCommand):
     help = 'Runs one iteration of updates.'
 
     def handle(self, *args, **options):
+        start = timezone.now()
         rounds_update()
         ticks_update()
+        print(timezone.now()-start)
