@@ -9,15 +9,25 @@
 <!-- Úvod -->
 <section style="display: flex;" class="full-height full-width landing background">
     <div class="overlay"></div>
-    <div class="center">
-        <div class="vertical-container">
-            <h2>A s kým paseš kozy ty?</h2>
-            <div class="horizontal-container padding-small">
-                <a href="{% url 'rules' %}" class="index-button">Přečíst pravidla</a>
-                <a href="{% url 'game_overview' %}" class="index-button">Začít hrát</a>
+    <div id="page-content" style="flex: 1; display: flex;">
+        <div style="padding-bottom: 60px;" class="center">
+            <div class="vertical-container">
+                <h2>A s kým paseš kozy ty?</h2>
+                <div class="horizontal-container padding-small">
+                    <a href="{% url 'rules' %}" class="index-button">Přečíst pravidla</a>
+                    <a href="{% url 'game_overview' %}" class="index-button">Začít hrát</a>
+                </div>
             </div>
         </div>
     </div>
+    <script>
+        function updatePageContentMargin() {
+            $("#page-content").css("margin-top", $("#nav-menu").height() + "px");
+        }
+
+        updatePageContentMargin();
+        window.onresize = updatePageContentMargin;
+    </script>
 </section>
 
 <section class="dark">

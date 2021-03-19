@@ -68,7 +68,7 @@ def time_check(request):
     """
     Renders the page for checking time with frontend.
     """
-    return render(request, 'pastvina/time_check.html', {})
+    return render(request, 'pastvina/time_check.html', {'navbar_absolute_pos': True,})
 
 
 def time_check_ping(request):

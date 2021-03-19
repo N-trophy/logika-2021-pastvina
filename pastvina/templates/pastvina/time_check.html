@@ -1,11 +1,43 @@
 {% extends "pastvina/base.html" %}
 {% load extras %}
+{% load static %}
 
 {% block title %} Kontrola času | Logika N-Trophy {% endblock%}
 
 {% block content %}
-<section class="padding-small light">
-    <h1>Kontrola času</h1>
+
+<section style="display: flex;" class="full-height full-width landing background">
+    <div class="overlay"></div>
+    <div id="page-content" style="flex: 1; display: flex;">
+        <div style="padding-bottom: 60px;" class="center">
+            <div style="padding: 40px;" class="vertical-container dark-color-transparent">
+                <div style="padding: 10px">
+                    <h2>Kontrola času</h2>
+                </div>
+                <div style="padding: 10px" class="vertical-container">
+                    <p>Turnaround time: <span id="turnaround-time">-</span>&nbsp;s</p>
+                    <p>Client-server time: <span id="clientserver-time">-</span>&nbsp;s</p>
+                    <p>Server-client time: <span id="serverclient-time">-</span>&nbsp;s</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function updatePageContentMargin() {
+            $("#page-content").css("margin-top", $("#nav-menu").height() + "px");
+        }
+
+        updatePageContentMargin();
+        window.onresize = updatePageContentMargin;
+    </script>
+</section>
+
+<section class="dark">
+    <div class="horizontal-container">
+        {% for contrib in contribs %}
+            {% include "pastvina/parts/contrib.html" %}
+        {% endfor %}
+    </div>
 
     <script>
         function pingServer() {
@@ -42,12 +74,18 @@
             if (turnaroundTime < 0) {
                 return false;
             }
-            let clientServerTime = requestTime - serverTime;
-            let serverClientTime = serverTime - responseTime;
+            let clientServerTime = serverTime - requestTime;
+            let serverClientTime = responseTime - serverTime;
 
             console.log("Turnaround time: " + (turnaroundTime / 1000) + " s");
             console.log("Client-server time: " + (clientServerTime / 1000) + " s");
             console.log("Server-client time: " + (serverClientTime / 1000) + " s");
+
+            $("#turnaround-time").text(turnaroundTime / 1000);
+            $("#clientserver-time").text(clientServerTime / 1000);
+            $("#clientserver-time").css("color", clientServerTime < 0 ? "#ff2000" : "white");
+            $("#serverclient-time").text(serverClientTime / 1000);
+            $("#serverclient-time").css("color", serverClientTime < 0 ? "#ff2000" : "white");
 
             return true;
         }
