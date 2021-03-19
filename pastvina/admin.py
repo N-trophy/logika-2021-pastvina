@@ -4,6 +4,7 @@ from . import widgets
 from .models import *
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from django.utils.timezone import localtime
 
 
 UserAdmin.list_display = (
@@ -45,10 +46,14 @@ class TickAdmin(admin.ModelAdmin):
         'index',
         'round',
         '_start',
+        '_computed',
         ]
 
     def _start(self, obj):
-        return obj.start.strftime('%H:%M:%S.%f')
+        return localtime(obj.start).strftime('%H:%M:%S.%f')
+
+    def _computed(self, obj):
+        return localtime(obj.computed).strftime('%H:%M:%S.%f')
 
 
 @admin.register(Crop)
