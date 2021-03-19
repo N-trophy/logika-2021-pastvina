@@ -64,6 +64,13 @@ def page_login(request):
         return render(request, "pastvina/login.html", {'navbar_absolute_pos': True})
 
 
+def time_check(request):
+    """
+    Renders the page for checking time with frontend.
+    """
+    return render(request, 'pastvina/time_check.html', {})
+
+
 @login_required
 def page_rules(request):
     """
