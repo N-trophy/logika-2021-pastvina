@@ -2,6 +2,50 @@ var tickId = 0;
 var timeOfNextUpdate = Date.now();
 var showTime = false;
 var loadTime = Date.now();
+var serverTimeCorrection = 0;
+
+function getServerTimeCorrection(requestTime, serverTime, responseTime) {
+    if (requestTime === null || serverTime === null || responseTime === null) {
+        console.error("Could not get a time.");
+        return 0;
+    }
+
+    let turnaroundTime = responseTime - requestTime;
+    if (turnaroundTime < 0) {
+        console.error("Time continuity failed.");
+        return 0;
+    }
+
+    return (requestTime + responseTime) / 2 - serverTime;
+}
+
+function updateTimeCorrection() {
+    $.post("/time_check/ping", {
+        'request_time': Date.now(),
+        'csrfmiddlewaretoken': csrf_token,
+    }, "json")
+    .done(function(data) {
+        let responseTime = Date.now();
+        data.response_time = responseTime;
+        console.log(data);
+        serverTimeCorrection = getServerTimeCorrection(data.request_time, data.server_time, responseTime);
+        console.log("Server time correction: " + serverTimeCorrection/1000 + " s");
+    })
+    .fail(function(error, textStatus) {
+        let userErrorText = "";
+        if (textStatus == "timeout") {
+            userErrorText = "Server neodpověděl včas.";
+        } else if (error.responseText) {
+            userErrorText = error.responseText;
+        } else {
+            userErrorText = "Neznámá chyba."
+            console.log(textStatus);
+            console.log(error);
+        }
+        console.error("Nepodařilo se spojit se serverem (korekce času).\n" + userErrorText);
+    });
+}
+
 
 function updateTimeToNextTick()
 {
@@ -69,15 +113,19 @@ var cropStorageSize = Infinity;
 
 function updateCharts(updateData) {
     console.log(updateData);
-    if (updateData.reload_time && updateData.reload_time > loadTime && updateData.reload_time < Date.now()) {
-        location.reload();
+    if (updateData.reload_time) {
+        let correctedReloadTime = updateData.reload_time + serverTimeCorrection;
+        if (correctedReloadTime > loadTime && correctedReloadTime < Date.now()) {
+            location.reload();
+        }
     }
 
     let currentlySold = updateData.slaughtered;
     $("#game-money").text((updateData.money === null) ? "-" : updateData.money);
     $("#ls-sold-amount").text(currentlySold);
-    if (updateData.time > Date.now()) {
-        timeOfNextUpdate = updateData.time;
+    let correctedUpdateTime = updateData.time + serverTimeCorrection;
+    if (correctedUpdateTime > Date.now()) {
+        timeOfNextUpdate = correctedUpdateTime;
         showTime = true;
         updateTimeToNextTick();
     }
