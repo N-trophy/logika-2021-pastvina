@@ -88,6 +88,9 @@
             if (turnaroundTime < 0) {
                 return false;
             }
+            let midClientTime = (requestTime + responseTime) / 2;
+            let clientCorrection = serverTime - midClientTime;
+
             let clientServerTime = serverTime - requestTime;
             let serverClientTime = responseTime - serverTime;
 
@@ -104,12 +107,12 @@
             let errorMsgElem = $("#time-check-error-msg");
             if (clientServerTime < 0) {
                 errorMsgElem.css("display", "");
-                errorMsgElem.text("Vaše lokální hodiny jsou dopředu o " + (-clientServerTime / 1000) + " s");
-                console.error("Vaše lokální hodiny jsou dopředu o " + (-clientServerTime / 1000) + " s");
+                errorMsgElem.text("Vaše lokální hodiny jsou dopředu o " + (-clientCorrection / 1000) + " s");
+                console.error("Vaše lokální hodiny jsou dopředu o " + (-clientCorrection / 1000) + " s");
             } else if(serverClientTime < 0) {
                 errorMsgElem.css("display", "");
-                errorMsgElem.text("Vaše lokální hodiny jsou pozadu o " + (-serverClientTime / 1000) + " s");
-                console.error("Vaše lokální hodiny jsou pozadu o " + (-serverClientTime / 1000) + " s");
+                errorMsgElem.text("Vaše lokální hodiny jsou pozadu o " + (clientCorrection / 1000) + " s");
+                console.error("Vaše lokální hodiny jsou pozadu o " + (clientCorrection / 1000) + " s");
             } else {
                 errorMsgElem.css("display", "none");
                 errorMsgElem.text("");
