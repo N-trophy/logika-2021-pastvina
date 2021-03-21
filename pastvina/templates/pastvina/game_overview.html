@@ -12,10 +12,17 @@
     <div class="horizontal-container">
         <div style="flex: 1;" class="vertical-container">
             {% for round in rounds %}
-            <div class="game-wrapper">
+            <div style="order: {% if round.is_running %}1{% elif not round.has_ended %}2{% else %}3{% endif %};" class="game-wrapper">
                 <a class="game-ref" href="{% url 'game' round.id %}">
                 <div style="padding: 10px 20px;">
                     <h3>{{round.name}}</h3>
+                    {% if round.is_running %}
+                    <h4 style="color: #90d43d;">Running</h4>
+                    {% elif not round.has_ended %}
+                    <h4 style="color: #3D4634;">Not&nbsp;started</h4>
+                    {% else %}
+                    <h4 style="color: #95969D;">Ended</h4>
+                    {% endif %}
                     <p>{{round.start_nice_str}} – {{round.end_nice_str}}</p>
                     <p>Počet iterací: {{round.ticks}}</p>
                     <p>Délka jedné iterace: {{round.period_sec}} s</p>
@@ -31,14 +38,16 @@
 </section>
 
 <section class="statistics light-color">
-    <h2>Statistiky z odehraných kol</h2>
+    <h2>Statistiky z kol</h2>
     <div class="container vertical-container">
         {% for round in rounds %}
-        <div class="game-wrapper">
+        {% if round.is_running or round.has_ended %}
+        <div style="order: {% if round.is_running %}1{% else %}3{% endif %};" class="game-wrapper">
             <a class="game-ref" href="{% url 'round_stats' round.id %}">
-                <h3>{{round.name}}</h3>
+                <h3 {% if round.has_ended %}style="color: #95969D;"{% endif %}>{{round.name}}</h3>
             </a>
         </div>
+        {% endif %}
         {% endfor %}
         </div>
     </div>

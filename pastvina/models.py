@@ -50,13 +50,16 @@ class Round(models.Model):
 
     __str__ = __repr__
 
+    def has_ended(self) -> bool:
+        last_tick = Tick.objects.filter(round=self).order_by('index').last()
+        if last_tick is None:
+            return False
+        return last_tick.index >= self.ticks
+
     def is_running(self) -> bool:
         if self.start > timezone.now():
             return False
-        last_tick = Tick.objects.filter(round=self).order_by('index').last()
-        if last_tick is None:
-            return True
-        return last_tick.index < self.ticks
+        return not self.has_ended()
 
     def end(self) -> datetime:
         return self.start + timedelta(seconds=(self.ticks) * self.period * 10)
