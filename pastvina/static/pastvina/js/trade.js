@@ -53,6 +53,8 @@ function requestTrade(tradeType, prodType, prodId, count) {
         $.floatcard("Obchod neproběhl.\n" + userErrorText,{
                 position: "left-bottom",
                 state: "error",
+                autoHide: true,
+                autoHideDelay: 5000,
             });
     });
 }
