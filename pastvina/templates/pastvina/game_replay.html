@@ -51,6 +51,7 @@
         if (currentTickIndex >= maxTickIndex) {
             if (replayHandle != null) {
                 clearInterval(replayHandle);
+                replayHandle = null;
                 console.log("Replay ended");
             }
             return;
