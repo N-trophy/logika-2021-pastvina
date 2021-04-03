@@ -455,6 +455,42 @@ def statistics(request, round_id):
 
 
 @login_required
+def replay(request, round_id, update_ms):
+    """
+    Renders the replay page from template.
+    """
+    round = Round.objects.filter(id=round_id).last()
+        # .prefetch_related('all_ticks')\
+        # .prefetch_related('all_ticks__crop_states')\
+        # .prefetch_related('all_ticks__livestock_states')\
+        # .values(Prefetch('all_ticks__crop_states__current_price_sell', to_attr))
+
+    if round is None:
+        return HttpResponseNotFound("Dané kolo neexistuje")
+
+    crops = Crop.objects.prefetch_related(
+        Prefetch('states', CropMarketHistory.objects.filter(tick__round=round).order_by('tick'))
+    ).all()
+    livestock = Livestock.objects.prefetch_related(
+        Prefetch('states', LivestockMarketHistory.objects.filter(tick__round=round).order_by('tick'))
+    ).all()
+
+    # for tick in round.all_ticks.order_by('index').all():
+    #     for crop_state in tick.crop_states.all():
+    #         crop
+        # crop.data_prices = [tick.crop_states.filter(crop=crop).last() for tick in round.all_ticks.all()]
+
+    context = {
+        'ticks': round.all_ticks,
+        'crops': crops,
+        'livestock': livestock,
+        'update_ms': update_ms,
+    }
+
+    return render(request, 'pastvina/game_replay.html', context)
+
+
+@login_required
 def handler_logout(request):
     """
     Logs a user out and redirects to 'index'.

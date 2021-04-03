@@ -1,0 +1,91 @@
+{% extends "pastvina/base.html" %}
+{% load extras %}
+
+{% block title %} Statistiky | Logika N-Trophy {% endblock%}
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+
+<section class="padding-small light">
+        <div class="container">
+            {% include "pastvina/parts/replay_chart.html" with type='crops' commodities=crops %}
+        </div>
+        <div class="container">
+            {% include "pastvina/parts/replay_chart.html" with type='livestock' commodities=livestock %}
+        </div>
+</section>
+
+<script>
+    var labels = [ {% for tick in ticks.all %} {{tick.index}}, {% endfor %} ];
+    var cropsDatasetsData = [
+        {% for commodity in crops %}
+        [{% for state in commodity.states.all %} {{state.current_price_sell}}, {% endfor %}],
+        [{% for state in commodity.states.all %} {{state.amount_sold}}, {% endfor %}],
+        {% endfor %}
+    ];
+    var livestockDatasetsData = [
+        {% for commodity in livestock %}
+        [{% for state in commodity.states.all %} {{state.current_price_sell}}, {% endfor %}],
+        [{% for state in commodity.states.all %} {{state.amount_sold}}, {% endfor %}],
+        {% endfor %}
+    ];
+
+    var replayHandle = null;
+    var currentTickIndex = 0;
+    var maxTickIndex = labels.length;
+    if (2 * maxTickIndex != cropsDatasetsData.length) {
+        console.error("Crop data length does not match");
+    }
+    if (2 * maxTickIndex != livestockDatasetsData.length) {
+        console.error("Livestock data length does not match");
+    }
+
+    function updateCharts() {
+        if (currentTickIndex >= maxTickIndex) {
+            if (replayHandle != null) {
+                clearInterval(replayHandle);
+                console.log("Replay ended");
+            }
+            return;
+        }
+        updateIndex = currentTickIndex;
+        currentTickIndex++;
+        updateChart(livestockChart, livestockDatasetsData, updateIndex);
+        updateChart(cropsChart, cropsDatasetsData, updateIndex);
+    }
+    function updateChart(chart, chartData, tickIndex) {
+        chart.data.labels.push(labels[tickIndex]);
+        for(let i = 0; i < chartData.length; i++) {
+            chart.data.datasets[i].data.push(chartData[i][tickIndex]);
+        }
+        chart.update();
+    }
+
+    function clearData() {
+        currentTickIndex = 0;
+        livestockChart.data.labels = [];
+        for(let i = 0; i < livestockChart.data.datasets.length; i++) {
+            livestockChart.data.datasets[i].data = [];
+        }
+        cropsChart.data.labels = [];
+        for(let i = 0; i < livestockChart.data.datasets.length; i++) {
+            cropsChart.data.datasets[i].data = [];
+        }
+        // No update
+    }
+
+    function startReplay(updateMs) {
+        if (replayHandle == null) {
+            console.error("Replay already playing");
+            return;
+        }
+        clearData();
+        replayHandle = setInterval(updateCharts, updateMs);
+    }
+
+    setTimeout(startReplay, 5000, {{update_ms}});
+</script>
+{% endblock %}

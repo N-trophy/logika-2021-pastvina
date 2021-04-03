@@ -25,6 +25,7 @@ urlpatterns = [
     path('game/<int:round_id>/update', views.game_update, name='game_update'),
     path('game/<int:round_id>/trade', views.game_trade, name='game_trade'),
     path('game/<int:round_id>/statistics/', views.statistics, name='round_stats'),
+    path('game/<int:round_id>/replay/<int:update_ms>', views.replay, name='round_replay'),
 
     path('', views.page_index, name='index'),
 ]
