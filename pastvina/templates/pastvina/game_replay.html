@@ -36,11 +36,15 @@
     var replayHandle = null;
     var currentTickIndex = 0;
     var maxTickIndex = labels.length;
-    if (2 * maxTickIndex != cropsDatasetsData.length) {
-        console.error("Crop data length does not match");
+    for(let i = 0; i < cropsDatasetsData.length; i++) {
+        if (maxTickIndex != cropsDatasetsData[i].length) {
+            console.error("Crop data length does not match in set " + i);
+        }
     }
-    if (2 * maxTickIndex != livestockDatasetsData.length) {
-        console.error("Livestock data length does not match");
+    for(let i = 0; i < livestockDatasetsData.length; i++) {
+        if (maxTickIndex != livestockDatasetsData[i].length) {
+            console.error("Livestock data length does not match in set " + i);
+        }
     }
 
     function updateCharts() {
@@ -78,7 +82,7 @@
     }
 
     function startReplay(updateMs) {
-        if (replayHandle == null) {
+        if (replayHandle != null) {
             console.error("Replay already playing");
             return;
         }
